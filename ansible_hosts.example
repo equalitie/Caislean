@@ -1,2 +1,2 @@
 [sec_comms]
-server.example.com
+server.example.com ansible_ssh_user=john
