@@ -1,0 +1,4 @@
+- name: Install General System Security packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - apticron
