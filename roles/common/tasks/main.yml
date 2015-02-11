@@ -11,3 +11,4 @@
     - restart ssh
 
 - include: unwanted-pkgs.yml
+- include: sysctl.yml
