@@ -3,6 +3,7 @@
   with_items:
     - apticron
     - openssh-server
+    - postfix
 
 - name: Install SSHd configuration
   copy: src=sshd_config dest=/etc/ssh/sshd_config group=root owner=root
