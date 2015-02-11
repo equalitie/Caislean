@@ -2,3 +2,9 @@
   apt: pkg={{item}} state=installed
   with_items:
     - apticron
+    - openssh-server
+
+- name: Install SSHd configuration
+  copy: src=sshd_config dest=/etc/ssh/sshd_config group=root owner=root
+  notify:
+    - restart ssh
