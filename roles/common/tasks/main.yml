@@ -13,5 +13,8 @@
   notify:
     - restart ssh
 
+- name: Install Apticron configuration
+  template: src=apticron.conf.j2 dest=/etc/apticron/apticron.conf group=root owner=root mode=0644
+
 - include: unwanted-pkgs.yml
 - include: sysctl.yml
