@@ -1,4 +1,5 @@
 - name: Make sure unwanted packages are absent
-  apt: pkg={{item}} state=absent
+  apt: pkg={{item}} state=absent purge=yes
   with_items:
     - nfs-common
+    - rpcbind
