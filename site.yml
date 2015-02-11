@@ -5,3 +5,5 @@
   su_user: root
   roles:
     - common
+  vars:
+    admin_email: kheops@ceops.eu
