@@ -1,0 +1,4 @@
+- name: Make sure unwanted packages are absent
+  apt: pkg={{item}} state=absent
+  with_items:
+    - nfs-common
