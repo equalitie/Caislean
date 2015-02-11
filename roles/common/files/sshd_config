@@ -18,7 +18,6 @@ StrictModes yes
 
 RSAAuthentication yes
 PubkeyAuthentication yes
-AuthorizedKeysFile      %h/.ssh/authorized_keys2
 
 IgnoreRhosts yes
 RhostsRSAAuthentication no
