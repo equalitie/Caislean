@@ -8,7 +8,6 @@
     - openssh-server
     - postfix
     - ufw
-    - rsync
 
 - name: Install SSHd configuration
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config group=root owner=root
