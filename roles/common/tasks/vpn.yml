@@ -13,4 +13,7 @@
     - etc/openvpn/server-*.sh
 
 - name: Allow VPN traffic by firewall
-  ufw: rule=allow interface=tun+
+  ufw: rule=allow {{item}}=10.1.0.0/24
+  with_items:
+    - to
+    - from
