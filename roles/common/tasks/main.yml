@@ -15,8 +15,10 @@
   notify:
     - restart ssh
 
-- name: Install UFW configuration
+- name: Install UFW default file
   copy: src=etc/default/ufw dest=/etc/default/ufw group=root owner=root
+
+- name: Install ufw.conf
   copy: src=etc/ufw/ufw.conf dest=/etc/ufw/ufw.conf group=root owner=root
 
 - name: Enable UFW
