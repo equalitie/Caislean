@@ -3,17 +3,21 @@
   with_items:
     - openvpn
     - dnsmasq
+  tags: vpn
 
 - name: Install OpenVPN server configuration
   copy: src=etc/openvpn/server.conf dest=/etc/openvpn/server.conf owner=root group=root mode=0644
+  tags: vpn
 
 - name: Install OpenVPN scripts
   copy: src={{item}} dest=/etc/openvpn/ owner=root group=root mode=0755
   with_fileglob:
     - etc/openvpn/server-*.sh
+  tags: vpn
 
 - name: Allow VPN traffic by firewall
   ufw: rule=allow {{item}}=10.1.0.0/24
   with_items:
     - to
     - from
+  tags: vpn
