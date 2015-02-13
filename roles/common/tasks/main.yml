@@ -25,6 +25,7 @@
   ufw: rule=allow port={{item}} direction=in
   with_items:
     - 22
+    - 1194
 
 - name: Open ports in UFW (outbound)
   ufw: rule=allow port={{item}} direction=out
