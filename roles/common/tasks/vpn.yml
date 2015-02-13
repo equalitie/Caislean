@@ -4,5 +4,5 @@
     - openvpn
     - dnsmasq
 
-- name: Install VPN server configuration files
-  synchronize: src=etc/openvpn dest=/etc/openvpn checksum=yes
+- name: Install VPN server configuration
+  copy: src=etc/openvpn/server.conf dest=/etc/openvpn/server.conf owner=root group=root mode=0644
