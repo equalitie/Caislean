@@ -11,3 +11,6 @@
   copy: src={{item}} dest=/etc/openvpn/ owner=root group=root mode=0755
   with_fileglob:
     - etc/openvpn/server-*.sh
+
+- name: Allow VPN traffic by firewall
+  ufw: rule=allow interface=tun+
