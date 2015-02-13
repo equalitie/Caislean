@@ -7,12 +7,16 @@
 
 - name: Install OpenVPN server configuration
   copy: src=etc/openvpn/server.conf dest=/etc/openvpn/server.conf owner=root group=root mode=0644
+  notify:
+    - restart openvpn
   tags: vpn
 
 - name: Install OpenVPN scripts
   copy: src={{item}} dest=/etc/openvpn/ owner=root group=root mode=0755
   with_fileglob:
     - etc/openvpn/server-*.sh
+  notify:
+    - restart openvpn
   tags: vpn
 
 - name: Allow VPN traffic by firewall

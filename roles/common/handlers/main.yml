@@ -3,5 +3,8 @@
 - name: restart ssh
   service: name=ssh state=restarted
 
+- name: restart openvpn
+  service: name=openvpn state=restarted
+
 - name: restart dnsmasq
   service: name=dnsmasq state=restarted
