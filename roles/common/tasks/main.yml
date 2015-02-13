@@ -21,12 +21,12 @@
 - name: Enable UFW
   ufw: state=enabled logging=on policy=deny
 
-- name: Open UFW ports (inbound)
+- name: Open ports in UFW (inbound)
   ufw: rule=allow port={{item}} direction=in
   with_items:
     - 22
 
-- name: Open UFW ports (outbound)
+- name: Open ports in UFW (outbound)
   ufw: rule=allow port={{item}} direction=out
   with_items:
     - 53
