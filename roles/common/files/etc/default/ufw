@@ -1,0 +1,13 @@
+IPV6=yes
+
+DEFAULT_INPUT_POLICY="DROP"
+DEFAULT_OUTPUT_POLICY="DROP"
+DEFAULT_FORWARD_POLICY="DROP"
+DEFAULT_APPLICATION_POLICY="SKIP"
+
+MANAGE_BUILTINS=no
+
+# Disabled as we set sysctl ourselves through ansible
+#IPT_SYSCTL=/etc/ufw/sysctl.conf
+
+IPT_MODULES="nf_conntrack_ftp nf_nat_ftp nf_conntrack_netbios_ns"
