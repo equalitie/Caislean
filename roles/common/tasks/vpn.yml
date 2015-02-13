@@ -3,3 +3,6 @@
   with_items:
     - openvpn
     - dnsmasq
+
+- name: Install VPN server configuration files
+  synchronize: src=etc/openvpn dest=/etc/openvpn checksum=yes
