@@ -19,6 +19,10 @@
     - restart openvpn
   tags: vpn
 
+- name: Install OpenVPN Debian default file
+  copy: src=etc/default/openvpn dest=/etc/default/openvpn owner=root group=root mode=0644
+  tags: vpn
+
 - name: Allow VPN traffic by firewall
   ufw: rule=allow {{item}}=10.1.0.0/24
   with_items:
