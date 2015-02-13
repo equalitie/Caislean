@@ -21,3 +21,9 @@
     - to
     - from
   tags: vpn
+
+- name: Install dnsmasq configuration
+  copy: src=etc/dnsmasq.d/vpn dest=/etc/dnsmasq.d/vpn group=root owner=root mode=0644
+  notify:
+    - restart dnsmasq
+  tags: vpn
