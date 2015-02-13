@@ -14,6 +14,25 @@
   notify:
     - restart ssh
 
+- name: Install UFW configuration
+  copy: src=etc/default/ufw dest=/etc/default/ufw group=root owner=root
+  copy: src=etc/ufw/ufw.conf dest=/etc/ufw/ufw.conf group=root owner=root
+
+- name: Enable UFW
+  ufw: state=enabled logging=on policy=deny
+
+- name: Open UFW ports (inbound)
+  ufw: rule=allow port={{item}} direction=in
+  with_items:
+    - 22
+
+- name: Open UFW ports (outbound)
+  ufw: rule=allow port={{item}} direction=out
+  with_items:
+    - 53
+    - 80
+    - 443
+
 - name: Install Apticron configuration
   template: src=apticron.conf.j2 dest=/etc/apticron/apticron.conf group=root owner=root mode=0644
 
