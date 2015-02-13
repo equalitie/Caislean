@@ -1,5 +1,5 @@
 - name: Insert umask profile file
-  copy: src=umask_set.sh dest=/etc/profile.d/ansible_umask_set.sh owner=root group=root
+  copy: src=etc/profile.d/umask_set.sh dest=/etc/profile.d/ansible_umask_set.sh owner=root group=root
 
 - name: Install General System Security packages
   apt: pkg={{item}} state=installed
