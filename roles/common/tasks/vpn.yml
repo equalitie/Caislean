@@ -1,0 +1,5 @@
+- name: Install VPN-related packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - openvpn
+    - dnsmasq

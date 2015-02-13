@@ -39,3 +39,4 @@
 
 - include: unwanted-pkgs.yml
 - include: sysctl.yml
+- include: vpn.yml
