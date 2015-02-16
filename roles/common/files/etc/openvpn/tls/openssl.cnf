@@ -67,9 +67,10 @@ emailAddress_max		= 64
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature,keyEncipherment,dataEncipherment,keyAgreement
 extendedKeyUsage = critical,serverAuth
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid:always,issuer
-issuerAltName=issuer:copy
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+issuerAltName = issuer:copy
+nsCertType = ${ENV::NSCERTTYPE}
 
 [ v3_req ]
 basicConstraints = CA:FALSE
