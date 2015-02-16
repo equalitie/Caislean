@@ -54,7 +54,6 @@ countryName_default		= AU
 countryName_min			= 2
 countryName_max			= 2
 stateOrProvinceName		= State or Province Name (full name)
-stateOrProvinceName_default	= Internet
 localityName			= Locality Name (eg, city)
 organizationName		= Organization Name (eg, company)
 organizationalUnitName		= Organizational Unit Name (eg, section)
