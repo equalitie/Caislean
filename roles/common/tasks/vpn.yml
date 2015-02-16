@@ -26,6 +26,9 @@
     - { name: 'server.crt.pem', mode: '0644' }
     - { name: 'server.key.pem', mode: '0600' }
     - { name: 'dhparam.pem', mode: '0644' }
+  notify:
+    - restart openvpn
+  tags: vpn
 
 - name: Install OpenVPN Debian default file
   copy: src=etc/default/openvpn dest=/etc/default/openvpn owner=root group=root mode=0644
