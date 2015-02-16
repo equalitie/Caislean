@@ -1,0 +1,86 @@
+HOME			= .
+RANDFILE		= $ENV::HOME/.rnd
+
+[ ca ]
+default_ca	= CA_default
+
+[ CA_default ]
+dir		= .
+certs		= $dir/certs
+crl_dir		= $dir/crl
+database	= $dir/index.txt
+new_certs_dir	= $dir/newcerts
+
+certificate	= $dir/ca.crt.pem
+private_key	= $dir/ca.key.pem
+serial		= $dir/serial	
+crlnumber	= $dir/crlnumber
+					
+crl		= $dir/crl.pem
+
+x509_extensions	= usr_cert
+
+name_opt 	= ca_default
+cert_opt 	= ca_default
+
+copy_extensions = copy
+
+default_days	= 365
+default_crl_days= 30
+default_md	= sha256
+preserve	= no		
+policy		= policy_sec_comms
+
+[ policy_sec_comms ]
+countryName		= optional
+stateOrProvinceName	= optional
+localityName		= optional
+organizationName	= optional
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= supplied
+
+[ req ]
+default_bits		= 4096
+default_keyfile 	= privkey.pem
+distinguished_name	= req_distinguished_name
+x509_extensions	= v3_ca
+string_mask = utf8only
+
+[ req_distinguished_name ]
+countryName			= Country Name (2 letter code)
+countryName_default		= AU
+countryName_min			= 2
+countryName_max			= 2
+stateOrProvinceName		= State or Province Name (full name)
+stateOrProvinceName_default	= Internet
+localityName			= Locality Name (eg, city)
+organizationName		= Organization Name (eg, company)
+organizationalUnitName		= Organizational Unit Name (eg, section)
+commonName			= Common Name (e.g. server FQDN or YOUR name)
+commonName_max			= 64
+emailAddress			= Email Address
+emailAddress_max		= 64
+
+[ usr_cert ]
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature,keyEncipherment,dataEncipherment,keyAgreement
+extendedKeyUsage = critical,serverAuth
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+issuerAltName=issuer:copy
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+[ v3_ca ]
+authorityKeyIdentifier=keyid,issuer
+subjectKeyIdentifier=hash
+basicConstraints = CA:true, pathlen:0
+keyUsage = cRLSign, keyCertSign
+subjectAltName=email:copy
+
+[ crl_ext ]
+issuerAltName=issuer:copy
+authorityKeyIdentifier=keyid:always
