@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 iptables -t nat -I POSTROUTING 1 -s 10.1.0.0/24 -j MASQUERADE
 
