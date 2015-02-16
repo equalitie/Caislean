@@ -43,6 +43,7 @@ emailAddress		= supplied
 [ req ]
 default_bits		= 4096
 default_keyfile 	= privkey.pem
+default_md		= sha256
 distinguished_name	= req_distinguished_name
 x509_extensions	= v3_ca
 string_mask = utf8only
