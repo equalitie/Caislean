@@ -11,6 +11,17 @@
     - restart openvpn
   tags: vpn
 
+- name: Create OpenVPN log directory
+  file: path=/var/log/openvpn state=directory owner=root group=root mode=0700
+  tags: vpn
+
+- name: Set OpenVPN log files permissions
+  file: path=/var/log/openvpn/server.{{item}} state=touch owner=root group=root mode=0600
+  with_items:
+    - status
+    - log
+  tags: vpn
+
 - name: Install OpenVPN scripts
   copy: src={{item}} dest=/etc/openvpn/ owner=root group=root mode=0755
   with_fileglob:
