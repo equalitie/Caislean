@@ -30,6 +30,10 @@
     - restart openvpn
   tags: vpn
 
+- name: Create OpenVPN TLS directory
+  file: path=/etc/openvpn/tls state=directory owner=root group=root mode=0755
+  tags: vpn
+
 - name: Install OpenVPN TLS files
   copy: content="{{ lookup('file', tls_directory + '/' + item.name) }}" dest=/etc/openvpn/tls/{{item.name}} owner=root group=root mode={{item.mode}}
   with_items:
