@@ -64,8 +64,8 @@ emailAddress_max		= 64
 
 [ usr_cert ]
 basicConstraints=CA:FALSE
-keyUsage = digitalSignature,keyEncipherment,dataEncipherment,keyAgreement
-extendedKeyUsage = critical,serverAuth
+keyUsage = digitalSignature,keyAgreement
+extendedKeyUsage = ${ENV::EKU}
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid:always,issuer
 issuerAltName = issuer:copy
@@ -73,7 +73,7 @@ nsCertType = ${ENV::NSCERTTYPE}
 
 [ v3_req ]
 basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+keyUsage = digitalSignature,keyAgreement
 
 [ v3_ca ]
 authorityKeyIdentifier=keyid,issuer
