@@ -34,13 +34,24 @@
   file: path=/etc/openvpn/tls state=directory owner=root group=root mode=0755
   tags: vpn
 
-- name: Install OpenVPN TLS files
+- name: Install OpenVPN TLS certificate and keys
   copy: content="{{ lookup('file', tls_directory + '/' + item.name) }}" dest=/etc/openvpn/tls/{{item.name}} owner=root group=root mode={{item.mode}}
   with_items:
     - { name: 'ca.crt.pem', mode: '0644' }
     - { name: 'server.crt.pem', mode: '0644' }
     - { name: 'server.key.pem', mode: '0600' }
     - { name: 'dhparam.pem', mode: '0644' }
+  notify:
+    - restart openvpn
+  tags: vpn
+
+- name: Install empty TLS CRL
+  file: /etc/openvpn/tls/crl.pem state=touch owner=root group=root mode=0644
+  tags: vpn
+
+- name: Copy OpenVPN TLS CRL
+  copy: content="{{ lookup('file', tls_directory + '/crl.pem') }}" dest=/etc/openvpn/tls/crl.pem owner=root group=root mode=0644
+  ignore_errors: yes
   notify:
     - restart openvpn
   tags: vpn
