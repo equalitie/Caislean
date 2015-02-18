@@ -51,7 +51,6 @@
 
 - name: Copy OpenVPN TLS CRL
   copy: content="{{ lookup('file', tls_directory + '/crl.pem') }}" dest=/etc/openvpn/tls/crl.pem owner=root group=root mode=0644
-  ignore_errors: yes
   notify:
     - restart openvpn
   tags: vpn
