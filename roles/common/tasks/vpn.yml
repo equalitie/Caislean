@@ -31,7 +31,7 @@
   tags: vpn
 
 - name: Install OpenVPN TLS files
-  copy: src=etc/openvpn/tls/{{item.name}} dest=/etc/openvpn/tls/ owner=root group=root mode={{item.mode}}
+  copy: content="{{ lookup('file', tls_directory + '/' + item.name) }}" dest=/etc/openvpn/tls/{{item.name}} owner=root group=root mode={{item.mode}}
   with_items:
     - { name: 'ca.crt.pem', mode: '0644' }
     - { name: 'server.crt.pem', mode: '0644' }
