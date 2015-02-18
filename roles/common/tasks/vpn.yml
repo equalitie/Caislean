@@ -45,10 +45,6 @@
     - restart openvpn
   tags: vpn
 
-- name: Install empty TLS CRL
-  file: path=/etc/openvpn/tls/crl.pem state=touch owner=root group=root mode=0644
-  tags: vpn
-
 - name: Copy OpenVPN TLS CRL
   copy: content="{{ lookup('file', tls_directory + '/crl.pem') }}" dest=/etc/openvpn/tls/crl.pem owner=root group=root mode=0644
   notify:
