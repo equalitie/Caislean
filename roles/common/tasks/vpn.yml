@@ -46,7 +46,7 @@
   tags: vpn
 
 - name: Install empty TLS CRL
-  file: /etc/openvpn/tls/crl.pem state=touch owner=root group=root mode=0644
+  file: path=/etc/openvpn/tls/crl.pem state=touch owner=root group=root mode=0644
   tags: vpn
 
 - name: Copy OpenVPN TLS CRL
