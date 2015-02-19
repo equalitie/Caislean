@@ -1,0 +1,28 @@
+port 1194
+proto udp
+dev tun
+
+# Change this to the server's hostname
+remote your.server.com
+
+client
+ns-cert-type server
+remote-cert-tls server
+redirect-gateway def1
+
+persit-key
+persist-tun
+nobind
+comp-lzo
+
+# Paste the root CA
+<ca>
+</ca>
+
+# Paste the client's certificate
+<cert>
+</cert>
+
+# Paste the client's private key
+<key>
+</key>
