@@ -18,12 +18,12 @@
     - restart ssh
   tags: base
 
-- name: Install UFW default file
-  copy: src=etc/default/ufw dest=/etc/default/ufw group=root owner=root
-  tags: firewall
-
-- name: Install ufw.conf
-  copy: src=etc/ufw/ufw.conf dest=/etc/ufw/ufw.conf group=root owner=root
+- name: Install UFW files
+  copy: src={{item}} dest=/{{item}} group=root owner=root
+  with_items:
+    - etc/default/ufw
+    - etc/ufw/ufw.conf
+    - etc/ufw/before.rules
   tags: firewall
 
 - name: Enable UFW
