@@ -10,7 +10,7 @@ ns-cert-type server
 remote-cert-tls server
 redirect-gateway def1
 
-persit-key
+persist-key
 persist-tun
 nobind
 comp-lzo
