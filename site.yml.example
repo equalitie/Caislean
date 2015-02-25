@@ -6,5 +6,5 @@
   roles:
     - common
   vars:
-    admin_email: kheops@ceops.eu
-    tls_directory: /home/kheops/Work/equalitie/tls-test/tls
+    admin_email: user@domain.com
+    tls_directory: /home/user/sec_comms_admin/tls
