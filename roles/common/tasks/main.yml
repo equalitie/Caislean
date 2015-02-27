@@ -10,6 +10,7 @@
     - postfix
     - ufw
     - bash
+    - chkrootkit
   tags: base
 
 - name: Install SSHd configuration
