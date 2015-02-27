@@ -6,6 +6,7 @@
   apt: pkg={{item}} state=installed
   with_items:
     - apticron
+    - cron
     - openssh-server
     - postfix
     - ufw
@@ -48,6 +49,10 @@
 
 - name: Install Apticron configuration
   template: src=apticron.conf.j2 dest=/etc/apticron/apticron.conf group=root owner=root mode=0644
+  tags: base
+
+- name: Install chkrootkit configuration
+  copy: src=etc/chkrootkit.conf dest=/etc/chkrootkit.conf group=root owner=root mode=0600
   tags: base
 
 - include: unwanted-pkgs.yml
