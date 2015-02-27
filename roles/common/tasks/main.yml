@@ -43,6 +43,7 @@
   ufw: rule=allow port={{item}} direction=out
   with_items:
     - 53
+    - 25
     - 80
     - 443
   tags: firewall
