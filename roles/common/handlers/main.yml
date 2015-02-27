@@ -8,3 +8,6 @@
 
 - name: restart dnsmasq
   service: name=dnsmasq state=restarted
+
+- name: update mail aliases
+  command: newaliases

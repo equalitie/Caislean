@@ -56,6 +56,12 @@
   copy: src=etc/chkrootkit.conf dest=/etc/chkrootkit.conf group=root owner=root mode=0600
   tags: base
 
+- name: Install /etc/aliases
+  template: src=aliases.j2 dest=/etc/aliases group=root owner=root mode=0644
+  notify:
+    - update mail aliases
+  tags: base
+
 - include: unwanted-pkgs.yml
 - include: sysctl.yml
 - include: vpn.yml
