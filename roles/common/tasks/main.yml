@@ -83,7 +83,3 @@
 - include: unwanted-pkgs.yml
 - include: sysctl.yml
 - include: vpn.yml
-
-- name: Update rkhunter properties database
-  command: rkhunter --propupd
-  tags: base
