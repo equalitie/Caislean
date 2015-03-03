@@ -15,6 +15,7 @@
     - wget
     - unhide
     - rkhunter
+    - libpam-umask
   tags: base
 
 - name: Install SSHd configuration
