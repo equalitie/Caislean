@@ -9,5 +9,8 @@
 - name: restart dnsmasq
   service: name=dnsmasq state=restarted
 
+- name: restart postfix
+  service: name=postfix state=restarted
+
 - name: update mail aliases
   command: newaliases
