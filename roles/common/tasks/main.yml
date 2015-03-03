@@ -12,6 +12,8 @@
     - ufw
     - bash
     - chkrootkit
+    - wget
+    - rkhunter
   tags: base
 
 - name: Install SSHd configuration
@@ -64,7 +66,7 @@
   tags: base
 
 - name: Set /etc/mailname with our FQDN
-  copy: dest=/etc/mailname content={{ fqdn }} group=root owner=root mode=0644
+  copy: dest=/etc/mailname content="{{ fqdn }}" group=root owner=root mode=0644
   notify:
     - restart postfix
   tags: base
