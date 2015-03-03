@@ -13,6 +13,7 @@
     - bash
     - chkrootkit
     - wget
+    - unhide
     - rkhunter
   tags: base
 
