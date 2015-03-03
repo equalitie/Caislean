@@ -36,6 +36,7 @@
   ufw: rule=allow port={{item}} direction=in
   with_items:
     - 22
+    - 25
     - 1194
   tags: firewall
 
