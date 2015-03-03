@@ -7,4 +7,5 @@
     - exim4-base
     - exim4-config
     - exim4-daemon-light
+    - unhide.rb
   tags: base
