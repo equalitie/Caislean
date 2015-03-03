@@ -1,0 +1,6 @@
+CRON_DAILY_RUN="yes"
+CRON_DB_UPDATE="yes"
+DB_UPDATE_EMAIL="false"
+REPORT_EMAIL="root"
+APT_AUTOGEN="yes"
+NICE="0"
