@@ -28,6 +28,12 @@
     - libpam-umask
   tags: base
 
+- name: Install backports packages
+  apt: pkg={{item}} default_release=wheezy-backports state=installed
+  with_items:
+    - suricata
+  tags: base
+
 - name: Install SSHd configuration
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config group=root owner=root
   notify:
