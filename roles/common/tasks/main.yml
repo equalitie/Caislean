@@ -12,6 +12,10 @@
     - update apt database
   tags: base
 
+- name: Update APT database
+  apt: update_cache=yes
+  tags: base
+
 - name: Install General System Security packages
   apt: pkg={{item}} state=installed
   with_items:

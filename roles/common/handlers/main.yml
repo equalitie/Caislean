@@ -14,6 +14,3 @@
 
 - name: update mail aliases
   command: newaliases
-
-- name: update apt database
-  command: apt-get update
