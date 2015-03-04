@@ -1,5 +1,15 @@
-- name: Insert umask profile file
-  copy: src=etc/profile.d/umask_set.sh dest=/etc/profile.d/ansible_umask_set.sh owner=root group=root
+- name: Install login.defs
+  copy: src=etc/login.defs dest=/etc/login.defs owner=root group=root mode=0644
+  tags: base
+
+- name: Install PAM common-session file with umask module enabled
+  copy: src=etc/pam.d/common-session dest=/etc/pam.d/common-session owner=root group=root mode=0644
+  tags: base
+
+- name: Add backports Debian repository
+  copy: src=etc/apt/sources.list.d/backports.list dest=/etc/apt/sources.list.d/backports.list owner=root group=root mode=0644
+  notify:
+    - update apt database
   tags: base
 
 - name: Install General System Security packages
