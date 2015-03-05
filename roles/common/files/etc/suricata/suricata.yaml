@@ -1,0 +1,396 @@
+%YAML 1.1
+---
+
+host-mode: router
+
+run-as:
+  user: suricata
+  group: suricata
+
+pid-file: /var/run/suricata.pid
+
+default-log-dir: /var/log/suricata/
+
+unix-command:
+  enabled: no
+
+outputs:
+  - fast:
+      enabled: yes
+      filename: fast.log
+      append: yes
+      filetype: regular
+
+magic-file: /usr/share/file/magic
+
+af-packet:
+  - interface: default
+    threads: 1
+    cluster-id: 95
+    cluster-type: cluster_flow
+    defrag: yes
+    use-mmap: yes
+  - interface: eth0
+    threads: 1
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+    use-mmap: yes
+  - interface: eth1
+    threads: 1
+    cluster-id: 98
+    cluster-type: cluster_flow
+    defrag: yes
+
+legacy:
+  uricontent: enabled
+detect-engine:
+  - profile: medium
+  - custom-values:
+      toclient-src-groups: 2
+      toclient-dst-groups: 2
+      toclient-sp-groups: 2
+      toclient-dp-groups: 3
+      toserver-src-groups: 2
+      toserver-dst-groups: 4
+      toserver-sp-groups: 2
+      toserver-dp-groups: 25
+  - sgh-mpm-context: auto
+  - inspection-recursion-limit: 3000
+
+cuda:
+  mpm:
+    data-buffer-size-min-limit: 0
+    data-buffer-size-max-limit: 1500
+    cudabuffer-buffer-size: 500mb
+    gpu-transfer-size: 50mb
+    batching-timeout: 2000
+    device-id: 0
+    cuda-streams: 2
+
+mpm-algo: ac
+
+pattern-matcher:
+  - b2gc:
+      search-algo: B2gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - b2gm:
+      search-algo: B2gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - b2g:
+      search-algo: B2gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - b3g:
+      search-algo: B3gSearchBNDMq
+      hash-size: low
+      bf-size: medium
+  - wumanber:
+      hash-size: low
+      bf-size: medium
+
+defrag:
+  memcap: 32mb
+  hash-size: 65536
+  trackers: 65535 # number of defragmented flows to follow
+  max-frags: 65535 # number of fragments to keep (higher than trackers)
+  prealloc: yes
+  timeout: 60
+
+flow:
+  memcap: 64mb
+  hash-size: 65536
+  prealloc: 10000
+  emergency-recovery: 30
+
+vlan:
+  use-for-tracking: true
+
+flow-timeouts:
+  default:
+    new: 30
+    established: 300
+    closed: 0
+    emergency-new: 10
+    emergency-established: 100
+    emergency-closed: 0
+  tcp:
+    new: 60
+    established: 3600
+    closed: 120
+    emergency-new: 10
+    emergency-established: 300
+    emergency-closed: 20
+  udp:
+    new: 30
+    established: 300
+    emergency-new: 10
+    emergency-established: 100
+  icmp:
+    new: 30
+    established: 300
+    emergency-new: 10
+    emergency-established: 100
+
+stream:
+  memcap: 32mb
+  checksum-validation: yes
+  inline: auto
+  reassembly:
+    memcap: 128mb
+    depth: 1mb
+    toserver-chunk-size: 2560
+    toclient-chunk-size: 2560
+    randomize-chunk-size: yes
+
+host:
+  hash-size: 4096
+  prealloc: 1000
+  memcap: 16777216
+
+logging:
+  default-log-level: notice
+  default-output-filter:
+  outputs:
+  - console:
+      enabled: no
+  - file:
+      enabled: yes
+      filename: /var/log/suricata/suricata.log
+  - syslog:
+      enabled: no
+      facility: local5
+      format: "[%i] <%d> -- "
+
+mpipe:
+  load-balance: dynamic
+  iqueue-packets: 2048
+  inputs:
+  - interface: xgbe2
+  - interface: xgbe3
+  - interface: xgbe4
+  stack:
+    size128: 0
+    size256: 9
+    size512: 0
+    size1024: 0
+    size1664: 7
+    size4096: 0
+    size10386: 0
+    size16384: 0
+
+pfring:
+  - interface: eth0
+    threads: 1
+    cluster-id: 99
+    cluster-type: cluster_flow
+  - interface: default
+    threads: 2
+
+pcap:
+  - interface: eth0
+  - interface: default
+
+pcap-file:
+  checksum-checks: auto
+
+default-rule-path: /etc/snort/rules
+rule-files:
+ - botcc.rules
+ - ciarmy.rules
+ - compromised.rules
+ - drop.rules
+ - dshield.rules
+ - emerging-activex.rules
+ - emerging-attack_response.rules
+ - emerging-chat.rules
+ - emerging-current_events.rules
+ - emerging-dns.rules
+ - emerging-dos.rules
+ - emerging-exploit.rules
+ - emerging-ftp.rules
+ - emerging-games.rules
+ - emerging-icmp_info.rules
+ - emerging-icmp.rules
+ - emerging-imap.rules
+ - emerging-inappropriate.rules
+ - emerging-malware.rules
+ - emerging-misc.rules
+ - emerging-mobile_malware.rules
+ - emerging-netbios.rules
+ - emerging-p2p.rules
+ - emerging-policy.rules
+ - emerging-pop3.rules
+ - emerging-rpc.rules
+ - emerging-scada.rules
+ - emerging-scan.rules
+ - emerging-shellcode.rules
+ - emerging-smtp.rules
+ - emerging-snmp.rules
+ - emerging-sql.rules
+ - emerging-telnet.rules
+ - emerging-tftp.rules
+ - emerging-trojan.rules
+ - emerging-user_agents.rules
+ - emerging-voip.rules
+ - emerging-web_client.rules
+ - emerging-web_server.rules
+ - emerging-web_specific_apps.rules
+ - emerging-worm.rules
+ - tor.rules
+ - decoder-events.rules
+ - stream-events.rules
+ - http-events.rules
+ - smtp-events.rules
+ - dns-events.rules
+ - tls-events.rules
+
+classification-file: /etc/suricata/classification.config
+reference-config-file: /etc/suricata/reference.config
+
+vars:
+  address-groups:
+    HOME_NET: "[10.0.0.0/8]"
+    EXTERNAL_NET: "!$HOME_NET"
+    HTTP_SERVERS: "$HOME_NET"
+    SMTP_SERVERS: "$HOME_NET"
+    SQL_SERVERS: "$HOME_NET"
+    DNS_SERVERS: "$HOME_NET"
+    TELNET_SERVERS: "$HOME_NET"
+    AIM_SERVERS: "$EXTERNAL_NET"
+    DNP3_SERVER: "$HOME_NET"
+    DNP3_CLIENT: "$HOME_NET"
+    MODBUS_CLIENT: "$HOME_NET"
+    MODBUS_SERVER: "$HOME_NET"
+    ENIP_CLIENT: "$HOME_NET"
+    ENIP_SERVER: "$HOME_NET"
+
+  port-groups:
+    HTTP_PORTS: "80"
+    SHELLCODE_PORTS: "!80"
+    ORACLE_PORTS: 1521
+    SSH_PORTS: 22
+    DNP3_PORTS: 20000
+# The default order is pass, drop, reject, alert
+action-order:
+  - pass
+  - drop
+  - reject
+  - alert
+
+host-os-policy:
+  windows: [0.0.0.0/0]
+  bsd: []
+  bsd-right: []
+  old-linux: []
+  linux: [10.0.0.0/8, 192.168.1.100, "8762:2352:6241:7245:E000:0000:0000:0000"]
+  old-solaris: []
+  solaris: ["::1"]
+  hpux10: []
+  hpux11: []
+  irix: []
+  macos: []
+  vista: []
+  windows2k3: []
+
+asn1-max-frames: 256
+
+engine-analysis:
+  rules-fast-pattern: yes
+  rules: yes
+
+pcre:
+  match-limit: 3500
+  match-limit-recursion: 1500
+
+app-layer:
+  protocols:
+    tls:
+      enabled: yes
+      detection-ports:
+        dp: 443
+
+    dcerpc:
+      enabled: yes
+    ftp:
+      enabled: yes
+    ssh:
+      enabled: yes
+    smtp:
+      enabled: yes
+    imap:
+      enabled: detection-only
+    msn:
+      enabled: detection-only
+    smb:
+      enabled: yes
+      detection-ports:
+        dp: 139
+    dns:
+      # memcaps. Globally and per flow/state.
+      global-memcap: 16mb
+      state-memcap: 512kb
+
+      # How many unreplied DNS requests are considered a flood.
+      # If the limit is reached, app-layer-event:dns.flooded; will match.
+      request-flood: 500
+
+      tcp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+      udp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+    http:
+      enabled: yes
+      libhtp:
+         default-config:
+           personality: IDS
+           request-body-limit: 3072
+           response-body-limit: 3072
+           request-body-minimal-inspect-size: 32kb
+           request-body-inspect-window: 4kb
+           response-body-minimal-inspect-size: 32kb
+           response-body-inspect-window: 4kb
+           double-decode-path: no
+           double-decode-query: no
+
+         server-config:
+
+profiling:
+  rules:
+    enabled: yes
+    filename: rule_perf.log
+    append: yes
+    sort: avgticks
+    limit: 100
+
+  keywords:
+    enabled: yes
+    filename: keyword_perf.log
+    append: yes
+
+  packets:
+    enabled: yes
+    filename: packet_stats.log
+    append: yes
+    csv:
+      enabled: no
+      filename: packet_stats.csv
+
+locks:
+    enabled: no
+    filename: lock_stats.log
+    append: yes
+
+coredump:
+  max-dump: unlimited
+
+napatech:
+    hba: -1
+    use-all-streams: yes
+    streams: [1, 2, 3]
