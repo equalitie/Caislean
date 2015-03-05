@@ -36,6 +36,7 @@
   apt: pkg={{item}} default_release=wheezy-backports state=installed
   with_items:
     - suricata
+    - oinkmaster
   tags: base
 
 - name: Install SSHd configuration
