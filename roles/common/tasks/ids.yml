@@ -1,0 +1,22 @@
+- name: Create suricata user
+  user: name=suricata shell=/bin/false createhome=no
+  tags: base
+
+- name: Create suricata directories
+  file: name={{item}} state=directory owner=suricata group=suricata mode=0700
+  with_items:
+    - /var/log/suricata
+    - /var/run/suricata
+  tags: base
+
+- name: Install Suricata configuration file
+  copy: src=etc/suricata/suricata.yaml dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
+  notify:
+    - restart suricata
+  tags: base
+
+- name: Install Suricata Debian default file
+  copy: src=etc/default/suricata dest=/etc/default/suricata owner=root group=root mode=0644
+  notify:
+    - restart suricata
+  tags: base
