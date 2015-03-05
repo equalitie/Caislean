@@ -9,6 +9,10 @@
     - /var/run/suricata
   tags: base
 
+- name: Install Oinkmaster configuration
+  copy: src=etc/oinkmaster.conf dest=/etc/oinkmaster.conf owner=root group=root mode=0644
+  tags: base
+
 - name: Install Suricata configuration file
   copy: src=etc/suricata/suricata.yaml dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
   notify:
