@@ -7,7 +7,7 @@ run-as:
   user: suricata
   group: suricata
 
-pid-file: /var/run/suricata.pid
+pid-file: /var/run/suricata/suricata.pid
 
 default-log-dir: /var/log/suricata/
 
@@ -30,17 +30,6 @@ af-packet:
     cluster-type: cluster_flow
     defrag: yes
     use-mmap: yes
-  - interface: eth0
-    threads: 1
-    cluster-id: 99
-    cluster-type: cluster_flow
-    defrag: yes
-    use-mmap: yes
-  - interface: eth1
-    threads: 1
-    cluster-id: 98
-    cluster-type: cluster_flow
-    defrag: yes
 
 legacy:
   uricontent: enabled
@@ -189,13 +178,6 @@ pfring:
   - interface: default
     threads: 2
 
-pcap:
-  - interface: eth0
-  - interface: default
-
-pcap-file:
-  checksum-checks: auto
-
 default-rule-path: /etc/snort/rules
 rule-files:
  - botcc.rules
@@ -273,7 +255,7 @@ vars:
     ORACLE_PORTS: 1521
     SSH_PORTS: 22
     DNP3_PORTS: 20000
-# The default order is pass, drop, reject, alert
+
 action-order:
   - pass
   - drop
