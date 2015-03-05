@@ -1,0 +1,4 @@
+RUN=yes
+SURCONF=/etc/suricata/suricata.yaml
+LISTENMODE=af-packet
+PIDFILE=/var/run/suricata/suricata.pid
