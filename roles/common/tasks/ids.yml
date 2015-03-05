@@ -24,3 +24,15 @@
   notify:
     - restart suricata
   tags: base
+
+- name: Install Oinkmaster cron job
+  copy: src=etc/cron.daily/oinkmaster dest=/etc/cron.daily/oinkmaster owner=root group=root mode=0755
+  tags: base
+
+- name: Update Suricata rules
+  command: oinkmaster -C /etc/oinkmaster.conf -o /etc/snort/rules
+  tags: base
+
+- name: Make sure Suricata is running
+  service: name=suricata state=started enabled=yes
+  tags: base
