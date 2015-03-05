@@ -14,3 +14,6 @@
 
 - name: update mail aliases
   command: newaliases
+
+- name: restart suricata
+  service: name=suricata state=restarted
