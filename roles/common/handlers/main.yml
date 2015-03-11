@@ -15,6 +15,9 @@
 - name: update mail aliases
   command: newaliases
 
+- name: disable network offloading
+  command: /opt/disable-network-offload-{{ monitored_interface }}.sh
+
 - name: update suricata ET rules
   command: oinkmaster -C /etc/oinkmaster/oinkmaster.conf -o /etc/snort/rules
 

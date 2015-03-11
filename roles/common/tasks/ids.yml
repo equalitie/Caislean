@@ -23,6 +23,12 @@
     - update suricata Snort rules
   tags: base
 
+- name: Install script that disables network offloading (for Suricata to work properly)
+  template: src=disable-network-offload.sh.j2 dest=/opt/disable-network-offload-{{ monitored_interface }}.sh owner=root group=root mode=0755
+  notify:
+    - disable network offloading
+  tags: base
+
 - name: Install Suricata configuration file
   template: src=suricata.yaml.j2 dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
   notify:
