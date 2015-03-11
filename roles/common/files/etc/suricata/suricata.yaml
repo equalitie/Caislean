@@ -228,6 +228,7 @@ rule-files:
  - smtp-events.rules
  - dns-events.rules
  - tls-events.rules
+ - local.rules
 
 classification-file: /etc/suricata/classification.config
 reference-config-file: /etc/suricata/reference.config
