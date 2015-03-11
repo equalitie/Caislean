@@ -229,6 +229,7 @@ rule-files:
  - dns-events.rules
  - tls-events.rules
  - local.rules
+ - community.rules
 
 classification-file: /etc/suricata/classification.config
 reference-config-file: /etc/suricata/reference.config
