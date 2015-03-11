@@ -9,3 +9,4 @@
     admin_email: user@domain.com
     tls_directory: /home/user/sec_comms_admin/tls
     fqdn: sec-comms.domain.com
+    monitored_interface: eth0
