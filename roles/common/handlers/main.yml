@@ -15,5 +15,8 @@
 - name: update mail aliases
   command: newaliases
 
+- name: update suricata rules
+  command: oinkmaster -C /etc/oinkmaster.conf -o /etc/snort/rules
+
 - name: restart suricata
   service: name=suricata state=restarted

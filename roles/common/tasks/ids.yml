@@ -11,6 +11,8 @@
 
 - name: Install Oinkmaster configuration
   copy: src=etc/oinkmaster.conf dest=/etc/oinkmaster.conf owner=root group=root mode=0644
+  notify:
+    - update suricata rules
   tags: base
 
 - name: Install Suricata configuration file
