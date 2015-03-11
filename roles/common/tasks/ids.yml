@@ -25,6 +25,12 @@
     - restart suricata
   tags: base
 
+- name: Install Suricata custom rules file
+  copy: src=etc/snort/rules/local.rules dest=/etc/snort/rules/local.rules owner=root group=root mode=0644
+  notify:
+    - restart suricata
+  tags: base
+
 - name: Install Oinkmaster cron job
   copy: src=etc/cron.daily/oinkmaster dest=/etc/cron.daily/oinkmaster owner=root group=root mode=0755
   tags: base
