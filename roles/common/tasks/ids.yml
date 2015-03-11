@@ -24,7 +24,7 @@
   tags: base
 
 - name: Install Suricata configuration file
-  copy: src=etc/suricata/suricata.yaml dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
+  template: src=suricata.yaml.j2 dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
   notify:
     - restart suricata
   tags: base

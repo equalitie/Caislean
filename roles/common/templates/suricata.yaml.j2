@@ -24,9 +24,9 @@ outputs:
 magic-file: /usr/share/file/magic
 
 af-packet:
-  - interface: default
+  - interface: {{ monitored_interface }}
     threads: 1
-    cluster-id: 95
+    cluster-id: 99
     cluster-type: cluster_flow
     defrag: yes
     use-mmap: yes
@@ -171,7 +171,7 @@ mpipe:
     size16384: 0
 
 pfring:
-  - interface: eth0
+  - interface: {{ monitored_interface }}
     threads: 1
     cluster-id: 99
     cluster-type: cluster_flow
