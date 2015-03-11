@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ethtool -K {{ monitored_interface }} tso off
+ethtool -K {{ monitored_interface }} gro off
+ethtool -K {{ monitored_interface }} lro off
+ethtool -K {{ monitored_interface }} gso off
+ethtool -K {{ monitored_interface }} rx off
+ethtool -K {{ monitored_interface }} tx off
+ethtool -K {{ monitored_interface }} sg off
+ethtool -K {{ monitored_interface }} rxvlan off
+ethtool -K {{ monitored_interface }} txvlan off

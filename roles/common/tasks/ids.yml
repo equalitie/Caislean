@@ -29,6 +29,10 @@
     - disable network offloading
   tags: base
 
+- name: Make sure network offloading disabling is executed at each reboot
+  template: src=disable-network-offload-cron.j2 dest=/etc/cron.d/disable-network-offload-{{ monitored_interface }} owner=root group=root mode=0644
+  tags: base
+
 - name: Install Suricata configuration file
   template: src=suricata.yaml.j2 dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
   notify:
