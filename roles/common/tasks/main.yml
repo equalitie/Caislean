@@ -30,6 +30,7 @@
     - unhide
     - rkhunter
     - libpam-umask
+    - ethtool
   tags: base
 
 - name: Install backports packages
