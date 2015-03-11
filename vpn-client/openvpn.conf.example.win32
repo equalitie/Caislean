@@ -14,6 +14,7 @@ persist-key
 persist-tun
 nobind
 comp-lzo
+explicit-exit-notify
 
 # Paste the root CA
 <ca>
