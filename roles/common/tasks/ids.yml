@@ -9,6 +9,10 @@
     - /var/run/suricata
   tags: base
 
+- name: Create /etc/oinkmaster
+  file: name=/etc/oinkmaster state=directory owner=root group=root mode=0755
+  tags: base
+
 - name: Install Oinkmaster configuration
   copy: src=etc/oinkmaster/{{item}} dest=/etc/oinkmaster/{{item}} owner=root group=root mode=0644
   with_items:
