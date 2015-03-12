@@ -33,6 +33,10 @@
   template: src=disable-network-offload-cron.j2 dest=/etc/cron.d/disable-network-offload-{{ monitored_interface }} owner=root group=root mode=0644
   tags: base
 
+- name: Install log rotation for Suricata log files
+  template: src=logrotate-suricata.j2 dest=/etc/logrotate.d/suricata owner=root group=root mode=0644
+  tags: base
+
 - name: Install Suricata configuration file
   template: src=suricata.yaml.j2 dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
   notify:

@@ -1,0 +1,12 @@
+/var/log/suricata/*.log {
+    weekly
+    compress
+    rotate 12
+    mail {{ admin_email }}
+    missingok
+    create
+    sharedscripts
+    postrotate
+        /bin/kill -HUP $(cat /var/run/suricata/suricata.pid)
+    endscript
+}
