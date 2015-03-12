@@ -89,6 +89,12 @@
 
 - name: Install rkhunter configuration
   copy: src=etc/rkhunter.conf dest=/etc/rkhunter.conf group=root owner=root mode=0600
+  notify:
+    - rebuild rkhunter proplist
+  tags: base
+
+- name: Install rkhunter boot-job
+  copy: src=etc/cron.d/rkhunter-boot dest=/etc/cron.d/rkhunter-boot group=root owner=root mode=0644
   tags: base
 
 - name: Install /etc/aliases
