@@ -15,6 +15,9 @@
 - name: update mail aliases
   command: newaliases
 
+- name: rebuild rkhunter proplist
+  command: rkhunter --propupd
+
 - name: disable network offloading
   command: /opt/disable-network-offload-{{ monitored_interface }}.sh
 
