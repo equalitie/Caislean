@@ -1,7 +1,7 @@
 #!/bin/sh
 
 TMPFILE=$(mktemp)
-(oinkmaster -C /etc/oinkmaster.conf -o /etc/snort/rules -Q; \
- oinkmaster -C /etc/oinkmaster-snort-community.conf -o /etc/snort/rules -Q) | tee $TMPFILE
+(oinkmaster -C /etc/oinkmaster/oinkmaster.conf -o /etc/snort/rules -Q; \
+ oinkmaster -C /etc/oinkmaster/oinkmaster-snort-community.conf -o /etc/snort/rules -Q) | tee $TMPFILE
 test -s $TMPFILE && echo Suricata rules changed: restarting Suricata && service suricata restart
 rm -f $TMPFILE
