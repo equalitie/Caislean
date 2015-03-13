@@ -93,6 +93,14 @@
     - rebuild rkhunter proplist
   tags: base
 
+- name: Create /etc/initramfs/post-update.d
+  file: path=/etc/initramfs/post-update.d state=directory owner=root group=root mode=0755
+  tags: base
+
+- name: Add rkhunter initramfs post-update script
+  copy: src=etc/initramfs/post-update.d/rkhunter dest=/etc/initramfs/post-update.d/rkhunter owner=root group=root mode=0755
+  tags: base
+
 - name: Install rkhunter boot-job
   copy: src=etc/cron.d/rkhunter-boot dest=/etc/cron.d/rkhunter-boot group=root owner=root mode=0644
   tags: base
