@@ -20,7 +20,6 @@
     - oinkmaster-snort-community.conf
   notify:
     - update suricata ET rules
-    - update suricata Snort rules
   tags: base
 
 - name: Install script that disables network offloading (for Suricata to work properly)
