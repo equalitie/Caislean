@@ -1,0 +1,3 @@
+{% for ifcap in monitored_interfaces %}
+^{{ ifcap }}: PACKET SNIFFER\(/usr/bin/suricata\[[0-9]+\]\)$
+{% endfor %}

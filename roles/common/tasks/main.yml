@@ -83,6 +83,14 @@
   copy: src=etc/chkrootkit.conf dest=/etc/chkrootkit.conf group=root owner=root mode=0600
   tags: base
 
+- name: Install chkrootkit warning suppression pattern file
+  template: src=chkrootkit.ignore.j2 dest=/etc/chkrootkit.ignore group=root owner=root mode=0600
+  tags: base
+
+- name: Install chkroot daily cron job script
+  copy: src=etc/cron.daily/chkrootkit dest=/etc/cron.daily/chkrootkit group=root owner=root mode=0755
+  tags: base
+
 - name: Install rkhunter Debian default file
   copy: src=etc/default/rkhunter dest=/etc/default/rkhunter group=root owner=root mode=0644
   tags: base

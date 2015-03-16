@@ -1,0 +1,59 @@
+#!/bin/sh
+
+set -e
+
+CHKROOTKIT=/usr/sbin/chkrootkit
+CF=/etc/chkrootkit.conf
+LOG_DIR=/var/log/chkrootkit
+
+if [ ! -x $CHKROOTKIT ]; then
+  exit 0
+fi
+
+if [ -f $CF ]; then
+    . $CF
+fi
+
+if [ "$RUN_DAILY" = "true" ]; then
+    if [ "$DIFF_MODE" = "true" ]; then
+        if [ "x$SUPPRESS_FILE" != "x" -a -f "$SUPPRESS_FILE" ]; then
+				eval $CHKROOTKIT $RUN_DAILY_OPTS | grep -Evf $SUPPRESS_FILE > $LOG_DIR/log.today.raw 2>&1
+        else
+				eval $CHKROOTKIT $RUN_DAILY_OPTS > $LOG_DIR/log.today.raw 2>&1
+	fi
+				# the sed expression replaces the messages about /sbin/dhclient3 /usr/sbin/dhcpd3
+				# with a message that is the same whatever order eth0 and eth1 were scanned
+				sed -r -e 's,eth(0|1)(:[0-9])?: PACKET SNIFFER\((/sbin/dhclient3|/usr/sbin/dhcpd3)\[[0-9]+\]\),eth\[0|1\]: PACKET SNIFFER\([dhclient3|dhcpd3]{PID}\),' \
+				-e 's/(! \w+\s+)[ 0-9]{4}[0-9]/\1#####/' $LOG_DIR/log.today.raw > $LOG_DIR/log.today
+        if [ ! -f $LOG_DIR/log.expected ]; then
+						echo "ERROR: No file $LOG_DIR/log.expected"
+						echo "This file should contain expected output from chkrootkit"
+						echo
+						echo "Today's run produced the following output:"
+						echo "--- [ BEGIN: cat $LOG_DIR/log.today  ] ---"
+						cat $LOG_DIR/log.today
+						echo "--- [ END: cat $LOG_DIR/log.today ] ---"
+						echo
+						echo "To create this file containing all output from today's run, do (as root)"
+						echo "# cp -a $LOG_DIR/log.today $LOG_DIR/log.expected"
+						echo "# (note that unedited output is in $LOG_DIR/log.today.raw)"
+				elif ! diff -q $LOG_DIR/log.expected $LOG_DIR/log.today > /dev/null 2>&1; then
+						echo "ERROR: chkrootkit output was not as expected."
+						echo
+						echo "The difference is:"
+						echo "---[ BEGIN: diff -u $LOG_DIR/log.expected $LOG_DIR/log.today ] ---"
+						diff -u $LOG_DIR/log.expected $LOG_DIR/log.today || true
+						echo "---[ END: diff -u $LOG_DIR/log.expected $LOG_DIR/log.today ] ---"
+						echo
+           					echo "To update the expected output, run (as root)"
+						echo "#  cp -a -f $LOG_DIR/log.today $LOG_DIR/log.expected"
+						echo "# (note that unedited output is in $LOG_DIR/log.today.raw)"
+        fi
+    else
+        if [ "x$SUPPRESS_FILE" != "x" -a -f "$SUPPRESS_FILE" ]; then
+				eval $CHKROOTKIT $RUN_DAILY_OPTS | grep -Evf $SUPPRESS_FILE
+	else
+				eval $CHKROOTKIT $RUN_DAILY_OPTS
+	fi
+    fi
+fi
