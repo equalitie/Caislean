@@ -1,11 +1,14 @@
 #!/bin/bash
 
-/sbin/ethtool -K {{ monitored_interface }} tso off
-/sbin/ethtool -K {{ monitored_interface }} gro off
-/sbin/ethtool -K {{ monitored_interface }} lro off
-/sbin/ethtool -K {{ monitored_interface }} gso off
-/sbin/ethtool -K {{ monitored_interface }} rx off
-/sbin/ethtool -K {{ monitored_interface }} tx off
-/sbin/ethtool -K {{ monitored_interface }} sg off
-/sbin/ethtool -K {{ monitored_interface }} rxvlan off
-/sbin/ethtool -K {{ monitored_interface }} txvlan off
+{% for ifcap in monitored_interfaces %}
+/sbin/ethtool -K {{ ifcap }} tso off
+/sbin/ethtool -K {{ ifcap }} gro off
+/sbin/ethtool -K {{ ifcap }} lro off
+/sbin/ethtool -K {{ ifcap }} gso off
+/sbin/ethtool -K {{ ifcap }} rx off
+/sbin/ethtool -K {{ ifcap }} tx off
+/sbin/ethtool -K {{ ifcap }} sg off
+/sbin/ethtool -K {{ ifcap }} rxvlan off
+/sbin/ethtool -K {{ ifcap }} txvlan off
+
+{% endfor %}

@@ -23,13 +23,13 @@
   tags: base
 
 - name: Install script that disables network offloading (for Suricata to work properly)
-  template: src=disable-network-offload.sh.j2 dest=/opt/disable-network-offload-{{ monitored_interface }}.sh owner=root group=root mode=0755
+  template: src=disable-network-offload.sh.j2 dest=/opt/disable-network-offload.sh owner=root group=root mode=0755
   notify:
     - disable network offloading
   tags: base
 
 - name: Make sure network offloading disabling is executed at each reboot
-  template: src=disable-network-offload-cron.j2 dest=/etc/cron.d/disable-network-offload-{{ monitored_interface }} owner=root group=root mode=0644
+  template: src=disable-network-offload-cron.j2 dest=/etc/cron.d/disable-network-offload owner=root group=root mode=0644
   tags: base
 
 - name: Install log rotation for Suricata log files
