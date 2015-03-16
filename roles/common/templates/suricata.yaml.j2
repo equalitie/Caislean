@@ -32,12 +32,16 @@ outputs:
 magic-file: /usr/share/file/magic
 
 af-packet:
-  - interface: {{ monitored_interface }}
+{% set clusterid = 99 %}
+{% for ifcap in monitored_interfaces %}
+  - interface: {{ ifcap }}
     threads: 1
-    cluster-id: 99
+    cluster-id: {{ clusterid }}
     cluster-type: cluster_flow
     defrag: yes
     use-mmap: yes
+{% set clusterid = clusterid - 1 %}
+{% endfor %}
 
 legacy:
   uricontent: enabled
