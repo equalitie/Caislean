@@ -178,14 +178,6 @@ mpipe:
     size10386: 0
     size16384: 0
 
-pfring:
-  - interface: {{ monitored_interface }}
-    threads: 1
-    cluster-id: 99
-    cluster-type: cluster_flow
-  - interface: default
-    threads: 2
-
 default-rule-path: /etc/snort/rules
 rule-files:
  - botcc.rules
