@@ -10,3 +10,8 @@
     tls_directory: /home/user/sec_comms_admin/tls
     fqdn: sec-comms.domain.com
     monitored_interface: eth0
+    server_addresses:
+      - 104.28.4.42
+      - 104.28.5.42
+      - 2a01:dead:beef:f00::0/64
+
