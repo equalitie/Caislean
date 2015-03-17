@@ -38,6 +38,11 @@ af-packet:
     threads: 1
     cluster-id: {{ clusterid }}
     cluster-type: cluster_flow
+{% if in_out_monitor_only %}
+    bpf-filter: not udp port 1194 and net ({{ server_addresses|join(' or ') }})
+{% else %}
+    bpf-filter: not (udp port 1194 and net ({{ server_addresses|join(' or ') }}))
+{% endif %}
     defrag: yes
     use-mmap: yes
 {% set clusterid = clusterid - 1 %}

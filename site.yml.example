@@ -14,4 +14,4 @@
       - 104.28.4.42
       - 104.28.5.42
       - 2a01:dead:beef:f00::0/64
-
+    in_out_monitor_only: true
