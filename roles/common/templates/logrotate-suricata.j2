@@ -4,7 +4,7 @@
     rotate 12
     mail {{ admin_email }}
     missingok
-    create
+    create 0600 root root
     sharedscripts
     postrotate
         /bin/kill -HUP $(cat /var/run/suricata/suricata.pid)
