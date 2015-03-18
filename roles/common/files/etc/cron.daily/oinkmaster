@@ -2,7 +2,7 @@
 
 OINK=/usr/sbin/oinkmaster
 TMPFILE=$(mktemp)
-su -s /bin/bash -c "$OINK -C /etc/oinkmaster/oinkmaster.conf -o /etc/snort/rules -Q" suricata
+su -s /bin/bash -c "$OINK -C /etc/oinkmaster/oinkmaster.conf -o /etc/snort/rules -Q" suricata | tee $TMPFILE
 # Note: Snort community rules disabled due to conflict of sid-msg.map file
 #su -s /bin/bash -c "$OINK -C /etc/oinkmaster/oinkmaster-snort-community.conf -o /etc/snort/rules -Q" suricata
 test -s $TMPFILE && echo Suricata rules changed: restarting Suricata && service suricata restart
