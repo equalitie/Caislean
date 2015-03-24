@@ -7,3 +7,9 @@
   tags:
     - base
     - backup
+
+- name: Install backupninja.conf
+  copy: src=etc/backupninja.conf dest=/etc/backupninja.conf group=root owner=root mode=0644
+  tags:
+    - base
+    - backup
