@@ -1,0 +1,9 @@
+- name: Install packages necessary for backup system
+  apt: pkg={{item}} state=installed
+  with_items:
+    - backupninja
+    - duplicity
+    - gnupg
+  tags:
+    - base
+    - backup
