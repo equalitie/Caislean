@@ -4,6 +4,7 @@
     - backupninja
     - duplicity
     - gnupg
+    - rdiff-backup
   tags:
     - base
     - backup
