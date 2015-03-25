@@ -60,7 +60,7 @@
     - backup
 
 - name: Install backup SSH private key of backup remote account
-  copy: content="{{ lookup('file', backup_security_directory + '/backup.key.ssh') }}" dest=/etc/backupninja/id_rsa.{{ backup_remote_host }}.duplicity group=root owner=root mode=0600
+  copy: content="{{ lookup('file', backup_security_directory + '/backup.key.ssh') }}" dest=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity group=root owner=root mode=0600
   tags:
     - base
     - backup
@@ -70,3 +70,12 @@
   tags:
     - base
     - backup
+
+- name: Open UFW outbound SSH connections to backup host
+  ufw: rule=allow port=22 direction=out to_ip={{ backup_remote_ip }}
+  tags:
+    - base
+    - backup
+    - firewall
+
+

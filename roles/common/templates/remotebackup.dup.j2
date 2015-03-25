@@ -18,7 +18,7 @@ incremental = yes
 increments = 7
 keep = 60
 
-sshoptions = -o IdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_host }}.duplicity
+sshoptions = -o IdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity
 destdir = {{ backup_remote_dir }}
-desthost = {{ backup_remote_host }}
+desthost = {{ backup_remote_ip }}
 destuser = {{ backup_remote_login }}
