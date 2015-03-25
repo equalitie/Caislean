@@ -66,7 +66,7 @@
     - backup
 
 - name: Install backupninja configuration file for duplicity
-  template: src=remotebackup.dup.j2 dest=/etc/backup.d/20-remotebackup.dup group=root owner=root mode=0644
+  template: src=remotebackup.dup.j2 dest=/etc/backup.d/20-remotebackup.dup group=root owner=root mode=0600
   tags:
     - base
     - backup
