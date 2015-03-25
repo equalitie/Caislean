@@ -29,7 +29,11 @@ outputs:
       enabled: yes
       filename: unified2.alert
   - pcap-log:
-      enabled: {% if capture_traffic %}yes{% else %}no{% endif %}
+{% if capture_traffic %}
+      enabled: yes
+{% else %}
+      enabled: no
+{% endif %}
       filename: log.pcap
       limit: 500
       max_files: 20
