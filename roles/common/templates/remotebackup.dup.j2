@@ -1,5 +1,7 @@
 [gpg]
-sign = {{ backup_pgp_key_id }}
+sign = yes
+encryptkey = {{ backup_pgp_key_id }}
+signkey = {{ backup_pgp_key_id }}
 password = {{ backup_pgp_passphrase }}
 
 [source]
