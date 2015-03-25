@@ -22,7 +22,7 @@
     - backup
 
 - name: Check that the backup PGP key is present
-  command: gpg --list-keys {{ backup_pgp_keyid }}
+  command: gpg --list-keys {{ backup_pgp_key_id }}
   ignore_errors: true
   register: gpg_check_key_present
   tags:
