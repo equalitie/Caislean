@@ -14,3 +14,43 @@
   tags:
     - base
     - backup
+
+- name: Create /etc/backupninja
+  file: state=directory name=/etc/backupninja group=root owner=root mode=0700
+  tags:
+    - base
+    - backup
+
+- name: Check that the backup PGP key is present
+  command: gpg --list-keys {{ backup_pgp_keyid }}
+  ignore_errors: true
+  register: gpg_check_key_present
+  tags:
+    - base
+    - backup
+
+- name: Upload PGP key temporary file
+  copy: content="{{ lookup('file', backup_security_directory + '/backup.private.pgp') }}" dest=/tmp/duplicity-key.pgp group=root owner=root mode=0600
+  when: ( gpg_check_key_present|success )
+  tags:
+    - base
+    - backup
+
+- name: Import PGP key
+  command: gpg --import /tmp/key.pgp
+  when: ( gpg_check_key_present|success )
+  tags:
+    - base
+    - backup
+
+- name: Make sure PGP key temporary file is absent
+  file: name=/tmp/duplicity-key.pgp state=absent
+  tags:
+    - base
+    - backup
+
+- name: Install backup server SSH private key
+  copy: content="{{ lookup('file', backup_security_directory + '/backup.private.ssh') }}" dest=/etc/backupninja/id_rsa.{{ backup_remote_host }}.duplicity group=root owner=root mode=0600
+  tags:
+    - base
+    - backup
