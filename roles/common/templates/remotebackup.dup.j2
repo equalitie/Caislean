@@ -20,6 +20,9 @@ increments = 7
 keep = 60
 
 sshoptions = -o IdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity
-destdir = {{ backup_remote_dir }}
-desthost = {{ backup_remote_ip }}
-destuser = {{ backup_remote_login }}
+{% if ':' in  backup_remote_ip %}
+{% set sftp_remote = '[' + backup_remote_ip + ']' %}
+{% else %}
+{% set sftp_remote = backup_remote_ip %}
+{% endif %}
+desturl = sftp://{{ backup_remote_login }}@{{ sftp_remote }}/{{ backup_remote_dir }}
