@@ -5,6 +5,7 @@
     - duplicity
     - gnupg
     - rdiff-backup
+    - rsync
   tags:
     - base
     - backup
