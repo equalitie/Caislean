@@ -59,6 +59,12 @@
     - base
     - backup
 
+- name: Make sure PGP key for backups is trusted
+  lineinfile: dest=/root/.gnupg/gpg.conf create=yes line="trusted-key {{ backup_pgp_key_id }}" owner=root group=root mode=0600
+  tags:
+    - base
+    - backup
+
 - name: Install backup SSH private key of backup remote account
   copy: content="{{ lookup('file', backup_security_directory + '/backup.key.ssh') }}" dest=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity group=root owner=root mode=0600
   tags:
