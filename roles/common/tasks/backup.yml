@@ -85,12 +85,6 @@
     - base
     - backup
 
-- name: Make sure SSH backup private key is used when connecting remotely
-  lineinfile: dest=/root/.ssh/config create=yes owner=root group=root mode=0600 line="IdentityFile /etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity"
-  tags:
-    - base
-    - backup
-
 - name: Install backupninja configuration file for duplicity
   template: src=remotebackup.dup.j2 dest=/etc/backup.d/20-remotebackup.dup group=root owner=root mode=0600
   tags:
