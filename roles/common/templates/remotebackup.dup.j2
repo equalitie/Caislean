@@ -28,4 +28,4 @@ sshoptions = -oIdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.dupli
 {% else %}
 {% set sftp_remote = backup_remote_ip %}
 {% endif %}
-desturl = sftp://{{ backup_remote_login }}@{{ sftp_remote }}/{{ backup_remote_dir }}
+desturl = sftp://{{ backup_remote_login }}@{{ sftp_remote }}:{{ backup_remote_ssh_port }}/{{ backup_remote_dir }}
