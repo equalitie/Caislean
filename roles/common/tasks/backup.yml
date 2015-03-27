@@ -1,11 +1,18 @@
 - name: Install packages necessary for backup system
   apt: pkg={{item}} state=installed
   with_items:
-    - backupninja
-    - duplicity
     - gnupg
     - rdiff-backup
     - rsync
+  tags:
+    - base
+    - backup
+
+- name: Install backup software from backports
+  apt: pkg={{item}} default_release=wheezy-backports state=installed
+  with_items:
+    - backupninja
+    - duplicity
   tags:
     - base
     - backup
