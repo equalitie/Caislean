@@ -19,6 +19,10 @@
     backup_security_directory: /home/user/sec_comms_admin/backup_security
     backup_pgp_key_id: "0x1234567890ABCDEF"
     backup_pgp_passphrase: StrongPassPhrase
-    backup_remote_ip: backuphost.domain.com
+    backup_remote_ip: 1.2.4.5
     backup_remote_login: backup-user
     backup_remote_dir: /home/backup-user
+    backup_ssh_remote_key:
+      - ssh-rsa AAAAB3NzaC1y....
+      - ssh-dss AAAAB3NzaC1kc...
+      - ecdsa-sha2-nistp256 AAAAE2Vj...
