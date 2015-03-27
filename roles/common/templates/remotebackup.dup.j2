@@ -20,7 +20,7 @@ increments = 7
 keep = 60
 
 sshoptions = -o IdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity
-{% if ':' in  backup_remote_ip %}
+{% if backup_remote_ip|ipv6 %}
 {% set sftp_remote = '[' + backup_remote_ip + ']' %}
 {% else %}
 {% set sftp_remote = backup_remote_ip %}
