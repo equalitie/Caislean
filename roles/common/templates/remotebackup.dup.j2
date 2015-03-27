@@ -22,9 +22,10 @@ incremental = yes
 increments = 7
 keep = 60
 
+sshoptions = -oIdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity
 {% if backup_remote_ip|ipv6 %}
 {% set sftp_remote = '[' + backup_remote_ip + ']' %}
 {% else %}
 {% set sftp_remote = backup_remote_ip %}
 {% endif %}
-desturl = rsync://{{ backup_remote_login }}@{{ sftp_remote }}/{{ backup_remote_dir }}
+desturl = sftp://{{ backup_remote_login }}@{{ sftp_remote }}/{{ backup_remote_dir }}
