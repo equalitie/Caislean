@@ -1,0 +1,7 @@
+{% for pubkey in backup_remote_ssh_keys %}
+{% if backup_remote_ssh_port == 22 %}
+{{ backup_remote_ip }} {{ pubkey }}
+{% else %}
+[{{ backup_remote_ip }}]:{{ backup_remote_ssh_port }} {{ pubkey }}
+{% endif %}
+{% endfor %}

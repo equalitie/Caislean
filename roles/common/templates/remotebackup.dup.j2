@@ -22,7 +22,7 @@ incremental = yes
 increments = 7
 keep = 60
 
-sshoptions = -oIdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity
+sshoptions = -oIdentityFile=/etc/backupninja/id_rsa.{{ backup_remote_ip }}.duplicity -oUserKnownHostsFile=/etc/backupninja/known_hosts.{{ backup_remote_ip}}.duplicity
 {% if backup_remote_ip|ipv6 %}
 {% set sftp_remote = '[' + backup_remote_ip + ']' %}
 {% else %}

@@ -79,6 +79,12 @@
     - base
     - backup
 
+- name: Saving backup hosts's public SSH keys
+  template: src=known_hosts.duplicity.j2 dest=/etc/backupninja/known_hosts.{{ backup_remote_ip}}.duplicity group=root owner=root mode=0600
+  tags:
+    - base
+    - backup
+
 - name: Make sure /root/.ssh exists
   file: name=/root/.ssh state=directory group=root owner=root mode=0700
   tags:
@@ -97,5 +103,3 @@
     - base
     - backup
     - firewall
-
-
