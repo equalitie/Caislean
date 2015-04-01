@@ -96,7 +96,7 @@ checkpoint      512 30
 # admin entry below
 # These access lines apply to database #1 only
 access to attrs=userPassword
-        by dn="cn=admin,{{ base_nd }}" write
+        by dn="cn=admin,{{ base_dn }}" write
 	by anonymous auth
         by self write
         by * none
