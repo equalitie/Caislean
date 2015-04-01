@@ -1,0 +1,6 @@
+- name: Install LDAP packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - slapd
+  tags:
+    - ldap
