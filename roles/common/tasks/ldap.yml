@@ -5,7 +5,16 @@
   tags:
     - ldap
 
-- name: Install LDAP configuration
+- name: Install LDAP configuration (slapd.conf)
   template: src=slapd.conf.j2 dest=/etc/slapd.conf owner=root group=root mode=0644
+  notify:
+    - restart slapd
+  tags:
+    - ldap
+
+- name: Install slapd Debian default file
+  copy: src=etc/default/slapd dest=/etc/default/slapd owner=root group=root mode=0644
+  notify:
+    - restart slapd
   tags:
     - ldap
