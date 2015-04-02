@@ -2,6 +2,7 @@
   apt: pkg={{item}} state=installed
   with_items:
     - slapd
+    - ldap-utils
   tags:
     - ldap
 
