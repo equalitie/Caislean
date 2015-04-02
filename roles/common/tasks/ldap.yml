@@ -6,7 +6,7 @@
     - ldap
 
 - name: Install LDAP configuration (slapd.conf)
-  template: src=slapd.conf.j2 dest=/etc/slapd.conf owner=root group=root mode=0644
+  template: src=slapd.conf.j2 dest=/etc/ldap/slapd.conf owner=root group=root mode=0644
   notify:
     - restart slapd
   tags:
