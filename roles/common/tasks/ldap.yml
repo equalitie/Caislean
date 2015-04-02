@@ -5,6 +5,15 @@
   tags:
     - ldap
 
+- name: Install custom LDAP schemas
+  copy: src={{ item }} dest=/etc/ldap/schema/ owner=root group=root mode=0644
+  with_fileglob:
+    - etc/ldap/schema/*
+  notify:
+    - restart slapd
+  tags:
+    - ldap
+
 - name: Install LDAP configuration (slapd.conf)
   template: src=slapd.conf.j2 dest=/etc/ldap/slapd.conf owner=root group=root mode=0644
   notify:
