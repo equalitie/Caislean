@@ -29,3 +29,6 @@
 
 - name: restart suricata
   service: name=suricata state=restarted
+
+- name: restart slapd
+  service: name=slapd state=restarted
