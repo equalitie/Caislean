@@ -17,6 +17,7 @@
       - 2a01:dead:beef:f00::0/64
     in_out_monitor_only: true
     capture_traffic: true
+    ldap_admin_pass: ldappassword
     backup_security_directory: /home/user/sec_comms_admin/backup_security
     backup_pgp_key_id: "0x1234567890ABCDEF"
     backup_pgp_passphrase: StrongPassPhrase
