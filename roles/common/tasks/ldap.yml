@@ -4,6 +4,7 @@
     - { q: 'slapd/password1', t: 'password', v: "{{ ldap_admin_pass }}" }
     - { q: 'slapd/password2', t: 'password', v: "{{ ldap_admin_pass }}" }
     - { q: 'slapd/domain', t: 'string', v: "{{ domain_name }}" }
+    - { q: 'shared/organization', t: 'string', v: "{{ domain_name }}" }
   tags:
     - ldap
 
@@ -35,5 +36,31 @@
   copy: src=etc/default/slapd dest=/etc/default/slapd owner=root group=root mode=0644
   notify:
     - restart slapd
+  tags:
+    - ldap
+
+- name: Check whether organizationalUnit mail LDAP entry exists
+  command: ldapsearch -x -b dc={{ domain_name|split('.')|join(',dc=') }} ou=mail
+  ignore_errors: true
+  register: ldapsearch_mail_ou
+  tags:
+    - ldap
+
+- name: Add organizationalUnit mail LDAP entry (1/2)
+  template: src=mail_ou.ldif.j2 dest=/tmp/mail_ou.ldif owner=root group=root mode=0644
+  when: ldapsearch_mail_ou.stdout.find('# numEntries') == -1
+  tags:
+    - ldap
+
+- name: Add organizationalUnit mail LDAP entry (2/2)
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/mail_ou.ldif
+  when: ldapsearch_mail_ou.stdout.find('# numEntries') == -1
+  notify:
+    - restart slapd
+  tags:
+    - ldap
+
+- name: Remove LDIF temporary file for organizationalUnit mail entry
+  file: path=/tmp/mail_ou.ldif state=absent
   tags:
     - ldap
