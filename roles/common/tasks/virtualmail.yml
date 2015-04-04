@@ -1,0 +1,7 @@
+- name: Install postfix LDAP-related config files
+  template: src={{ item }}.j2  dest=/etc/postfix/{{ item }} group=root owner=root mode=0644
+  with_items:
+    - ldap-accounts.cf
+    - ldap-aliases.cf
+  tags:
+    - vmail
