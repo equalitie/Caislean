@@ -1,3 +1,8 @@
+- name: Install dovecot package
+  apt: pkg=dovecot state=installed
+  tags:
+    - vmail
+
 - name: Create virtual mail user
   user: name=vmail home=/var/virtualmail group=mail shell=/bin/nologin
   tags:
