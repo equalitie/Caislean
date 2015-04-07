@@ -1,0 +1,22 @@
+- name: Create /etc/ssl/crls
+  file: path=/etc/ssl/crls state=directory owner=root group=root mode=0755
+  tags:
+    - tls
+    - vpn
+    - vmail
+
+- name: Install our TLS files
+  copy: content="{{ lookup('file', tls_directory + '/' + item.local) }}" dest=/etc/ssl/{{item.remote}} owner=root group=root mode={{item.mode}}
+  with_items:
+    - { local: 'ca.crt.pem', remote: 'certs/{{ server_name }}.{{ domain_name}}_CA.pem', mode: '0644' }
+    - { local: 'server.crt.pem', remote: 'certs/{{ server_name }}.{{ domain_name }}.pem', mode: '0644' }
+    - { local: 'server.key.pem', remote: 'private/{{ server_name }}.{{ domain_name }}.key', mode: '0600' }
+    - { local: 'dhparam.pem', remote: 'dhparam.pem', mode: '0644' }
+    - { local: 'crl.pem', remote: 'crls/{{ server_name }}.{{ domain_name }}.crl', mode: '0644' }
+  notify:
+    - restart openvpn
+    - restart postfix
+  tags:
+    - tls
+    - vpn
+    - vmail
