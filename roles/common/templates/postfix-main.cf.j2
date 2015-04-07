@@ -50,7 +50,14 @@ smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth 
 
 # Virtual mailboxes using local LDAP server
-# (todo)
+virtual_mailbox_domains = static:{{ domain_name }}
+virtual_mailbox_maps = ldap:/etc/postfix/ldap-accounts.cf
+virtual_mailbox_base = /var/virtualmail
+virtual_alias_maps = ldap:/etc/postfix/ldap-aliases.cf
+virtual_alias_domains = 
+virtual_minimum_uid = 1000
+virtual_uid_maps = static:vmail
+virtual_gid_maps = static:mail
 
 # Restrictions
 smtpd_helo_required = yes 
