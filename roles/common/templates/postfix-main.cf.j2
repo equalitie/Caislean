@@ -1,0 +1,73 @@
+# General parameters
+smtpd_banner = $myhostname Hit any key to continue or any other key to abort
+biff = no
+
+append_dot_mydomain = no
+readme_directory = no
+
+# TLS, as a SMTP server
+smtpd_use_tls = yes
+smtpd_tls_cert_file = /etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem
+smtpd_tls_key_file = /etc/ssl/private/{{ server_name }}.{{ domain_name }}.key
+smtpd_tls_CAfile = /etc/ssl/certs/{{ server_name }}.{{ domain_name }}_CA.pem
+smtpd_tls_security_level = may
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtpd_tls_exclude_ciphers = aNULL, MD5, DES, ADH
+smtpd_tls_loglevel=1
+smtpd_tls_received_header=yes
+smtpd_tls_protocols = !SSLv2, !SSLv3
+smtpd_tls_ciphers = medium
+smtpd_tls_auth_only = yes
+
+# TLS, as a SMTP client
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtp_tls_security_level = may
+smtp_tls_loglevel=1
+
+# TLS, generic options
+tls_random_source=dev:/dev/urandom
+
+# Who are we?
+mydomain = {{ domain_name }}
+myhostname = {{ server_name }}.{{ domain_name }}
+myorigin = {{ domain_name }}
+mydestination = {{ domain_name }}, {{ server_name }}.{{ domain_name }}, {{ server_name }}, localhost, localhost.localdomain
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+relayhost =
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 10.1.0.0/24
+mailbox_command =
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+
+# Authenticate clients with SASL
+smtpd_sasl_local_domain = $myhostname
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtp_sasl_security_options = noanonymous
+smtpd_sasl_type = dovecot 
+smtpd_sasl_path = private/auth 
+
+# Virtual mailboxes using local LDAP server
+# (todo)
+
+# Restrictions
+smtpd_helo_required = yes 
+strict_rfc821_envelopes = yes 
+
+smtpd_recipient_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_non_fqdn_helo_hostname,
+    reject_non_fqdn_sender,
+    reject_unknown_recipient_domain,
+    reject_unauth_destination,
+    permit
+
+smtpd_helo_restrictions = 
+    permit_mynetworks, 
+    permit_sasl_authenticated, 
+    reject_non_fqdn_hostname, 
+    reject_invalid_hostname, 
+    permit 
