@@ -2,16 +2,16 @@ port 1194
 proto udp
 dev tun
 
-ca /etc/openvpn/tls/ca.crt.pem
-cert /etc/openvpn/tls/server.crt.pem
-key /etc/openvpn/tls/server.key.pem
-dh /etc/openvpn/tls/dhparam.pem
+ca /etc/ssl/certs/{{ server_name }}.{{ domain_name }}_CA.pem
+cert /etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem
+key /etc/ssl/private/{{ server_name }}.{{ domain_name }}.key
+dh /etc/ssl/dhparam.pem
 
 tls-server
 tls-cipher kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL
 ns-cert-type client
 remote-cert-tls client
-crl-verify /etc/openvpn/tls/crl.pem
+crl-verify /etc/ssl/crls/{{ server_name }}.{{ domain_name }}.crl
 
 server 10.1.0.0 255.255.255.0
 push "redirect-gateway"
