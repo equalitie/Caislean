@@ -9,7 +9,7 @@
     - vmail
 
 - name: Create virtual mail user
-  user: name=vmail home=/var/virtualmail group=mail shell=/bin/nologin
+  user: name=vmail home=/var/virtualmail createhome=no group=mail shell=/bin/nologin
   tags:
     - vmail
 
