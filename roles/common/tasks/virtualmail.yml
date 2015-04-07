@@ -1,5 +1,10 @@
-- name: Install dovecot package
-  apt: pkg=dovecot state=installed
+- name: Install dovecot packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - dovecot-core
+    - dovecot-imapd
+    - dovecot-pop3d
+    - dovecot-ldap
   tags:
     - vmail
 
