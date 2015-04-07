@@ -50,6 +50,7 @@ smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth 
 
 # Virtual mailboxes using local LDAP server
+# Note: domains in virtual_mailbox_domains must not be listed in mydestination
 virtual_mailbox_domains = static:{{ domain_name }}, static:{{ server_name }}.{{ domain_name }}
 virtual_mailbox_maps = ldap:/etc/postfix/ldap-accounts.cf
 virtual_mailbox_base = /var/virtualmail
