@@ -31,7 +31,7 @@ tls_random_source=dev:/dev/urandom
 mydomain = {{ domain_name }}
 myhostname = {{ server_name }}.{{ domain_name }}
 myorigin = {{ domain_name }}
-mydestination = {{ domain_name }}, {{ server_name }}.{{ domain_name }}, {{ server_name }}, localhost, localhost.localdomain
+mydestination = {{ server_name }}, localhost, localhost.localdomain
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 relayhost =
@@ -50,7 +50,7 @@ smtpd_sasl_type = dovecot
 smtpd_sasl_path = private/auth 
 
 # Virtual mailboxes using local LDAP server
-virtual_mailbox_domains = static:{{ domain_name }}
+virtual_mailbox_domains = static:{{ domain_name }}, static:{{ server_name }}.{{ domain_name }}
 virtual_mailbox_maps = ldap:/etc/postfix/ldap-accounts.cf
 virtual_mailbox_base = /var/virtualmail
 virtual_alias_maps = ldap:/etc/postfix/ldap-aliases.cf
