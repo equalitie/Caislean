@@ -5,6 +5,7 @@
     - dovecot-imapd
     - dovecot-pop3d
     - dovecot-ldap
+    - postfix-ldap
   tags:
     - vmail
 
