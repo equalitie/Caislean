@@ -20,7 +20,12 @@
     - vmail
 
 - name: Create /var/virtualmail
-  file: path=/var/virtualmail state=directory owner=vmail group=mail mode=0755
+  file: path=/var/virtualmail state=directory owner=vmail group=vmail mode=0755
+  tags:
+    - vmail
+
+- name: Ensure correct ownership in /var/virtualmail
+  file: path=/var/virtualmail state=directory owner=vmail group=vmail recurse=yes
   tags:
     - vmail
 
