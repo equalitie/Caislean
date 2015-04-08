@@ -31,7 +31,7 @@ tls_random_source=dev:/dev/urandom
 mydomain = {{ domain_name }}
 myhostname = {{ server_name }}.{{ domain_name }}
 myorigin = {{ domain_name }}
-mydestination = localhost, localhost.localdomain
+mydestination = localhost, localhost.localdomain, $myhostname, localhost.$mydomain
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 relayhost =
@@ -41,6 +41,17 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 
+# Virtual mailboxes using local LDAP server
+# Note: domains in virtual_mailbox_domains must not be listed in mydestination
+virtual_mailbox_domains = $mydomain
+virtual_mailbox_maps = ldap:/etc/postfix/ldap-accounts.cf
+virtual_mailbox_base = /var/virtualmail
+virtual_alias_maps = hash:/etc/aliases, ldap:/etc/postfix/ldap-aliases.cf
+virtual_alias_domains =
+virtual_minimum_uid = 1000
+virtual_uid_maps = static:5000
+virtual_gid_maps = static:5000
+
 # Authenticate clients with SASL
 smtpd_sasl_local_domain = $myhostname
 smtpd_sasl_auth_enable = yes
@@ -48,17 +59,6 @@ broken_sasl_auth_clients = yes
 smtp_sasl_security_options = noanonymous
 smtpd_sasl_type = dovecot 
 smtpd_sasl_path = private/auth 
-
-# Virtual mailboxes using local LDAP server
-# Note: domains in virtual_mailbox_domains must not be listed in mydestination
-virtual_mailbox_domains = static:{{ domain_name }}, static:{{ server_name }}.{{ domain_name }}
-virtual_mailbox_maps = ldap:/etc/postfix/ldap-accounts.cf
-virtual_mailbox_base = /var/virtualmail
-virtual_alias_maps = ldap:/etc/postfix/ldap-aliases.cf
-virtual_alias_domains = 
-virtual_minimum_uid = 1000
-virtual_uid_maps = static:5000
-virtual_gid_maps = static:5000
 
 # Restrictions
 smtpd_helo_required = yes 
