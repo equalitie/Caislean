@@ -9,8 +9,13 @@
   tags:
     - vmail
 
+- name: Create virtual mail group
+  group: name=vmail gid=5000 state=present
+  tags:
+    - vmail
+
 - name: Create virtual mail user
-  user: name=vmail home=/var/virtualmail createhome=no group=mail shell=/bin/nologin
+  user: name=vmail uid=5000 home=/var/virtualmail createhome=no group=vmail shell=/bin/nologin
   tags:
     - vmail
 
