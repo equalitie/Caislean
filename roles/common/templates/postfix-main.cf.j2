@@ -57,8 +57,8 @@ virtual_mailbox_base = /var/virtualmail
 virtual_alias_maps = ldap:/etc/postfix/ldap-aliases.cf
 virtual_alias_domains = 
 virtual_minimum_uid = 1000
-virtual_uid_maps = static:vmail
-virtual_gid_maps = static:mail
+virtual_uid_maps = static:5000
+virtual_gid_maps = static:5000
 
 # Restrictions
 smtpd_helo_required = yes 
