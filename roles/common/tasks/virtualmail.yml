@@ -45,3 +45,10 @@
     - restart postfix
   tags:
     - vmail
+
+- name: Install Dovecot configuration
+  template: src=dovecot.conf.j2 dest=/etc/dovecot/dovecot.conf group=root owner=root mode=0644
+  notify:
+    - restart dovecot
+  tags:
+    - vmail

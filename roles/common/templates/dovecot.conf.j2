@@ -1,0 +1,37 @@
+listen = *, ::
+auth_mechanisms = plain login
+login_greeting = Insert coin and press button to continue.
+hostname = {{ server_name }}
+protocols = imap
+mail_uid = 5000
+mail_gid = 5000
+mail_location = maildir:/var/virtualmail/%n
+postmaster_address = postmaster@{{ domain_name }}
+
+userdb {
+  args = /etc/dovecot/dovecot-ldap.conf
+  driver = ldap
+}
+passdb {
+  args = /etc/dovecot/dovecot-ldap.conf
+  driver = ldap
+}
+
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    group = postfix
+    mode = 0660
+    user = postfix
+  }
+#  unix_listener auth-master {
+#    group = vmail
+#    mode = 0660
+#    user = vmail
+#  }
+}
+
+ssl = required
+ssl_ca = </etc/ssl/certs/{{ server_name }}.{{ domain_name }}_CA.pem
+ssl_cert = </etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem
+ssl_key  = </etc/ssl/private/{{ server_name }}.{{ domain_name }}.key
+ssl_protocols = !SSLv2 !SSLv3
