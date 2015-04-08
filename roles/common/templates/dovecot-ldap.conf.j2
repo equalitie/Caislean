@@ -1,0 +1,13 @@
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+hosts = 127.0.0.1
+auth_bind = yes
+ldap_version = 3
+base = ou=mail,{{ base_dn }}
+scope = subtree
+default_pass_scheme = SSHA
+
+user_filter = (&(objectClass=mailaccount)(mail=%u))
+pass_filter = (&(objectClass=mailaccount)(mail=%u))
+
+user_global_uid = 5000
+user_global_gid = 5000
