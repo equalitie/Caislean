@@ -85,12 +85,6 @@
     - base
     - backup
 
-- name: Make sure /root/.ssh exists
-  file: name=/root/.ssh state=directory group=root owner=root mode=0700
-  tags:
-    - base
-    - backup
-
 - name: Install backupninja configuration file for duplicity
   template: src=remotebackup.dup.j2 dest=/etc/backup.d/20-remotebackup.dup group=root owner=root mode=0600
   tags:
