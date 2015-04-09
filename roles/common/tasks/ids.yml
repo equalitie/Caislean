@@ -1,17 +1,20 @@
 - name: Create suricata user
   user: name=suricata shell=/bin/false createhome=no
-  tags: base
+  tags:
+    - ids
 
 - name: Create suricata directories
   file: name={{item}} state=directory owner=suricata group=suricata mode=0700
   with_items:
     - /var/log/suricata
     - /var/run/suricata
-  tags: base
+  tags:
+    - ids
 
 - name: Create /etc/oinkmaster
   file: name=/etc/oinkmaster state=directory owner=root group=root mode=0755
-  tags: base
+  tags:
+    - ids
 
 - name: Install Oinkmaster configuration
   copy: src=etc/oinkmaster/{{item}} dest=/etc/oinkmaster/{{item}} owner=root group=root mode=0644
@@ -20,52 +23,63 @@
     - oinkmaster-snort-community.conf
   notify:
     - update suricata ET rules
-  tags: base
+  tags:
+    - ids
 
 - name: Install script that disables network offloading (for Suricata to work properly)
   template: src=disable-network-offload.sh.j2 dest=/opt/disable-network-offload.sh owner=root group=root mode=0755
   notify:
     - disable network offloading
-  tags: base
+  tags:
+    - ids
 
 - name: Make sure network offloading disabling is executed at each reboot
   template: src=disable-network-offload-cron.j2 dest=/etc/cron.d/disable-network-offload owner=root group=root mode=0644
-  tags: base
+  tags:
+    - ids
 
 - name: Install log rotation for Suricata log files
   template: src=logrotate-suricata.j2 dest=/etc/logrotate.d/suricata owner=root group=root mode=0644
-  tags: base
+  tags:
+    - ids
 
 - name: Install Suricata configuration file
   template: src=suricata.yaml.j2 dest=/etc/suricata/suricata.yaml owner=root group=root mode=0644
   notify:
     - restart suricata
-  tags: base
+  tags:
+    - ids
 
 - name: Install Suricata Debian default file
   copy: src=etc/default/suricata dest=/etc/default/suricata owner=root group=root mode=0644
   notify:
     - restart suricata
-  tags: base
+  tags:
+    - ids
 
 - name: Install Suricata custom rules file
   copy: src=etc/snort/rules/local.rules dest=/etc/snort/rules/local.rules owner=suricata group=suricata mode=0644
   notify:
     - restart suricata
-  tags: base
+  tags:
+    - ids
 
 - name: Set correct ownership for /etc/snort/rules (1)
   file: path=/etc/snort/rules mode=0755 recurse=no
-  tags: base
+  tags:
+    - ids
 
 - name: Set correct ownership for /etc/snort/rules (2)
   file: path=/etc/snort/rules owner=suricata group=suricata recurse=yes
-  tags: base
+  tags:
+    - ids
 
 - name: Install Oinkmaster cron job
   copy: src=etc/cron.daily/oinkmaster dest=/etc/cron.daily/oinkmaster owner=root group=root mode=0755
-  tags: base
+  tags:
+   - ids
 
 - name: Make sure Suricata is enabled
   service: name=suricata enabled=yes
-  tags: base
+  tags:
+    - ids
