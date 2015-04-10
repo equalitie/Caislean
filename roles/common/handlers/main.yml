@@ -9,6 +9,9 @@
 - name: restart dnsmasq
   service: name=dnsmasq state=restarted
 
+- name: restart spamassassin
+  service: name=spamassassin state=restarted
+
 - name: restart postfix
   service: name=postfix state=restarted
 
