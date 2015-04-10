@@ -36,12 +36,17 @@
   tags:
     - vmail
 
-- name: Ensure correct ownership in directories
+- name: Ensure correct ownership in mail-related directories
   file: path={{item.dirname}} state=directory owner={{item.u}} group={{item.g}} recurse=yes
   with_items:
     - { dirname: /var/virtualmail, u: vmail, g: vmail }
     - { dirname: /var/lib/spamassassin, u: spamd, g: spamd }
     - { dirname: /var/log/spamassassin, u: spamd, g: spamd }
+  tags:
+    - vmail
+
+- name: Set spamassassin Debian default file
+  copy: src=etc/default/spamassassin dest=/etc/default/spamassassin group=root owner=root mode=0644
   tags:
     - vmail
 
