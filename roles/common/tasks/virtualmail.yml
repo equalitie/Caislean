@@ -6,6 +6,7 @@
     - dovecot-pop3d
     - dovecot-ldap
     - postfix-ldap
+    - postfix-policyd-spf-perl
     - postgrey
     - spamassassin
     - spamc
