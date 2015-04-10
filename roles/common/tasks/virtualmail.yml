@@ -45,8 +45,15 @@
   tags:
     - vmail
 
-- name: Set spamassassin Debian default file
+- name: Install spamassassin Debian default file
   copy: src=etc/default/spamassassin dest=/etc/default/spamassassin group=root owner=root mode=0644
+  notify:
+    - restart spamassassin
+  tags:
+    - vmail
+
+- name: Install spamassassin configuration
+  copy: src=etc/spamassassin/local.cf dest=/etc/spamassassin/local.cf group=root owner=root mode=0644
   notify:
     - restart spamassassin
   tags:
