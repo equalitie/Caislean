@@ -76,6 +76,13 @@
   tags:
     - vmail
 
+- name: Install modified postfix master.cf
+  copy: src=etc/postfix/master.cf dest=/etc/postfix/master.cf group=root owner=root mode=0644
+  notify:
+    - restart postfix
+  tags:
+    - vmail
+
 - name: Install Dovecot main configuration
   template: src=dovecot.conf.j2 dest=/etc/dovecot/dovecot.conf group=root owner=root mode=0644
   notify:
