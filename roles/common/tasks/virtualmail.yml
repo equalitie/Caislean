@@ -1,4 +1,4 @@
-- name: Install dovecot packages
+- name: Install mail packages
   apt: pkg={{item}} state=installed
   with_items:
     - dovecot-core
