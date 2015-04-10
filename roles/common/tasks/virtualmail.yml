@@ -59,3 +59,10 @@
     - restart dovecot
   tags:
     - vmail
+
+- name: Install postgrey Debian default file
+  copy: src=etc/default/postgrey dest=/etc/default/postgrey group=root owner=root mode=0644
+  notify:
+    - restart postgrey
+  tags:
+    - vmail
