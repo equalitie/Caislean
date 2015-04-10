@@ -117,3 +117,6 @@ spamassassin
   argv=/usr/bin/spamc
   -e /usr/sbin/sendmail
   -oi -f ${sender} ${recipient}
+policy-spf
+          unix  -       n       n       -       -       spawn
+  user=nobody argv=/usr/bin/perl /usr/sbin/postfix-policyd-spf-perl
