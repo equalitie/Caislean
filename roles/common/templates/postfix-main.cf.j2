@@ -64,6 +64,9 @@ smtpd_sasl_path = private/auth
 smtpd_helo_required = yes 
 strict_rfc821_envelopes = yes 
 
+# SPF
+policy-spf_time_limit = 3600s
+
 smtpd_recipient_restrictions =
     permit_mynetworks,
     permit_sasl_authenticated,
@@ -71,6 +74,7 @@ smtpd_recipient_restrictions =
     reject_non_fqdn_sender,
     reject_unknown_recipient_domain,
     reject_unauth_destination,
+    check_policy_service unix:private/policy-spf
     check_policy_service inet:127.0.0.1:60000
     permit
 
