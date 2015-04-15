@@ -1,0 +1,6 @@
+- name: Install web server packages (from backports)
+  apt: pkg={{item}} state=installed default_release=wheezy-backports
+  with_items:
+    - nginx
+  tags:
+    - webserver
