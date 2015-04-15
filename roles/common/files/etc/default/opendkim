@@ -1,0 +1,3 @@
+# We don't override /etc/opendkim.conf so leave this commented out
+#DAEMON_OPTS=""
+#SOCKET=""
