@@ -77,13 +77,8 @@
   tags:
     - vmail
 
-- name: Create directory /etc/opendkim
-  file: path=/etc/opendkim state=directory group=opendkim owner=root mode=0750
-  tags:
-    - vmail
-
-- name: Create directory /etc/opendkim/keys
-  file: path=/etc/opendkim/keys state=directory group=opendkim owner=root mode=0750
+- name: Create /etc/opendkim and subdirectories
+  file: path=/etc/opendkim/keys/{{ domain_name }} state=directory group=opendkim owner=root mode=0750 recurse=yes
   tags:
     - vmail
 
@@ -94,8 +89,15 @@
   tags:
     - vmail
 
-- name: Install other OpenDKIM config files
+- name: Install OpenDKIM signing table
   template: src=opendkim-signingtable.j2 dest=/etc/opendkim/SigningTable group=root owner=root mode=0755
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Install OpenDKIM key table
+  template: src=opendkim-keytable.j2 dest=/etc/opendkim/KeyTable group=root owner=root mode=0755
   notify:
     - restart opendkim
   tags:
