@@ -69,6 +69,7 @@
     - restart opendkim
   tags:
     - vmail
+
 - name: Install OpenDKIM Debian default file
   copy: src=etc/default/opendkim dest=/etc/default/opendkim group=root owner=root mode=0644
   notify:
