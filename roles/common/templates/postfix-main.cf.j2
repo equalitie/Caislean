@@ -64,7 +64,8 @@ smtpd_sasl_path = private/auth
 smtpd_helo_required = yes 
 strict_rfc821_envelopes = yes 
 
-# SPF
+# This is the maximum time the spawned processes can live for
+# (default is 1000s, which is too short)
 policy-spf_time_limit = 3600s
 
 smtpd_recipient_restrictions =
