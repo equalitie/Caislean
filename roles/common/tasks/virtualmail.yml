@@ -104,7 +104,7 @@
     - vmail
 
 - name: Install DKIM private key
-  copy: content="{{ lookup('file', dkim_directory + '/dkim.priv') }}" dest=/etc/opendkim/keys/{{ domain_name }}/mail.private group=opendkim owner=root mode=0750
+  copy: content="{{ lookup('file', dkim_directory + '/dkim.priv') }}" dest=/etc/opendkim/keys/{{ domain_name }}/dkim1.private group=opendkim owner=root mode=0750
   notify:
     - restart opendkim
   tags:
