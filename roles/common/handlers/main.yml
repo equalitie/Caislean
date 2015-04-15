@@ -12,6 +12,9 @@
 - name: restart spamassassin
   service: name=spamassassin state=restarted
 
+- name: restart opendkim
+  service: name=opendkim state=restarted
+
 - name: restart postfix
   service: name=postfix state=restarted
 
