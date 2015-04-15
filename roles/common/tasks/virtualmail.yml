@@ -63,6 +63,13 @@
   tags:
     - vmail
 
+- name: Install OpenDKIM configuration
+  copy: src=etc/opendkim.conf dest=/etc/opendkim.conf group=root owner=root mode=0644
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
 - name: Install postfix main configuration
   template: src=postfix-main.cf.j2 dest=/etc/postfix/main.cf owner=root group=root mode=0644
   notify:
