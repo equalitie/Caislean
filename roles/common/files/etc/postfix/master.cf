@@ -8,7 +8,9 @@
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (yes)   (never) (100)
 # ==========================================================================
-smtp      inet  n       -       -       -       -       smtpd -o content_filter=spamassassin
+smtp      inet  n       -       -       -       -       smtpd
+  -o content_filter=spamassassin
+  -o smtpd_milter='inet:[::1]:12301'
 #smtp      inet  n       -       -       -       1       postscreen
 #smtpd     pass  -       -       -       -       -       smtpd
 #dnsblog   unix  -       -       -       -       0       dnsblog
