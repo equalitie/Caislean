@@ -77,6 +77,16 @@
   tags:
     - vmail
 
+- name: Create directory /etc/opendkim
+  file: path=/etc/opendkim state=directory group=opendkim owner=root mode=0750
+  tags:
+    - vmail
+
+- name: Create directory /etc/opendkim/keys
+  file: path=/etc/opendkim/keys state=directory group=opendkim owner=root mode=0750
+  tags:
+    - vmail
+
 - name: Install postfix main configuration
   template: src=postfix-main.cf.j2 dest=/etc/postfix/main.cf owner=root group=root mode=0644
   notify:
