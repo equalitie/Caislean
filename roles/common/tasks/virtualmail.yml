@@ -87,8 +87,17 @@
   tags:
     - vmail
 
-- name: Install other OpenDKIM config files
+- name: Install OpenDKIM TrustedHosts file
   copy: src=etc/opendkim/TrustedHosts dest=/etc/opendkim/TrustedHosts group=root owner=root mode=0755
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Install other OpenDKIM config files
+  template: src=opendkim-signingtable.j2 dest=/etc/opendkim/SigningTable group=root owner=root mode=0755
+  notify:
+    - restart opendkim
   tags:
     - vmail
 
