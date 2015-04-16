@@ -38,3 +38,10 @@
     - restart nginx
   tags:
     - webserver
+
+- name: Install default nginx virtual server
+  copy: src=etc/nginx/sites-available/000-default dest=/etc/nginx/sites-available/000-default owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - webserver
