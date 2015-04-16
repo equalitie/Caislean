@@ -10,7 +10,8 @@ events {
 
 http {
     include       /etc/nginx/mime.types;
-    index index.html index.html index.php
+    index index.html index.html index.php;
+    default_type application/octet-stream;
 
     access_log	off;
 
