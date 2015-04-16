@@ -39,8 +39,22 @@
   tags:
     - webserver
 
-- name: Install default nginx virtual server
+- name: Install custom default nginx virtual server
   copy: src=etc/nginx/sites-available/000-default dest=/etc/nginx/sites-available/000-default owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - webserver
+
+- name: Disable old default nginx virtual server
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify:
+    - restart nginx
+  tags:
+    - webserver
+
+- name: Enable custom default nginx virtual server
+  file: path=/etc/nginx/sites-enabled/000-default state=link src=/etc/nginx/sites-available/000-default
   notify:
     - restart nginx
   tags:
