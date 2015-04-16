@@ -1,6 +1,7 @@
 - name: Install roundcube and dependencies (from backports)
   apt: pkg={{item}} state=installed default_release=wheezy-backports
   with_items:
+    - php5-fpm
     - php5
     - php5-common
     - roundcube-sqlite3
