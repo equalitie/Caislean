@@ -5,6 +5,33 @@
   tags:
     - webserver
 
+- name: Create www group
+  group: name=www state=present
+  tags:
+    - webserver
+
+- name: Create www user
+  user: name=www group=www home=/var/www createhome=no shell=/bin/nologin
+  tags:
+    - webserver
+
+- name: Create nginx directories
+  file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
+  with_items:
+    - /var/log/nginx
+    - /var/run/nginx
+    - /var/www
+  tags:
+    - webserver
+
+- name: Create nginx content directories
+  file: path={{item}} state=directory group=www owner=root mode=0750 recurse=no
+  with_items:
+    - /var/www/default
+    - /var/www/{{ server_name }}.{{ domain_name }}
+  tags:
+    - webserver
+
 - name: Install nginx configuration
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
   notify:
