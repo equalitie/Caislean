@@ -1,40 +1,44 @@
-user www-data;
-worker_processes  2;
+user			www;
+worker_processes	4;
 
-error_log  /dev/null;
-pid        /var/run/nginx.pid;
+error_log		/var/log/nginx/error.log;
+pid			/var/run/nginx/nginx.pid;
 
 events {
-    worker_connections  1024;
+    worker_connections	1024;
 }
 
 http {
-    include       /etc/nginx/mime.types;
-    index index.html index.html index.php;
-    default_type application/octet-stream;
+    include		/etc/nginx/mime.types;
+    index		index.html index.html index.php;
+    default_type	application/octet-stream;
 
-    access_log	off;
+    log_format		main '$remote_addr - $remote_user [$time_local]  $status '
+        '"$request" $body_bytes_sent "$http_referer" '
+	'"$http_user_agent" "$http_x_forwarded_for"';
+    access_log		/var/log/nginx/access.log main;
 
-    sendfile        on;
+    sendfile		on;
+    keepalive_timeout	65;
+    tcp_nodelay		on;
+    tcp_nopush		on
+    server_names_hash_bucket_size 128;
 
-    keepalive_timeout  65;
-    tcp_nodelay        on;
+    gzip		on;
+    gzip_disable	"MSIE [1-6]\.(?!.*SV1)";
+    add_header		Strict-Transport-Security max-age=63072000;
+    charset		utf-8;
+    server_tokens	off;
 
-    gzip on;
-    gzip_disable "MSIE [1-6]\.(?!.*SV1)";
-    add_header Strict-Transport-Security max-age=63072000;
-    charset utf-8;
-    server_tokens off;
+    ssl_certificate	/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem
+    ssl_certificate_key	/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key
 
-    ssl_certificate  /etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem
-    ssl_certificate_key  /etc/ssl/private/{{ server_name }}.{{ domain_name }}.key
+    ssl_session_timeout	5m;
+    ssl_session_cache	shared:SSL:5m;
+    ssl_protocols	TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers		kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL;
+    ssl_prefer_server_ciphers on;
 
-    ssl_session_timeout  5m;
-    ssl_session_cache  shared:SSL:5m;
-    ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL;
-    ssl_prefer_server_ciphers   on;
-
-    include /etc/nginx/conf.d/*.conf;
-    include /etc/nginx/sites-enabled/*;
+    include		/etc/nginx/conf.d/*.conf;
+    include		/etc/nginx/sites-enabled/*;
 }
