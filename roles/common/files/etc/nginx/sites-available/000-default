@@ -1,0 +1,20 @@
+server {
+	listen	80 default;
+	listen	[::]:80	default ipv6only=on;
+	server_name _;
+
+	expires -1;
+
+	root /var/www/default;
+}
+
+server {
+	listen   443 ssl default;
+	listen	[::]:443 ssl default ipv6only=on;
+	server_name _;
+
+	expires -1;
+
+	root /var/www/default;
+
+}
