@@ -9,3 +9,13 @@
     - roundcube
   tags:
     - webmail
+
+- name: Install php5-fpm configuration
+  copy: src=etc/php5/fpm/{{item}} dest=/etc/php5/fpm/{{item}} owner=root group=root mode=0644
+  with_items:
+    - php-fpm.conf
+    - pool.d/www.conf
+  notify:
+    - restart php5-fpm
+  tags:
+    - webmail
