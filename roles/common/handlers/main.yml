@@ -49,4 +49,4 @@
   service: name=nginx state=restarted
 
 - name: restart php5-fpm
-  service: php5-fpm state=restarted
+  service: name=php5-fpm state=restarted
