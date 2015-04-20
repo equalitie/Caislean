@@ -4,6 +4,7 @@
     - tls
     - vpn
     - vmail
+    - webserver
 
 - name: Install our TLS files
   copy: content="{{ lookup('file', tls_directory + '/' + item.local) }}" dest=/etc/ssl/{{item.remote}} owner=root group=root mode={{item.mode}}
@@ -16,7 +17,10 @@
   notify:
     - restart openvpn
     - restart postfix
+    - restart nginx
+    - restart dovecot
   tags:
     - tls
     - vpn
     - vmail
+    - webserver
