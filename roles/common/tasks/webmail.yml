@@ -19,3 +19,10 @@
     - restart php5-fpm
   tags:
     - webmail
+
+- name: Install php5-fpm nginx configuration
+  copy: src=etc/nginx/conf.d/php5-fpm.conf dest=/etc/nginx/conf.d/php5-fpm.conf owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - webmail
