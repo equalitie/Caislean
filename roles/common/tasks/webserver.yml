@@ -62,6 +62,8 @@
 
 - name: Install nginx virtual server for {{ server_name }}.{{ domain_name }}
   template: src=nginx-vhost.j2 dest=/etc/nginx/sites-available/{{ server_name }}.{{ domain_name }} group=root owner=root mode=0644
+  notify:
+    - restart nginx
   tags:
     - webserver
 
