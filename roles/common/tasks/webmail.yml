@@ -37,3 +37,11 @@
   file: path=/var/log/roundcube state=directory group=adm owner=www mode=0750 recurse=no
   tags:
     - webmail
+
+- name: Set correct script permissions in /etc/roundcube
+  file: path=/etc/roundcube/{{item}} group=www owner=root mode=0640
+  with_items:
+    - debian-db.php
+    - main.inc.php
+  tags:
+    - webmail
