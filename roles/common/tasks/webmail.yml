@@ -32,3 +32,8 @@
     - reconfigure roundcube
   tags:
     - webmail
+
+- name: Set roundcube log directory permissions
+  file: path=/var/log/roundcube state=directory group=adm owner=www mode=0750 recurse=no
+  tags:
+    - webmail
