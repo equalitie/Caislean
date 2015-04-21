@@ -10,11 +10,26 @@ server {
 
 	root /var/www/{{ server_name }}.{{ domain_name }};
 
-	location ~ \.php$ {
-		try_files	$uri =404;
-		fastcgi_pass	unix:/var/run/php5-fpm.sock;
-		fastcgi_index	index.php;
-		fastcgi_param	SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		include		/etc/nginx/fastcgi_params;
+
+	location /webmail {
+		alias	/var/lib/roundcube;
+		index	index.php;
+		try_files $uri $uri/ index.php;
+
+		location ~ \.php(/|$) {
+			fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+			fastcgi_pass	unix:/var/run/php5-fpm.sock;
+			fastcgi_index	index.php;
+			fastcgi_param	SCRIPT_FILENAME $request_filename;
+			include		/etc/nginx/fastcgi_params;
+		}
+	}
+
+	location /webmail/program/js/tiny_mce {
+		alias	/usr/share/tinymce/www;
+	}
+
+	location ~ ^(/webmail/config|/webmail/temp|/webmail/logs) {
+		deny all;
 	}
 }
