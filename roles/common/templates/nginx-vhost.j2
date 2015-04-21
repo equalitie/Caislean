@@ -1,8 +1,8 @@
 server {
 	listen	80;
-	listen	[::]:80 ipv6only=on;
+	listen	[::]:80;
 	listen	443 ssl;
-	listen	[::]:443 ssl ipv6only=on;
+	listen	[::]:443 ssl;
 
 	server_name {{ server_name }}.{{ domain_name }};
 
