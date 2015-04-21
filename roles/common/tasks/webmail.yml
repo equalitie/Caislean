@@ -33,7 +33,7 @@
   tags:
     - webmail
 
-- name: Set roundcube log directory permissions
+- name: Set roundcube-related directories permissions
   file: path=/var/log/roundcube state=directory group=adm owner=www mode=0750 recurse=no
   tags:
     - webmail
@@ -48,5 +48,15 @@
 
 - name: Set correct permissions for roundcube temporary directory
   file: path=/var/lib/roundcube/temp state=directory group=www owner=www mode=0750 recurse=no
+  tags:
+    - webmail
+
+- name: Set correct permissions for roundcube sqlite3 directory
+  file: path=/var/lib/dbconfig-common/sqlite3/roundcube group=www owner=www mode=0770 recurse=no
+  tags:
+    - webmail
+
+- name: Set correct permissions for roundcube sqlite3 database file
+  file: path=/var/lib/dbconfig-common/sqlite3/roundcube/roundcube state=file group=www owner=www mode=0660
   tags:
     - webmail
