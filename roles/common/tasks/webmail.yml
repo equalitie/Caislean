@@ -26,3 +26,15 @@
     - restart nginx
   tags:
     - webmail
+
+- name: Configure roundcube
+  debconf: name=roundcube-core question={{ item.q }} vtype={{ item.t }} value={{ item.v }}
+  with_items:
+    - { q: roundcube/hosts, t: string, v: localhost }
+    - { q: roundcube/database-type, t: select, v: sqlite3 }
+    - { q: roundcube/db/basepath, t: string, v: /var/lib/dbconfig-common/sqlite3/roundcube }
+    - { q: roundcube/restart-webserver, t: boolean, v: 'false' }
+  notify:
+    - reconfigure roundcube
+  tags:
+    - webmail
