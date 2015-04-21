@@ -5,8 +5,6 @@
     - { q: roundcube/database-type, t: select, v: sqlite3 }
     - { q: roundcube/db/basepath, t: string, v: /var/lib/dbconfig-common/sqlite3/roundcube }
     - { q: roundcube/restart-webserver, t: boolean, v: 'false' }
-  notify:
-    - reconfigure roundcube
   tags:
     - webmail
 
@@ -19,6 +17,11 @@
     - roundcube-sqlite3
     - roundcube-core
     - roundcube
+  tags:
+    - webmail
+
+- name: Reconfigure roundcube with dpkg-reconfigure
+  command: dpkg-reconfigure -f noninteractive roundcube-core
   tags:
     - webmail
 
