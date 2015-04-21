@@ -45,3 +45,8 @@
     - main.inc.php
   tags:
     - webmail
+
+- name: Set correct permissions for roundcube temporary directory
+  file: path=/var/lib/roundcube/temp state=directory group=www owner=www mode=0750 recurse=no
+  tags:
+    - webmail
