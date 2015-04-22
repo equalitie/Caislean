@@ -13,6 +13,7 @@
   with_items:
     - mysql-common
     - mysql-client
+    - mysql-server
     - php5-mysqlnd
     - php-apc
     - owncloud-server
