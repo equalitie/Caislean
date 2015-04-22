@@ -11,6 +11,8 @@
 - name: Install Owncloud and dependencies
   apt: pkg={{item}} state=installed default_release=wheezy-backports
   with_items:
+    - python-mysqldb
+    - python-configparser
     - mysql-common
     - mysql-client
     - mysql-server
