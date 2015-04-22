@@ -35,11 +35,21 @@
   tags:
     - owncloud
 
-- name: Setting correct permissions in Owncloud directory
+- name: Set correct permissions in Owncloud directory
   file: path=/var/www/owncloud/{{item.dirname}} group=www owner=www recurse={{item.rec}}
   with_items:
     - { dirname: apps, rec: no }
     - { dirname: config, rec: yes }
     - { dirname: data, rec: no }
+  tags:
+    - owncloud
+
+- name: Create owncloud database
+  mysql_db: login_user=root login_password={{ mysql_root_password }} name=owncloud state=present
+  tags:
+    - owncloud
+
+- name: Create owncloud user and grant access to database
+  mysql_user: login_user=root login_password={{ mysql_root_password }} name=owncloud state=present password={{ owncloud_mysql_password }} priv=owncloud.*:ALL
   tags:
     - owncloud
