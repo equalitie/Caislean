@@ -10,7 +10,6 @@ server {
 
 	root /var/www/{{ server_name }}.{{ domain_name }};
 
-
 	location /webmail {
 		alias	/var/lib/roundcube;
 		index	index.php;
@@ -33,4 +32,44 @@ server {
 	location ~ ^(/webmail/config|/webmail/temp|/webmail/logs) {
 		deny all;
 	}
+
+	location /owncloud {
+		alias	/var/www/owncloud;
+		index	index.php;
+		try_files $uri $uri/ index.php;
+		client_max_body_size 2G;
+
+		rewrite ^/owncloud/caldav(.*)$ /owncloud/remote.php/caldav$1 redirect;
+		rewrite ^/owncloud/carddav(.*)$ /owncloud/remote.php/carddav$1 redirect;
+		rewrite ^/owncloud/webdav(.*)$ /owncloud/remote.php/webdav$1 redirect;
+ 
+		rewrite ^(/owncloud/core/doc[^\/]+/)$ $1/index.html;
+ 
+        	# The following rules are only needed with webfinger
+		rewrite ^/owncloud/.well-known/host-meta /owncloud/public.php?service=host-meta last;
+		rewrite ^/owncloud/.well-known/host-meta.json /owncloud/public.php?service=host-meta-json last;
+		rewrite ^/owncloud/.well-known/carddav /owncloud/remote.php/carddav/ redirect;
+		rewrite ^/owncloud/.well-known/caldav /owncloud/remote.php/caldav/ redirect;
+
+		location ~ ^/owncloud/(?:\.htaccess|data|config|db_structure\.xml|README) {
+			deny all;
+		}
+
+		location ~ \.php(/|$) {
+			fastcgi_split_path_info ^(.+\.php)(/.*)$;
+			fastcgi_pass	unix:/var/run/php5-fpm.sock;
+			fastcgi_param	SCRIPT_FILENAME $request_filename;
+			fastcgi_param	PATH_INFO $fastcgi_path_info;
+			fastcgi_index	index.php;
+			fastcgi_intercept_errors	on;
+			include		/etc/nginx/fastcgi_params;
+        	}
+
+        	location ~* \.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
+                        expires 30d;
+                        access_log off;
+        	}
+
+	}
+
 }
