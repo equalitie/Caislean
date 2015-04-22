@@ -21,6 +21,7 @@ server {
 			fastcgi_pass	unix:/var/run/php5-fpm.sock;
 			fastcgi_index	index.php;
 			fastcgi_param	SCRIPT_FILENAME $request_filename;
+			fastcgi_intercept_errors	on;
 			include		/etc/nginx/fastcgi_params;
 		}
 	}
