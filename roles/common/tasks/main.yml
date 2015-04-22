@@ -7,13 +7,7 @@
   tags: base
 
 - name: Add backports Debian repository
-  copy: src=etc/apt/sources.list.d/backports.list dest=/etc/apt/sources.list.d/backports.list owner=root group=root mode=0644
-  notify:
-    - update apt database
-  tags: base
-
-- name: Update APT database
-  apt: update_cache=yes
+  apt_repository: repo='deb http://http.debian.net/debian wheezy-backports main' state=present update_cache=yes
   tags: base
 
 - name: Install General System Security packages
