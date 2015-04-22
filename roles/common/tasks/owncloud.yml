@@ -1,0 +1,4 @@
+- name: Add OpenSUSE repository for Owncloud package
+  apt_repository: repo='deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_7.0/ /' state=present update_cache=yes
+  tags:
+    - owncloud
