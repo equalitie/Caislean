@@ -17,3 +17,11 @@
   tags:
     - owncloud
 
+- name: Setting correct permissions in Owncloud directory
+  file: path=/var/www/owncloud/{{item.dirname}} group=www owner=www recurse={{item.rec}}
+  with_items:
+    - { dirname: apps, rec: no }
+    - { dirname: config, rec: yes }
+    - { dirname: data, rec: no }
+  tags:
+    - owncloud
