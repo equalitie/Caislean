@@ -7,3 +7,13 @@
   apt_repository: repo='deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_7.0/ /' state=present update_cache=yes
   tags:
     - owncloud
+
+- name: Install Owncloud and dependencies
+  apt: pkg={{item}} state=installed default_release=wheezy-backports
+  with_items:
+    - php5-mysqlnd
+    - php-apc
+    - owncloud-server
+  tags:
+    - owncloud
+
