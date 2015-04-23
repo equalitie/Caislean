@@ -17,6 +17,7 @@
     - mysql-client
     - mysql-server
     - php5-mysqlnd
+    - php5-ldap
     - php-apc
     - owncloud-server
   notify:
