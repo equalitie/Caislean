@@ -10,7 +10,8 @@
     domain_name: domain.com
     server_name: sec-comms
     tls_directory: /home/user/sec_comms_admin/tls
-    monitored_interface: eth0
+    monitored_interfaces:
+      - eth0
     server_addresses:
       - 104.28.4.42
       - 104.28.5.42
