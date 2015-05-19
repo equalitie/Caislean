@@ -2,8 +2,11 @@
   apt: default_release=wheezy-backports pkg={{item}} state=installed
   with_items:
     - prosody
+    - sasl2-bin
+    - libsasl2-modules-ldap
     - lua-event
     - lua-zlib
+    - lua-cyrussasl
   tags:
     - xmpp
 
