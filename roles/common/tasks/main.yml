@@ -51,10 +51,25 @@
     - etc/ufw/before.rules
   tags: firewall
 
-- name: Open SSH port in UFW (inbound)
-  ufw: rule=allow port=22 direction=in
+# Try some reload.....
+
+- name: Manually allow SSH port inbound
+  command: ufw allow in from any to any port 22
+  register: ufw_result
+  failed_when: "'ERROR' in ufw_result.stderr"
+  changed_when: "'Rule added' in ufw_result.stderr"
   ignore_errors: true
   tags: firewall
+
+#- name: Open SSH port in UFW (inbound)
+#  ufw: rule=allow port=22 direction=in proto=any
+#  ignore_errors: true
+#  tags: firewall
+
+#- name: Open SSH port in UFW (inbound)
+#  ufw: rule=allow port=22 direction=in proto=ipv6
+#  ignore_errors: true
+#  tags: firewall
 
 - name: Enable UFW
   ufw: state=enabled logging=on policy=deny
@@ -137,3 +152,4 @@
 - include: webserver.yml
 - include: webmail.yml
 - include: owncloud.yml
+- include: xmpp.yml
