@@ -65,7 +65,9 @@ c2s_require_encryption = true
 
 s2s_secure_auth = false
 
-authentication = "dovecot"
+authentication = "cyrus"
+cyrus_service_name = "xmpp"
+cyrus_application_name = "prosody"
 
 log = {
 	info = "/var/log/prosody/prosody.log";
