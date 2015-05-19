@@ -2,6 +2,8 @@
   apt: default_release=wheezy-backports pkg={{item}} state=installed
   with_items:
     - prosody
+    - lua-event
+    - lua-zlib
   tags:
     - xmpp
 
