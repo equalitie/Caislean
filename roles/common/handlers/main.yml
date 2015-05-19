@@ -50,3 +50,6 @@
 
 - name: restart php5-fpm
   service: name=php5-fpm state=restarted
+
+- name: restart prosody
+  service: name=prosody state=restarted

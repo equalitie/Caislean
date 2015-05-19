@@ -9,5 +9,7 @@
 
 - name: Install Prosody main configuration file
   template: src=prosody.cfg.lua.j2 dest=/etc/prosody/prosody.cfg.lua owner=root group=prosody mode=0640
+  notify:
+    - restart prosody
   tags:
     - xmpp
