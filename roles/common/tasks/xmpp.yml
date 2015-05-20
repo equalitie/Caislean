@@ -31,8 +31,8 @@
   tags:
     - xmpp
 
-- name: Put prosody user into saslauthd and ssl-cert groups
-  user: name=prosody groups=saslauthd,ssl-cert append=yes createhome=no shell="/bin/false" home=/var/lib/prosody
+- name: Put prosody user into sasl and ssl-cert groups
+  user: name=prosody groups=sasl,ssl-cert append=yes createhome=no shell="/bin/false" home=/var/lib/prosody
   notify:
     - restart saslauthd
     - restart prosody
