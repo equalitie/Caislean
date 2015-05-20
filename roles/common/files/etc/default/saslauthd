@@ -1,0 +1,3 @@
+START=yes
+MECHANISMS="ldap"
+MECH_OPTIONS="/etc/saslauthd.conf"

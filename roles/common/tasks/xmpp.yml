@@ -16,3 +16,10 @@
     - restart prosody
   tags:
     - xmpp
+
+- name: Install saslauthd Debian default file
+  copy: src=etc/default/saslauthd dest=/etc/default/saslauthd owner=root group=root mode=0644
+  notify:
+    - restart saslauthd
+  tags:
+    - xmpp
