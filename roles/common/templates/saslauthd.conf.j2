@@ -1,0 +1,9 @@
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+ldap_servers: ldap://localhost
+ldap_search_base: ou=mail,{{ base_dn }}
+
+ldap_use_sasl: no
+ldap_start_tls: no
+ldap_auth_method: bind
+
+ldap_filter: (&(objectClass=mailAccount)(mail=%u))

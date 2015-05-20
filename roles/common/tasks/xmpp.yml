@@ -23,3 +23,10 @@
     - restart saslauthd
   tags:
     - xmpp
+
+- name: Install saslauthd.conf
+  template: src=saslauthd.conf.j2 dest=/etc/saslauthd.conf owner=root group=root mode=0644
+  notify:
+    - restart saslauthd
+  tags:
+    - xmpp
