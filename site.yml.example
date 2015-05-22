@@ -8,8 +8,8 @@
   vars:
     admin_email: user@domain.com
     domain_name: domain.com
-    server_name: sec-comms
-    tls_directory: /home/user/sec_comms_admin/tls
+    server_name: caislean
+    tls_directory: /home/user/caislean_admin/tls
     monitored_interfaces:
       - eth0
     server_addresses:
@@ -19,7 +19,7 @@
     in_out_monitor_only: true
     capture_traffic: true
     ldap_admin_pass: ldappassword
-    backup_security_directory: /home/user/sec_comms_admin/backup_security
+    backup_security_directory: /home/user/caislean_admin/backup_security
     backup_pgp_key_id: "0x1234567890ABCDEF"
     backup_pgp_passphrase: StrongPassPhrase
     backup_remote_ip: 1.2.4.5
