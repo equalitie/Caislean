@@ -60,7 +60,7 @@ ssl = {
 	certificate = "/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem";
 	key = "/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key";
 	ciphers = "kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL";
-	options = { "no_sslv2", "no_sslv3" };
+	options = { "no_sslv2", "no_sslv3", "no_ticket", "no_compression", "cipher_server_preference", "single_dh_use",	"single_ecdh_use" };
 }
 
 c2s_require_encryption = true
@@ -84,7 +84,7 @@ VirtualHost "{{ domain_name }}"
 		certificate = "/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem";
 		key = "/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key";
 		ciphers = "kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL";
-		options = { "no_sslv2", "no_sslv3" };
+		options = { "no_sslv2", "no_sslv3", "no_ticket", "no_compression", "cipher_server_preference", "single_dh_use",	"single_ecdh_use" };
 	}
 
 ---Set up a MUC (multi-user chat) room server on conference.example.com:
