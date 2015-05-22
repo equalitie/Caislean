@@ -1,3 +1,5 @@
 START=yes
+DESC="SASL Authentication Daemon"
+NAME="saslauthd"
 MECHANISMS="ldap"
 MECH_OPTIONS="/etc/saslauthd.conf"
