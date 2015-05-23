@@ -44,6 +44,11 @@
   tags:
     - xmpp
 
+- name: Install /etc/sasl/prosody.conf
+  copy: src=etc/sasl/prosody.conf dest=/etc/sasl/prosody.conf owner=root group=root mode=0644
+  tags:
+    - xmpp
+
 - name: Allow XMPP ports by UFW (inbound)
   ufw: rule=allow port={{ item }} direction=in
   with_items:
