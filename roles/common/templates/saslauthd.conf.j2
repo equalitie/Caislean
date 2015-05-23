@@ -6,4 +6,4 @@ ldap_use_sasl: no
 ldap_start_tls: no
 ldap_auth_method: bind
 
-ldap_filter: (&(objectClass=mailAccount)(mail=%u))
+ldap_filter: (&(objectClass=mailAccount)(mail=%U@%r))
