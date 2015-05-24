@@ -87,7 +87,7 @@ VirtualHost "{{ domain_name }}"
 		options = { "no_sslv2", "no_sslv3", "no_ticket", "no_compression", "cipher_server_preference", "single_dh_use",	"single_ecdh_use" };
 	}
 
----Set up a MUC (multi-user chat) room server on conference.example.com:
+---Set up a MUC (multi-user chat) room server
 Component "conference.{{ domain_name }}" "muc"
 
 -- Include "conf.d/*.cfg.lua"
