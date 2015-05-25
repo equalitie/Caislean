@@ -60,7 +60,7 @@ ssl = {
 	certificate = "/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem";
 	key = "/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key";
 	dhparam = "/etc/ssh/dhparam.pem";
-	ciphers = "kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL";
+	ciphers = "kEECDH+aRSA:kEDH+aRSA:!EDH-RSA-DES-CBC3-SHA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL";
 	options = { "no_sslv2", "no_sslv3", "no_ticket", "no_compression", "cipher_server_preference", "single_dh_use",	"single_ecdh_use" };
 }
 
@@ -85,7 +85,7 @@ VirtualHost "{{ domain_name }}"
 		certificate = "/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem";
 		key = "/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key";
 		dhparam = "/etc/ssh/dhparam.pem";
-		ciphers = "kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL";
+		ciphers = "kEECDH+aRSA:kEDH+aRSA:!!EDH-RSA-DES-CBC3-SHA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL";
 		options = { "no_sslv2", "no_sslv3", "no_ticket", "no_compression", "cipher_server_preference", "single_dh_use",	"single_ecdh_use" };
 	}
 
