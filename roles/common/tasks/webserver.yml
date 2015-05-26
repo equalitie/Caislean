@@ -15,7 +15,7 @@
   tags:
     - webserver
 
-- name: Create nginx directories
+- name: Create nginx log, runtime and data directories
   file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
   with_items:
     - /var/log/nginx
