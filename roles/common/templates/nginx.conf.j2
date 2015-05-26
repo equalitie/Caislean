@@ -27,6 +27,7 @@ http {
     gzip		on;
     gzip_disable	"MSIE [1-6]\.(?!.*SV1)";
     add_header		Strict-Transport-Security max-age=63072000;
+    add_header		X-Frame-Options sameorigin;
     charset		utf-8;
     server_tokens	off;
 
