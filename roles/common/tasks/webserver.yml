@@ -73,3 +73,12 @@
     - restart nginx
   tags:
     - webserver
+
+- name: Open HTTP and HTTPS ports in UFW (inbound)
+  ufw: rule=allow port={{item}} direction=in
+  with_items:
+    - 80
+    - 443
+  tags:
+    - webserver
+    - firewall
