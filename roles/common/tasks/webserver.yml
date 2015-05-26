@@ -32,6 +32,11 @@
   tags:
     - webserver
 
+- name: Create domain-specific directory in /etc/nginx/includes
+  file: path=/etc/nginx/includes/{{ server_name }}.{{ domain_name }} recurse=yes state=directory owner=root group=root mode=0755
+  tags:
+    - webserver
+
 - name: Install nginx configuration
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
   notify:
