@@ -8,7 +8,7 @@ key /etc/ssl/private/{{ server_name }}.{{ domain_name }}.key
 dh /etc/ssl/dhparam.pem
 
 tls-server
-tls-cipher kEECDH+aRSA:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL
+tls-cipher kEECDH+aECDSA:kEECDH+aRSA:@STRENGTH:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL:!3DES
 ns-cert-type client
 remote-cert-tls client
 crl-verify /etc/ssl/crls/{{ server_name }}.{{ domain_name }}.crl
