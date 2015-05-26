@@ -19,8 +19,10 @@
     - restart postfix
     - restart nginx
     - restart dovecot
+    - restart prosody
   tags:
     - tls
     - vpn
     - vmail
     - webserver
+    - xmpp
