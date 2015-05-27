@@ -44,6 +44,7 @@
     - { dirname: apps, rec: no }
     - { dirname: config, rec: yes }
     - { dirname: data, rec: no }
+    - { dirname: assets, rec: no } 
   tags:
     - owncloud
 
