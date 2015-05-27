@@ -38,13 +38,29 @@
   tags:
     - owncloud
 
-- name: Set correct permissions in Owncloud directory
+- name: Set correct ownership in Owncloud directory
   file: path=/var/www/owncloud/{{item.dirname}} group=www owner=www recurse={{item.rec}}
   with_items:
     - { dirname: apps, rec: no }
     - { dirname: config, rec: yes }
     - { dirname: data, rec: yes }
     - { dirname: assets, rec: yes } 
+  tags:
+    - owncloud
+
+- name: Set correct permissions in some Owncloud apps subdirectory
+  file: path=/var/www/owncloud/apps/{{item}} group=www owner=www mode=0700 recurse=no
+  with_items:
+    - calendar
+    - contacts
+  tags:
+    - owncloud
+
+- name: Set correct ownership in some Owncloud apps subdirectory
+  file: path=/var/www/owncloud/apps/{{item}} group=www owner=www recurse=yes
+  with_items:
+    - calendar
+    - contacts
   tags:
     - owncloud
 
