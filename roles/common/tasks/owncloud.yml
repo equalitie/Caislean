@@ -43,8 +43,8 @@
   with_items:
     - { dirname: apps, rec: no }
     - { dirname: config, rec: yes }
-    - { dirname: data, rec: no }
-    - { dirname: assets, rec: no } 
+    - { dirname: data, rec: yes }
+    - { dirname: assets, rec: yes } 
   tags:
     - owncloud
 
