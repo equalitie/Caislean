@@ -79,7 +79,7 @@
   tags:
     - owncloud
 
-- name: Create owncloud user and grant access to database
+- name: Create owncloud MySQL user and grant access to database
   mysql_user: login_user=root login_password={{ mysql_root_password }} name=owncloud state=present password={{ owncloud_mysql_password }} priv=owncloud.*:ALL
   tags:
     - owncloud
