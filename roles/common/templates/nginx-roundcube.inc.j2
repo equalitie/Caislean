@@ -3,13 +3,16 @@ location /webmail {
 	index	index.php;
 	try_files $uri $uri/ index.php;
 
-	location ~ \.php(/|$) {
-		fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+	location ~ ^/webmail(.+?\.php)(/.*)?$ {
+		try_files $1 =404;
 		fastcgi_pass	unix:/var/run/php5-fpm.sock;
 		fastcgi_index	index.php;
-		fastcgi_param	SCRIPT_FILENAME $request_filename;
-		fastcgi_intercept_errors	on;
 		include		/etc/nginx/fastcgi_params;
+		fastcgi_param 	SCRIPT_FILENAME $document_root$1;
+		fastcgi_param	PATH_INFO $2;
+		fastcgi_param	SCRIPT_NAME /webmail$1;
+		fastcgi_param	HTTPS on;
+		fastcgi_intercept_errors	on;
 	}
 }
 
