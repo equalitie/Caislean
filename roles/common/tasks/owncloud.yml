@@ -38,6 +38,16 @@
   tags:
     - owncloud
 
+- name: Create owncloud group
+  group: name=owncloud state=present
+  tags:
+    - owncloud
+
+- name: Create owncloud user
+  user: name=owncloud group=owncloud state=present shell="/bin/false" home=/var/www/owncloud createhome=no
+  tags:
+    - owncloud
+
 - name: Set correct ownership in Owncloud directory
   file: path=/var/www/owncloud/{{item.dirname}} group=www owner=www recurse={{item.rec}}
   with_items:
