@@ -20,15 +20,16 @@ location /owncloud {
 		deny all;
 	}
 
-	location ~ \.php(?:$|/) {
-		fastcgi_split_path_info ^(.+\.php)(/.*)$;
-		set 		$path_info $fastcgi_path_info;
+	location ~ ^/owncloud(.+?\.php)(/.*)?$ {
+		try_files $1 =404;
 		fastcgi_pass	unix:/var/run/php5-fpm.sock;
+		fastcgi_index	index.php;
 		include		/etc/nginx/fastcgi_params;
-		fastcgi_param	SCRIPT_FILENAME $request_filename;
-		fastcgi_param	PATH_INFO $path_info;
+		fastcgi_param 	SCRIPT_FILENAME $document_root$1;
+		fastcgi_param	PATH_INFO $2;
+		fastcgi_param	SCRIPT_NAME /owncloud$1;
 		fastcgi_intercept_errors	on;
-       	}
+	}
 
        	location ~* \.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
 		expires 30d;
