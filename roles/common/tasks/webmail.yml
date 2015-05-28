@@ -20,6 +20,16 @@
   tags:
     - webmail
 
+- name: Create roundcube group
+  group: name=roundcube state=present
+  tags:
+    - webmail
+
+- name: Create roundcube user
+  user: name=roundcube group=roundcube state=present shell="/bin/false" home=/var/lib/roundcube createhome=no
+  tags:
+    - webmail
+
 - name: Reconfigure roundcube with dpkg-reconfigure
   command: dpkg-reconfigure -f noninteractive roundcube-core
   tags:
