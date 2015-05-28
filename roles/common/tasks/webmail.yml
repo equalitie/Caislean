@@ -41,6 +41,13 @@
   tags:
     - webmail
 
+- name: Install php5-fpm configuration for Roundcube
+  copy: src=etc/php5/fpm/pool.d/roundcube.conf dest=/etc/php5/fpm/pool.d/roundcube.conf owner=root group=root mode=0644
+  notify:
+    - restart php5-fpm
+  tags:
+    - webmail
+
 - name: Set roundcube-related directories permissions
   file: path=/var/log/roundcube state=directory group=adm owner=www mode=0750 recurse=no
   tags:
