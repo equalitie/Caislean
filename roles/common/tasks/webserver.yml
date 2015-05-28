@@ -72,7 +72,7 @@
   tags:
     - webserver
 
-- name: Enabled nginx virtual server
+- name: Enable nginx virtual server
   file: path=/etc/nginx/sites-enabled/{{ server_name }}.{{ domain_name }} state=link src=/etc/nginx/sites-available/{{ server_name }}.{{ domain_name }}
   notify:
     - restart nginx
