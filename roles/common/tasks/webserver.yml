@@ -20,13 +20,13 @@
   with_items:
     - /var/log/nginx
     - /var/run/nginx
-    - /var/www
   tags:
     - webserver
 
 - name: Create nginx content directories
-  file: path={{item}} state=directory group=www owner=root mode=0750 recurse=no
+  file: path={{item}} state=directory group=root owner=root mode=0755 recurse=no
   with_items:
+    - /var/www
     - /var/www/default
     - /var/www/{{ server_name }}.{{ domain_name }}
   tags:
