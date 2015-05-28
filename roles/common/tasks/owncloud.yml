@@ -91,7 +91,7 @@
   tags:
     - owncloud
 
-- name: Install php-fpm configuratio part for owncloud
+- name: Install php-fpm configuration part for owncloud
   copy: src=etc/php5/fpm/pool.d/owncloud.conf dest=/etc/php5/fpm/pool.d/owncloud.conf owner=root group=root mode=0644
   notify:
     - restart php5-fpm
