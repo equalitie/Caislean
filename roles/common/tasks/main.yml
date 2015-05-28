@@ -150,6 +150,7 @@
 - include: ldap.yml
 - include: virtualmail.yml
 - include: webserver.yml
+- include: php-fpm.yml
 - include: webmail.yml
 - include: owncloud.yml
 - include: xmpp.yml

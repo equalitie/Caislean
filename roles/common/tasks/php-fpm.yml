@@ -1,0 +1,18 @@
+- name: Install PHP (from backports)
+  apt: pkg={{item}} state=installed default_release=wheezy-backports
+  with_items:
+    - php5-fpm
+    - php5
+    - php5-common
+  tags:
+    - php-fpm
+
+- name: Install php5-fpm configuration
+  copy: src=etc/php5/fpm/{{item}} dest=/etc/php5/fpm/{{item}} owner=root group=root mode=0644
+  with_items:
+    - php-fpm.conf
+    - php.ini
+  notify:
+    - restart php5-fpm
+  tags:
+    - php-fpm

@@ -11,9 +11,6 @@
 - name: Install roundcube and dependencies (from backports)
   apt: pkg={{item}} state=installed default_release=wheezy-backports
   with_items:
-    - php5-fpm
-    - php5
-    - php5-common
     - roundcube-sqlite3
     - roundcube-core
     - roundcube
@@ -32,21 +29,6 @@
 
 - name: Reconfigure roundcube with dpkg-reconfigure
   command: dpkg-reconfigure -f noninteractive roundcube-core
-  tags:
-    - webmail
-
-- name: Create /var/run/php5-fpm directory
-  file: path=/var/run/php5-fpm state=directory owner=root group=root mode=0755 recurse=no
-  tags:
-    - webmail
-
-- name: Install php5-fpm configuration
-  copy: src=etc/php5/fpm/{{item}} dest=/etc/php5/fpm/{{item}} owner=root group=root mode=0644
-  with_items:
-    - php-fpm.conf
-    - php.ini
-  notify:
-    - restart php5-fpm
   tags:
     - webmail
 
