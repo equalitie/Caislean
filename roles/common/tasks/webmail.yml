@@ -25,6 +25,11 @@
   tags:
     - webmail
 
+- name: Create /var/run/php5-fpm directory
+  file: path=/var/run/php5-fpm state=directory owner=root group=root mode=0755 recurse=no
+  tags:
+    - webmail
+
 - name: Install php5-fpm configuration
   copy: src=etc/php5/fpm/{{item}} dest=/etc/php5/fpm/{{item}} owner=root group=root mode=0644
   with_items:
