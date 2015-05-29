@@ -5,6 +5,11 @@ server {
 
 	expires -1;
 
+	if ($request_method !~ ^(GET|HEAD|POST)$ )
+	{
+		return 405;
+	}
+
 	root /var/www/default;
 }
 
@@ -14,6 +19,11 @@ server {
 	server_name _;
 
 	expires -1;
+
+	if ($request_method !~ ^(GET|HEAD|POST)$ )
+	{
+		return 405;
+	}
 
 	root /var/www/default;
 
