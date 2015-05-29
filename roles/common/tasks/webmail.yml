@@ -39,8 +39,18 @@
   tags:
     - webmail
 
+- name: Set roundcube log directory ownership and permissions
+  file: path=/var/log/roundcube state=directory group=adm owner=roundcube mode=0750 recurse=no
+  tags:
+    - webmail
+
+- name: Set roundcube logfiles ownership
+  file: path=/var/log/roundcube state=directory group=adm owner=roundcube recurse=yes
+  tags:
+    - webmail
+
 - name: Set roundcube-related directories permissions
-  file: path=/var/log/roundcube state=directory group=adm owner=www mode=0750 recurse=no
+  file: path=/var/log/roundcube state=directory group=adm owner=roundcube mode=0750 recurse=no
   tags:
     - webmail
 
