@@ -16,3 +16,8 @@
     - restart php5-fpm
   tags:
     - php-fpm
+
+- name: Create /var/lib/phpsession
+  file: path=/var/lib/phpsession state=directory owner=root group=root mode=0755 recurse=no
+  tags:
+    - php-fpm
