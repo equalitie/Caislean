@@ -59,7 +59,7 @@
     - owncloud
 
 - name: Set correct permissions in some Owncloud apps subdirectory
-  file: path=/var/www/owncloud/apps/{{item}} group=owncloud owner=owncloud mode=0700 recurse=no
+  file: path=/var/www/owncloud/apps/{{item}} group=root owner=owncloud mode=0755 recurse=no
   with_items:
     - calendar
     - contacts
@@ -67,7 +67,7 @@
     - owncloud
 
 - name: Set correct ownership in some Owncloud apps subdirectory
-  file: path=/var/www/owncloud/apps/{{item}} group=owncloud owner=owncloud recurse=yes
+  file: path=/var/www/owncloud/apps/{{item}} group=root owner=owncloud recurse=yes
   with_items:
     - calendar
     - contacts
