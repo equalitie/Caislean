@@ -45,39 +45,22 @@
 
 - name: Install UFW files
   copy: src={{item}} dest=/{{item}} group=root owner=root
+  register: ufw_config_files
   with_items:
     - etc/default/ufw
     - etc/ufw/ufw.conf
     - etc/ufw/before.rules
   tags: firewall
 
-# Try some reload.....
-
-- name: Manually allow SSH port inbound
-  command: ufw allow in from any to any port 22
-  register: ufw_result
-  failed_when: "'ERROR' in ufw_result.stderr"
-  changed_when: "'Rule added' in ufw_result.stderr"
-  ignore_errors: true
-  tags: firewall
-
-#- name: Open SSH port in UFW (inbound)
-#  ufw: rule=allow port=22 direction=in proto=any
-#  ignore_errors: true
-#  tags: firewall
-
-#- name: Open SSH port in UFW (inbound)
-#  ufw: rule=allow port=22 direction=in proto=ipv6
-#  ignore_errors: true
-#  tags: firewall
-
-- name: Enable UFW
-  ufw: state=enabled logging=on policy=deny
+- name: Reload UFW
+  ufw: state=reloaded
+  when: ( ufw_config_files|changed )
   tags: firewall
 
 - name: Open ports in UFW (inbound)
   ufw: rule=allow port={{item}} direction=in
   with_items:
+    - 22
     - 25
     - 1194
   tags: firewall
@@ -89,6 +72,10 @@
     - 25
     - 80
     - 443
+  tags: firewall
+
+- name: Enable UFW
+  ufw: state=enabled logging=on policy=deny
   tags: firewall
 
 - name: Install Apticron configuration
