@@ -39,6 +39,11 @@
   tags:
     - webmail
 
+- name: Create PHP session directory for roundcube
+  file: path=/var/lib/phpsession/roundcube state=directory owner=roundcube group=roundcube mode=0700 recurse=no
+  tags:
+    - webmail
+
 - name: Set roundcube log directory ownership and permissions
   file: path=/var/log/roundcube state=directory group=adm owner=roundcube mode=0750 recurse=no
   tags:

@@ -97,3 +97,8 @@
     - restart php5-fpm
   tags:
     - owncloud
+
+- name: Create PHP session directory for owncloud
+  file: path=/var/lib/phpsession/owncloud owner=owncloud group=owncloud mode=0700 recurse=no
+  tags:
+    - owncloud
