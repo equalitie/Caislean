@@ -59,7 +59,7 @@
     - owncloud
 
 - name: Set correct permissions in some Owncloud apps subdirectory
-  file: path=/var/www/owncloud/apps/{{item}} group=root owner=owncloud mode=0755 recurse=no
+  file: path=/var/www/owncloud/apps/{{item}} group=www owner=owncloud mode=0750 recurse=no
   with_items:
     - calendar
     - contacts
@@ -67,7 +67,7 @@
     - owncloud
 
 - name: Set correct ownership in some Owncloud apps subdirectory
-  file: path=/var/www/owncloud/apps/{{item}} group=root owner=owncloud recurse=yes
+  file: path=/var/www/owncloud/apps/{{item}} group=www owner=owncloud recurse=yes mode=g+r
   with_items:
     - calendar
     - contacts
@@ -99,6 +99,6 @@
     - owncloud
 
 - name: Create PHP session directory for owncloud
-  file: path=/var/lib/phpsession/owncloud owner=owncloud group=owncloud mode=0700 recurse=no
+  file: path=/var/lib/phpsession/owncloud state=directory owner=owncloud group=owncloud mode=0700 recurse=no
   tags:
     - owncloud
