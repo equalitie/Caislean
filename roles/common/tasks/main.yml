@@ -62,7 +62,6 @@
   with_items:
     - 22
     - 25
-    - 1194
   tags: firewall
 
 - name: Open ports in UFW (outbound)

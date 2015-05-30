@@ -5,6 +5,12 @@
     - dnsmasq
   tags: vpn
 
+- name: Open VPN port (1194, inboud)  by UFW
+  ufw: rule=allow direction=in port=1194
+  tags:
+    - firewall
+    - vpn
+
 - name: Install OpenVPN server configuration
   template: src=openvpn-server.conf.j2 dest=/etc/openvpn/server.conf owner=root group=root mode=0644
   notify:
