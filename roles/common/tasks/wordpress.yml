@@ -8,3 +8,13 @@
   tags:
     - wordpress
 
+- name: Create wordpress database
+  mysql_db: login_user=root login_password={{ mysql_root_password }} name=wordpress state=present
+  tags:
+    - wordpress
+
+- name: Create wordpress MySQL user and grant access to database
+  mysql_user: login_user=root login_password={{ mysql_root_password }} name=wordpress state=present password={{ wordpress_mysql_password }} priv=wordpress.*:ALL
+  tags:
+    - wordpress
+
