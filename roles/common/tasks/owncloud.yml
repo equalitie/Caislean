@@ -66,14 +66,6 @@
   tags:
     - owncloud
 
-#- name: Set correct ownership in some Owncloud apps subdirectory
-#  file: path=/var/www/owncloud/apps/{{item}} group=www owner=owncloud recurse=yes mode=g+rX
-#  with_items:
-#    - calendar
-#    - contacts
-#  tags:
-#    - owncloud
-
 - name: Create owncloud database
   mysql_db: login_user=root login_password={{ mysql_root_password }} name=owncloud state=present
   tags:
