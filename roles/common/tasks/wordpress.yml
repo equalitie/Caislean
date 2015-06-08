@@ -14,7 +14,7 @@
     - wordpress
 
 - name: Extract Wordpress archive
-  unarchive: copy=no src=/root/wordpress-4.2.2.tar.gz dest=/var/www creates=/var/www/wordpress owner=wordpress group=wordpress
+  unarchive: copy=no src=/root/wordpress-4.2.2.tar.gz dest=/var/www/ creates=/var/www/wordpress owner=wordpress group=wordpress
   tags:
     - wordpress
 
