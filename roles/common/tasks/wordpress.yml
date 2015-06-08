@@ -33,3 +33,18 @@
   register: wp_cfg_file
   tags:
     - wordpress
+
+- name: Generate 64-chars wordpress keys
+  command: "sed -e 's/[^[:print:]]//g; s/\\x27//g; /^.\\{512\\}$/!d; s/.\\{64\\}/&\\n/g; q' /dev/urandom"
+  environment:
+    LC_ALL: C
+  when: (wp_cfg_file.stat.exists == False)
+  register: wp_keys
+  tags:
+    - wordpress
+
+- name: Install wp-config.php
+  template: src=wp-config.php.j2 dest=/var/www/wordpress/wp-config.php owner=root group=wordpress mode=0640
+  when: (wp_cfg_file.stat.exists == False)
+  tags:
+    - wordpress
