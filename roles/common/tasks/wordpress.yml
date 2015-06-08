@@ -1,3 +1,8 @@
+- name: Download Wordpress
+  get_url: url=https://wordpress.org/wordpress-4.2.2.tar.gz dest=/root/wordpress-4.2.2.tar.gz sha256sum=3c4e2cc3af289366ff5352e35c3f80fca2dcaed3d56a79f33b25374c356c3f90
+  tags:
+    - wordpress
+
 - name: Create wordpress group
   group: name=wordpress state=present
   tags:
@@ -5,6 +10,11 @@
 
 - name: Create wordpress user
   user: name=wordpress group=wordpress state=present shell="/bin/false" home=/var/www/wordpress createhome=no
+  tags:
+    - wordpress
+
+- name: Extract Wordpress archive
+  unarchive: copy=no src=/root/wordpress-4.2.2.tar.gz dest=/var/www creates=/var/www/wordpress owner=wordpress group=wordpress
   tags:
     - wordpress
 
@@ -17,4 +27,3 @@
   mysql_user: login_user=root login_password={{ mysql_root_password }} name=wordpress state=present password={{ wordpress_mysql_password }} priv=wordpress.*:ALL
   tags:
     - wordpress
-
