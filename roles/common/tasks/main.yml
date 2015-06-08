@@ -140,3 +140,4 @@
 - include: webmail.yml
 - include: owncloud.yml
 - include: xmpp.yml
+- include: wordpress.yml

@@ -1,0 +1,10 @@
+- name: Create wordpress group
+  group: name=wordpress state=present
+  tags:
+    - wordpress
+
+- name: Create wordpress user
+  user: name=wordpress group=wordpress state=present shell="/bin/false" home=/var/www/wordpress createhome=no
+  tags:
+    - wordpress
+
