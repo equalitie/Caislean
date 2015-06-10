@@ -44,3 +44,8 @@
     - restart php5-fpm
   tags:
     - wordpress
+
+- name: Create PHP session directory for wordpress
+  file: path=/var/lib/phpsession/wordpress state=directory owner=wordpress group=wordpress mode=0700 recurse=no
+  tags:
+    - wordpress
