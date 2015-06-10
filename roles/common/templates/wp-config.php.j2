@@ -42,14 +42,16 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         '{{ wp_keys.stdout_lines[0] }}');
-define('SECURE_AUTH_KEY',  '{{ wp_keys.stdout_lines[1] }}');
-define('LOGGED_IN_KEY',    '{{ wp_keys.stdout_lines[2] }}');
-define('NONCE_KEY',        '{{ wp_keys.stdout_lines[3] }}');
-define('AUTH_SALT',        '{{ wp_keys.stdout_lines[4] }}');
-define('SECURE_AUTH_SALT', '{{ wp_keys.stdout_lines[5] }}');
-define('LOGGED_IN_SALT',   '{{ wp_keys.stdout_lines[6] }}');
-define('NONCE_SALT',       '{{ wp_keys.stdout_lines[7] }}');
+
+{% set key_charset = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&()*+,-./:;<=>?@[]^_`{|}~ ' | split(separator='') %}
+define('AUTH_KEY',         '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+define('SECURE_AUTH_KEY',  '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+define('LOGGED_IN_KEY',    '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+define('NONCE_KEY',        '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+define('AUTH_SALT',        '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+define('SECURE_AUTH_SALT', '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+define('LOGGED_IN_SALT',   '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+define('NONCE_SALT',       '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
 
 /**#@-*/
 
