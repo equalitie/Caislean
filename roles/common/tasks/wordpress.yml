@@ -51,7 +51,7 @@
     - wordpress
 
 - name: Install nginx configuration part for wordpress
-  template: src=nginx-wordress.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/wordpress owner=root group=root mode=0644
+  template: src=nginx-wordpress.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/wordpress owner=root group=root mode=0644
   notify:
     - restart nginx
   tags:
