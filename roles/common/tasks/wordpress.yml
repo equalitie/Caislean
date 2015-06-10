@@ -38,7 +38,7 @@
   tags:
     - wordpress
 
-- name:
+- name: Install php-fpm Wordpress configuration file
   copy: src=etc/php5/fpm/pool.d/wordpress.conf dest=/etc/php5/fpm/pool.d/wordpress.conf owner=root group=root mode=0644
   notify:
     - restart php5-fpm
