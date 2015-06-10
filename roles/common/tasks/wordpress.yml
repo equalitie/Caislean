@@ -49,3 +49,11 @@
   file: path=/var/lib/phpsession/wordpress state=directory owner=wordpress group=wordpress mode=0700 recurse=no
   tags:
     - wordpress
+
+- name: Install nginx configuration part for wordpress
+  template: src=nginx-wordress.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/wordpress owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - wordpress
+
