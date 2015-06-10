@@ -28,7 +28,12 @@
   tags:
     - wordpress
 
+- name: Install wp-keys.php
+  template: src=wp-keys.php.j2 dest=/var/www/wordpress/wp-keys.php owner=root group=wordpress mode=0640 force=no
+  tags:
+    - wordpress
+
 - name: Install wp-config.php
-  template: src=wp-config.php.j2 dest=/var/www/wordpress/wp-config.php owner=root group=wordpress mode=0640 force=no
+  template: src=wp-config.php.j2 dest=/var/www/wordpress/wp-config.php owner=root group=wordpress mode=0640
   tags:
     - wordpress
