@@ -37,3 +37,8 @@
   template: src=wp-config.php.j2 dest=/var/www/wordpress/wp-config.php owner=root group=wordpress mode=0640
   tags:
     - wordpress
+
+- name:
+  copy: src=etc/php5/fpm/pool.d/wordpress.conf dest=/etc/php5/fpm/pool.d/wordpress.conf owner=root group=root mode=0644
+  tags:
+    - wordpress
