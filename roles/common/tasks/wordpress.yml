@@ -18,8 +18,8 @@
   tags:
     - wordpress
 
-- name: Remove useless files un /var/www/wordpress
-  file: path=/var/www/{{item}} state=absent
+- name: Remove useless files in /var/www/wordpress
+  file: path=/var/www/wordpress/{{item}} state=absent
   with_items:
     - readme.html
     - license.txt
