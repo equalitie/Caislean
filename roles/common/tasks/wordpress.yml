@@ -31,6 +31,14 @@
   tags:
     - wordpress 
 
+- name: Ensure writability of some Wordpress subdirectories
+  file: path=/var/www/wordpress/{{item}} state=directory owner=root group=wordpress mode=0775
+  with_items:
+    - wp-content
+    - wp-content/themes
+  tags:
+    - wordpress
+
 - name: Create wordpress database
   mysql_db: login_user=root login_password={{ mysql_root_password }} name=wordpress state=present
   tags:
