@@ -18,6 +18,14 @@
   tags:
     - wordpress
 
+- name: Remove useless files un /var/www/wordpress
+  file: path=/var/www/{{item}} state=absent
+  with_items:
+    - readme.html
+    - license.txt
+  tags:
+    - wordpress
+
 - name: Ensure correct ownership in /var/www/wordpress
   file: path=/var/www/wordpress state=directory owner=root group=wordpress recurse=yes
   tags:
