@@ -8,3 +8,6 @@ define('AUTH_SALT',        '{% for c in range(63) %}{{ key_charset|random}}{% en
 define('SECURE_AUTH_SALT', '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
 define('LOGGED_IN_SALT',   '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
 define('NONCE_SALT',       '{% for c in range(63) %}{{ key_charset|random}}{% endfor %}');
+
+{% set tbl_charset ='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_' | split(separator='') %}
+$table_prefix = 'wp_{% for c in range(31) %}{{ tbl_charset|random }}{% endfor %}_';
