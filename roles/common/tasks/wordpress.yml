@@ -14,7 +14,7 @@
     - wordpress
 
 - name: Extract Wordpress archive
-  unarchive: copy=no src=/root/wordpress-4.2.2.tar.gz dest=/var/www/ creates=/var/www/wordpress owner=root group=wordpress
+  unarchive: copy=no src=/root/wordpress-4.2.2.tar.gz dest=/var/www/ creates=/var/www/wordpress owner=wordpress group=wordpress
   tags:
     - wordpress
 
@@ -27,12 +27,12 @@
     - wordpress
 
 - name: Ensure correct ownership in /var/www/wordpress
-  file: path=/var/www/wordpress state=directory owner=root group=wordpress recurse=yes
+  file: path=/var/www/wordpress state=directory owner=wordpress group=wordpress recurse=yes
   tags:
     - wordpress 
 
 - name: Ensure writability of some Wordpress subdirectories
-  file: path=/var/www/wordpress/{{item}} state=directory owner=root group=wordpress mode=0775
+  file: path=/var/www/wordpress/{{item}} state=directory owner=wordpress group=wordpress mode=0775
   with_items:
     - wp-content
     - wp-content/themes
@@ -50,12 +50,12 @@
     - wordpress
 
 - name: Install wp-keys.php
-  template: src=wp-keys.php.j2 dest=/var/www/wordpress/wp-keys.php owner=root group=wordpress mode=0640 force=no
+  template: src=wp-keys.php.j2 dest=/var/www/wordpress/wp-keys.php owner=wordpress group=wordpress mode=0640 force=no
   tags:
     - wordpress
 
 - name: Install wp-config.php
-  template: src=wp-config.php.j2 dest=/var/www/wordpress/wp-config.php owner=root group=wordpress mode=0640
+  template: src=wp-config.php.j2 dest=/var/www/wordpress/wp-config.php owner=wordpress group=wordpress mode=0640
   tags:
     - wordpress
 
