@@ -1,0 +1,6 @@
+- name: Install Samba packages (from backports)
+  apt: pkg={{item}} state=installed default_release=wheezy-backports
+  with_items:
+    - samba
+  tags:
+    - samba
