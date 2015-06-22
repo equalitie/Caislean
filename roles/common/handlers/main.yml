@@ -56,3 +56,6 @@
 
 - name: restart saslauthd
   service: name=saslauthd state=restarted
+
+- name: restart samba
+  service: name=samba state=restarted
