@@ -4,3 +4,10 @@
     - samba
   tags:
     - samba
+
+- name: Install samba configuration
+  template: src=smb.conf.j2 dest=/etc/samba/smb.conf owner=root group=root mode=0644
+  notify:
+    - restart samba
+  tags:
+    - samba
