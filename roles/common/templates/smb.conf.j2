@@ -25,6 +25,8 @@
 
 ## Browsing/Identification ###
 
+   netbios name = {{ server_name | truncate(15) | upper }}
+
 # Change this to the workgroup/NT-domain name your Samba server will part of
    workgroup = {{ domain_name | truncate(15) | upper }}
 
