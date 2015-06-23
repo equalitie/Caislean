@@ -26,7 +26,7 @@
 ## Browsing/Identification ###
 
 # Change this to the workgroup/NT-domain name your Samba server will part of
-   workgroup = WORKGROUP
+   workgroup = {{ domain_name | truncate(15) | upper }}
 
 # Windows Internet Name Serving Support Section:
 # WINS Support - Tells the NMBD component of Samba to enable its WINS Server
@@ -44,7 +44,7 @@
 # The specific set of interfaces / networks to bind to
 # This can be either the interface name or an IP address/netmask;
 # interface names are normally preferred
-;   interfaces = 127.0.0.0/8 eth0
+   interfaces = 10.1.0.0/24
 
 # Only bind to the named interfaces and/or networks; you must use the
 # 'interfaces' option above to use this.
@@ -62,7 +62,7 @@
    log file = /var/log/samba/log.%m
 
 # Cap the size of the individual log files (in KiB).
-   max log size = 1000
+   max log size = 5000
 
 # If you want Samba to only log through syslog then set the following
 # parameter to 'yes'.
@@ -190,7 +190,7 @@
 
 # By default, the home directories are exported read-only. Change the
 # next parameter to 'no' if you want to be able to write to them.
-   read only = yes
+   read only = no
 
 # File creation mask is set to 0700 for security reasons. If you want to
 # create files with group=rw permissions, set next parameter to 0775.
@@ -228,23 +228,23 @@
 ;   create mask = 0600
 ;   directory mask = 0700
 
-[printers]
-   comment = All Printers
-   browseable = no
-   path = /var/spool/samba
-   printable = yes
-   guest ok = no
-   read only = yes
-   create mask = 0700
+;[printers]
+;   comment = All Printers
+;   browseable = no
+;   path = /var/spool/samba
+;   printable = yes
+;   guest ok = no
+;   read only = yes
+;   create mask = 0700
 
 # Windows clients look for this share name as a source of downloadable
 # printer drivers
-[print$]
-   comment = Printer Drivers
-   path = /var/lib/samba/printers
-   browseable = yes
-   read only = yes
-   guest ok = no
+;[print$]
+;   comment = Printer Drivers
+;   path = /var/lib/samba/printers
+;   browseable = yes
+;   read only = yes
+;   guest ok = no
 # Uncomment to allow remote administration of Windows print drivers.
 # You may need to replace 'lpadmin' with the name of the group your
 # admin users are members of.
