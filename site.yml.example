@@ -1,8 +1,9 @@
 ---
 
 - hosts: all
-  su: yes
-  su_user: root
+  become: true
+  become_user: root
+  become_method: su
   roles:
     - common
   vars:
