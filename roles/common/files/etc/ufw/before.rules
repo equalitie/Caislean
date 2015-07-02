@@ -17,8 +17,8 @@
 # End required lines
 
 # Allow traffic to/from VPN
--A ufw-before-forward -i tun+ -j ACCEPT
--A ufw-before-forward -o tun+ -j ACCEPT
+-A ufw-before-forward -i tap+ -j ACCEPT
+-A ufw-before-forward -o tap+ -j ACCEPT
 
 # allow all on loopback
 -A ufw-before-input -i lo -j ACCEPT
