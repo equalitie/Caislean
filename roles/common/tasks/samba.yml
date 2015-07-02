@@ -12,3 +12,21 @@
     - restart samba
   tags:
     - samba
+
+- name: Check existence of Samba LDAP schema file
+  stat: path=/etc/ldap/schema/samba.schema
+  register: samba_schema
+  tags:
+    - samba
+
+- name: Copy compressed Samba LDAP schema file from Samba installation
+  command: cp /usr/share/doc/samba/examples/LDAP/samba.schema.gz /etc/ldap/schema/
+  when: ( samba_schema.stat.exists == false )
+  tags:
+    - samba
+
+- name: Uncompress Samba LDAP schema file
+  command: gunzip /etc/ldap/schema/samba.schema.gz
+  when: ( samba_schema.stat.exists == false )
+  tags:
+    - samba
