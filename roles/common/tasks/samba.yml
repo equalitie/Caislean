@@ -13,7 +13,7 @@
   tags:
     - samba
 
-- name: Check existence of Samba LDAP schema file
+- name: Check existence of Samba LDAP schema file (/etc/ldap/schema/samba.schema)
   stat: path=/etc/ldap/schema/samba.schema
   register: samba_schema
   tags:
@@ -30,3 +30,16 @@
   when: ( samba_schema.stat.exists == false )
   tags:
     - samba
+
+- name: Fix permissions on Samba LDAP schema
+  file: path=/etc/ldap/schema/samba.schema owner=root group=root mode=0644
+  tags:
+    - samba
+
+- name: Reference Samba schema from slapd configuration
+  lineinfile: dest=/etc/ldap/slapd.conf state=present insertafter='^include' line='include      /etc/ldap/schema/samba.schema'
+  notify:
+    - restart slapd
+  tags:
+    - samba
+  
