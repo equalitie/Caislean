@@ -2,6 +2,7 @@
   apt: pkg={{item}} state=installed default_release=wheezy-backports
   with_items:
     - samba
+    - smbldap-tools
   tags:
     - samba
 
