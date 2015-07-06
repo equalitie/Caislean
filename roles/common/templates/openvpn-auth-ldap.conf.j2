@@ -1,0 +1,11 @@
+<LDAP>
+URL	ldpa://localhost
+Timeout	15
+</LDAP>
+
+<Authorization>
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+BaseDN	"ou=mail,{{ base_dn }}"
+SearchFilter	(objectClass=mailAccount)
+RequireGroup    false
+</Authorization>
