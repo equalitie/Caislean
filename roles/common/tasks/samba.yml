@@ -42,4 +42,27 @@
     - restart slapd
   tags:
     - samba
-  
+
+- name: Check whether organizationalUnit users LDAP entry exists
+  command: ldapsearch -x -b dc={{ domain_name|split('.')|join(',dc=') }} ou=users
+  ignore_errors: true
+  register: ldapsearch_users_ou
+  tags:
+    - samba
+
+- name: Add organizationalUnit users LDAP entry (1/2)
+  template: src=users_ou.ldif.j2 dest=/tmp/users_ou.ldif owner=root group=root mode=0644
+  when: ldapsearch_mail_ou.stdout.find('# numEntries') == -1
+  tags:
+    - samba
+
+- name: Add organizationalUnit users LDAP entry (2/2)
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/users_ou.ldif
+  when: ldapsearch_mail_ou.stdout.find('# numEntries') == -1
+  tags:
+    - samba
+
+- name: Remove LDIF temporary file for organizationalUnit users entry
+  file: path=/tmp/users_ou.ldif state=absent
+  tags:
+   - samba
