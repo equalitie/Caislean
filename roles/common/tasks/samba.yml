@@ -66,3 +66,20 @@
   file: path=/tmp/samba_ou.ldif state=absent
   tags:
    - samba
+
+- name: Retrieve server's security identifier (SID)
+  command: net getlocalsid
+  register: unformatted_sid
+  tags:
+    - samba
+
+- name: Register fact for the SID
+  set_fact: samba_sid="{{ unformatted_sid.stdout | regex_replace ('^.* ', '') }}"
+  tags:
+    - samba
+
+- name: Install smbldap.conf
+  template: src=smbldap.conf.j2 dest=/etc/smbldap-tools/smbldap.conf mode=0644 owner=root group=root
+  tags:
+    - samba
+   
