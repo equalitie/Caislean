@@ -82,4 +82,8 @@
   template: src=smbldap.conf.j2 dest=/etc/smbldap-tools/smbldap.conf mode=0644 owner=root group=root
   tags:
     - samba
-   
+
+- name: Install smbldap_bind.conf
+  template: src=smbldap_bind.conf.j2 dest=/etc/smbldap-tools/smbldap_bind.conf mode=0600 owner=root group=root
+  tags:
+    - samba
