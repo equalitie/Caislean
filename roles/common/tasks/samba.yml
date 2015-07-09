@@ -44,7 +44,7 @@
     - samba
 
 - name: Check whether organizationalUnit samba LDAP entry exists
-  command: ldapsearch -x -b dc={{ domain_name|split('.')|join(',dc=') }} ou=samba
+  command: ldapsearch -x -b ou=samba,dc={{ domain_name|split('.')|join(',dc=') }} -s base
   ignore_errors: true
   register: ldapsearch_samba_ou
   tags:

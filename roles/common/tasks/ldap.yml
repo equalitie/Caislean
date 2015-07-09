@@ -40,7 +40,7 @@
     - ldap
 
 - name: Check whether organizationalUnit mail LDAP entry exists
-  command: ldapsearch -x -b dc={{ domain_name|split('.')|join(',dc=') }} ou=mail
+  command: ldapsearch -x -b ou=mail,dc={{ domain_name|split('.')|join(',dc=') }} -s base
   ignore_errors: true
   register: ldapsearch_mail_ou
   tags:
