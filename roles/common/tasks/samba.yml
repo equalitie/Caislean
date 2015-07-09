@@ -57,7 +57,7 @@
     - samba
 
 - name: Add organizationalUnit samba LDAP entry (2/2)
-  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/users_ou.ldif
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/samba_ou.ldif
   when: ldapsearch_samba_ou.stdout.find('# numEntries') == -1
   tags:
     - samba
