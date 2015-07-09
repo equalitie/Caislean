@@ -43,26 +43,26 @@
   tags:
     - samba
 
-- name: Check whether organizationalUnit users LDAP entry exists
-  command: ldapsearch -x -b dc={{ domain_name|split('.')|join(',dc=') }} ou=users
+- name: Check whether organizationalUnit samba LDAP entry exists
+  command: ldapsearch -x -b dc={{ domain_name|split('.')|join(',dc=') }} ou=samba
   ignore_errors: true
-  register: ldapsearch_users_ou
+  register: ldapsearch_samba_ou
   tags:
     - samba
 
-- name: Add organizationalUnit users LDAP entry (1/2)
-  template: src=users_ou.ldif.j2 dest=/tmp/users_ou.ldif owner=root group=root mode=0644
-  when: ldapsearch_users_ou.stdout.find('# numEntries') == -1
+- name: Add organizationalUnit samba LDAP entry (1/2)
+  template: src=samba_ou.ldif.j2 dest=/tmp/samba_ou.ldif owner=root group=root mode=0644
+  when: ldapsearch_samba_ou.stdout.find('# numEntries') == -1
   tags:
     - samba
 
-- name: Add organizationalUnit users LDAP entry (2/2)
+- name: Add organizationalUnit samba LDAP entry (2/2)
   command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/users_ou.ldif
-  when: ldapsearch_users_ou.stdout.find('# numEntries') == -1
+  when: ldapsearch_samba_ou.stdout.find('# numEntries') == -1
   tags:
     - samba
 
-- name: Remove LDIF temporary file for organizationalUnit users entry
-  file: path=/tmp/users_ou.ldif state=absent
+- name: Remove LDIF temporary file for organizationalUnit samba entry
+  file: path=/tmp/samba_ou.ldif state=absent
   tags:
    - samba
