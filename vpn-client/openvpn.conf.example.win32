@@ -1,6 +1,6 @@
 port 1194
 proto udp
-dev tun
+dev tap
 
 # Change this to the server's hostname
 remote your.server.com
