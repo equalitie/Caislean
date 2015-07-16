@@ -17,6 +17,21 @@
     - restart openvpn
   tags: vpn
 
+- name: Directory /etc/openvpn/auth
+  file: state=directory path=/etc/openvpn/auth state=present owner=root group=root mode=0755
+  when: ( openvpn_auth_mech == 'ldap' or openvpn_auth_mech == 'both' )
+  tags:
+    - vpn
+
+- name: Install LDAP authentification configuration for OpenVPN
+  template: src=openvpn-ldapauth-plugin.conf.j2 dest=/etc/openvpn/auth/auth-ldap.conf owner=root group=root mode=0644
+  when: ( openvpn_auth_mech == 'ldap' or openvpn_auth_mech == 'both' )
+  notify:
+    - restart openvpn
+  tags:
+    - vpn
+    - ldap
+
 - name: Create OpenVPN log directory
   file: path=/var/log/openvpn state=directory owner=root group=root mode=0700
   tags: vpn
