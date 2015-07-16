@@ -11,6 +11,7 @@
     domain_name: domain.com
     server_name: caislean
     tls_directory: /home/user/caislean_admin/tls
+    openvpn_auth_mech: tls
     monitored_interfaces:
       - eth0
     server_addresses:
