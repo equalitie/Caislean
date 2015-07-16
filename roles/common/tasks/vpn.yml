@@ -17,7 +17,7 @@
     - restart openvpn
   tags: vpn
 
-- name: Install OpenVPN LDAP plugin pacakge
+- name: Install OpenVPN LDAP plugin package
   apt: pkg=openvpn-auth-ldap state=installed
   tags:
     - vpn
