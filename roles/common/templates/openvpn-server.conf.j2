@@ -8,9 +8,17 @@ key /etc/ssl/private/{{ server_name }}.{{ domain_name }}.key
 dh /etc/ssl/dhparam.pem
 
 tls-server
+{% if openvpn_auth_mech == 'ldap' or openvpn_auth_mech == 'both' %}
+plugin /usr/lib/openvpn/openvpn-auth-ldap.so /etc/openvpn/auth/auth-ldap.conf
+{% if openvpn_auth_mech == 'ldap' %}
+client-cert-not-required
+{% endif %}
+{% endif %}
+{% if openvpn_auth_mech != 'ldap' %}
 ns-cert-type client
 remote-cert-tls client
 crl-verify /etc/ssl/crls/{{ server_name }}.{{ domain_name }}.crl
+{% endif %}
 
 server 10.1.0.0 255.255.255.0
 push "redirect-gateway"
