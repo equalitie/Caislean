@@ -48,13 +48,13 @@
 
 - name: Add organizationalUnit mail LDAP entry (1/2)
   template: src=mail_ou.ldif.j2 dest=/tmp/mail_ou.ldif owner=root group=root mode=0644
-  when: ldapsearch_mail_ou.stdout.find('# numEntries') == -1
+  when: ldapsearch_mail_ou | failed
   tags:
     - ldap
 
 - name: Add organizationalUnit mail LDAP entry (2/2)
   command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/mail_ou.ldif
-  when: ldapsearch_mail_ou.stdout.find('# numEntries') == -1
+  when: ldapsearch_mail_ou | failed
   tags:
     - ldap
 
