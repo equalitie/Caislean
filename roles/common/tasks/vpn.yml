@@ -17,6 +17,11 @@
     - restart openvpn
   tags: vpn
 
+- name: Install OpenVPN LDAP plugin pacakge
+  apt: pkg=openvpn-auth-ldap state=installed
+  tags:
+    - vpn
+
 - name: Directory /etc/openvpn/auth
   file: state=directory path=/etc/openvpn/auth owner=root group=root mode=0755
   when: ( openvpn_auth_mech == 'ldap' or openvpn_auth_mech == 'both' )
