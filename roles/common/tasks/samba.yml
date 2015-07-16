@@ -52,13 +52,13 @@
 
 - name: Add organizationalUnit samba LDAP entry (1/2)
   template: src=samba_ou.ldif.j2 dest=/tmp/samba_ou.ldif owner=root group=root mode=0644
-  when: ldapsearch_samba_ou.stdout.find('# numEntries') == -1
+  when: ldapsearch_samba_ou | failed
   tags:
     - samba
 
 - name: Add organizationalUnit samba LDAP entry (2/2)
   command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/samba_ou.ldif
-  when: ldapsearch_samba_ou.stdout.find('# numEntries') == -1
+  when: ldapsearch_samba_ou | failed
   tags:
     - samba
 
@@ -80,10 +80,34 @@
 
 - name: Install smbldap.conf
   template: src=smbldap.conf.j2 dest=/etc/smbldap-tools/smbldap.conf mode=0644 owner=root group=root
+  register: smbldap_conf
   tags:
     - samba
 
 - name: Install smbldap_bind.conf
   template: src=smbldap_bind.conf.j2 dest=/etc/smbldap-tools/smbldap_bind.conf mode=0600 owner=root group=root
+  tags:
+    - samba
+
+- name: Produce LDIF file to add Samba LDAP structure
+  command: /usr/sbin/smbldap-populate -e /tmp/sambaldap.ldif
+  when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
+  tags:
+    - samba
+
+- name: Remove bogus entry from LDIF file
+  command: sed -i 1,7d /tmp/sambaldap.ldif
+  when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
+  tags:
+    - samba
+
+- name: Insert Samba LDAP entries
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/sambaldap.ldif
+  when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
+  tags:
+    - samba
+
+- name: Remove Samba LDIF file
+  file: state=absent path=/tmp/sambaldap.ldif
   tags:
     - samba
