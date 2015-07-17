@@ -3,6 +3,7 @@
   with_items:
     - samba
     - smbldap-tools
+    - libnss-ldapd
   tags:
     - samba
 
