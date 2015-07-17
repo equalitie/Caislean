@@ -133,3 +133,11 @@
     - restart nscd
   tags:
     - samba
+
+- name: Install /etc/nsswitch.conf
+  copy: src=etc/nsswitch.conf dest=/etc/nsswitch.conf group=root owner=root mode=0644
+  notify:
+    - restart nscd
+    - restart samba
+  tags:
+    - samba
