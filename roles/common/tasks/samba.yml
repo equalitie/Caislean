@@ -4,6 +4,8 @@
     - samba
     - smbldap-tools
     - libnss-ldapd
+    - nscd
+    - nslcd
   tags:
     - samba
 
