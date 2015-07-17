@@ -8,6 +8,7 @@
 
 - name: Install samba configuration
   template: src=smb.conf.j2 dest=/etc/samba/smb.conf owner=root group=root mode=0644
+  register: smb_conf
   notify:
     - restart samba
   tags:
@@ -109,5 +110,11 @@
 
 - name: Remove Samba LDIF file
   file: state=absent path=/tmp/sambaldap.ldif
+  tags:
+    - samba
+
+- name: Provide Samba with the LDAP admin user password
+  command: smbpasswd -w {{ ldap_admin_pass }}
+  when: smb_conf | changed
   tags:
     - samba
