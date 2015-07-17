@@ -127,7 +127,9 @@
 
 # This option controls how unsuccessful authentication attempts are mapped
 # to anonymous connections
-   map to guest = bad user
+   map to guest = never
+
+   restrict anonymous = 2
 
 ########## Domains ###########
 
@@ -219,6 +221,13 @@
 # to \\server\username
 # This might need tweaking when using external authentication schemes
    valid users = %S
+
+[Shared]
+   comment = Shared documents
+   path = /var/samba
+   guest ok = no
+   read only = no
+   create mask = 0700
 
 # Un-comment the following and create the netlogon directory for Domain Logons
 # (you need to configure Samba to act as a domain controller too.)
