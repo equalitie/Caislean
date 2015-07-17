@@ -100,7 +100,7 @@
     - samba
 
 - name: Produce LDIF file to add Samba LDAP structure
-  command: /usr/sbin/smbldap-populate -a administrator -u 50000 -g 50000 -r 50000 -e /tmp/sambaldap.ldif
+  command: /usr/sbin/smbldap-populate -a administrator -k 50000 -m 50000 -u 51000 -g 51000 -r 51000 -e /tmp/sambaldap.ldif
   when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
   tags:
     - samba
