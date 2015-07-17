@@ -96,14 +96,23 @@
 
 # If you are using encrypted passwords, Samba will need to know what
 # password database type you are using.  
-   passdb backend = tdbsam
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+   passdb backend = ldapsam:ldap://localhost
 
-   obey pam restrictions = yes
+   ldap suffix = ou=samba,{{ base_dn }}
+   ldap user suffix = ou=Users
+   ldap group suffix = ou=Groups
+   ldap machine suffix = ou=Computers
+   ldap ssl = off
+   ldap admin dn = cn=admin,{{ base_dn }}
+   ldap password sync = yes
+
+   obey pam restrictions = no
 
 # This boolean parameter controls whether Samba attempts to sync the Unix
 # password with the SMB password when the encrypted SMB password in the
 # passdb is changed.
-   unix password sync = yes
+   unix password sync = no
 
 # For Unix password sync to work on a Debian GNU/Linux system, the following
 # parameters must be set (thanks to Ian Kahan <<kahan@informatik.tu-muenchen.de> for
