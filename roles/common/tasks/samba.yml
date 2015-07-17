@@ -120,4 +120,9 @@
   tags:
     - samba
 
-
+- name: Install /etc/nslcd.conf
+  template: src=nslcd.conf.j2 dest=/etc/nslcd.conf group=nslcd owner=root mode=0640
+  notify:
+    - restart nslcd
+  tags:
+    - samba

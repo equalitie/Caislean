@@ -1,0 +1,13 @@
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+uid nslcd
+gid nslcd
+
+uri ldap://localhost/
+
+base ou=samba,{{ base_dn }}
+
+ldap_version 3
+
+ssl off
+tls_reqcert never
+scope sub
