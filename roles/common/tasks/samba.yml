@@ -14,6 +14,12 @@
   tags:
     - samba
 
+- name: Provide Samba with the LDAP admin user password
+  command: smbpasswd -w {{ ldap_admin_pass }}
+  when: smb_conf | changed
+  tags:
+    - samba
+
 - name: Check existence of Samba LDAP schema file (/etc/ldap/schema/samba.schema)
   stat: path=/etc/ldap/schema/samba.schema
   register: samba_schema
@@ -113,8 +119,4 @@
   tags:
     - samba
 
-- name: Provide Samba with the LDAP admin user password
-  command: smbpasswd -w {{ ldap_admin_pass }}
-  when: smb_conf | changed
-  tags:
-    - samba
+
