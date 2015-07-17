@@ -130,7 +130,7 @@
     - samba
 
 - name: Install /etc/nscd.conf
-  copy: src=etc/nscd.conf dst=/etc/nscd.conf group=root owner=root mode=0644
+  copy: src=etc/nscd.conf dest=/etc/nscd.conf group=root owner=root mode=0644
   notify:
     - restart nscd
   tags:
