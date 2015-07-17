@@ -96,7 +96,7 @@ checkpoint      512 30
 # Others should not be able to see it, except the
 # admin entry below
 # These access lines apply to database #1 only
-access to attrs=userPassword
+access to attrs=userPassword,sambaLMPassword,sambaNTPassword,shadowLastChange
         by dn="cn=admin,{{ base_dn }}" write
 	by anonymous auth
         by self write
