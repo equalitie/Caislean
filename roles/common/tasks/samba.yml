@@ -143,3 +143,8 @@
     - restart samba
   tags:
     - samba
+
+- name: Create /home/samba
+  file: path=/home/samba state=directory owner=root group=root mode=0755
+  tags:
+    - samba
