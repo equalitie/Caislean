@@ -5,7 +5,7 @@ Timeout	15
 
 <Authorization>
 {% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
-{% if openvpn_auth_use_samba %}
+{% if auth_use_samba %}
 BaseDN  "ou=Users,ou=samba,{{ base_dn }}"
 SearchFilter	(&(objectClass=sambaSamAccount)(uid=%u))
 {% else %}
