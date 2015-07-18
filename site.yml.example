@@ -12,6 +12,7 @@
     server_name: caislean
     tls_directory: /home/user/caislean_admin/tls
     openvpn_auth_mech: tls
+    auth_use_samba: false
     monitored_interfaces:
       - eth0
     server_addresses:
