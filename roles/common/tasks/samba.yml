@@ -144,7 +144,18 @@
   tags:
     - samba
 
+- name: Retrieve group ID for Domain Users group
+  shell: "ldapsearch -LLL -x -b 'cn=Domain Users,ou=Groups,ou=samba,dc=sub,dc=ceops,dc=eu' -s base gidNumber | sed '/^gidNumber: /!d;s/^gidNumber: //'"
+  register: domain_users_gid
+  tags:
+    - samba
+
 - name: Create /home/samba
   file: path=/home/samba state=directory owner=root group=root mode=0755
+  tags:
+    - samba
+
+- name: Create /var/samba
+  file: state=directory path=/var/samba owner=root group="{{ domain_users_gid.stdout }}" mode=0770
   tags:
     - samba
