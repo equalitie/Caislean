@@ -159,19 +159,17 @@
 # NOTE: Must be store in 'DOS' file format convention
 ;   logon script = logon.cmd
 
-# This allows Unix users to be created on the domain controller via the SAMR
-# RPC pipe.  The example command creates a user account with a disabled Unix
-# password; please adapt to your needs
-; add user script = /usr/sbin/adduser --quiet --disabled-password --gecos "" %u
+  add user script = /usr/sbin/smbldap-useradd -m "%u"
+  delete user script = /usr/sbin/smbldap-userdel "%u"
 
-# This allows machine accounts to be created on the domain controller via the 
-# SAMR RPC pipe.  
-# The following assumes a "machines" group exists on the system
-; add machine script  = /usr/sbin/useradd -g machines -c "%u machine account" -d /var/lib/samba -s /bin/false %u
+  add group script = /usr/sbin/smbldap-groupadd -p "%g"
+  delete group script = /usr/sbin/smbldap-groupdel "%g"
 
-# This allows Unix groups to be created on the domain controller via the SAMR
-# RPC pipe.  
-; add group script = /usr/sbin/addgroup --force-badname %g
+  add machine script = /usr/sbin/smbldap-useradd -w "%u"
+
+  add user to group script = /usr/sbin/smbldap-groupmod -m "%u" "%g"
+  delete user from group script = /usr/sbin/smbldap-groupmod -x "%u" "%g"
+  set primary group script = /usr/sbin/smbldap-usermod -g "%g" "%u"
 
 ############ Misc ############
 
