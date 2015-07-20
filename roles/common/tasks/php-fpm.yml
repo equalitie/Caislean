@@ -21,3 +21,8 @@
   file: path=/var/lib/phpsession state=directory owner=root group=root mode=0755 recurse=no
   tags:
     - php-fpm
+
+- name: Create /var/run/php5-fpm
+  file: path=/var/run/php5-fpm state=directory owner=root group=root mode=0755 recurse=no
+  tags:
+    - php-fpm
