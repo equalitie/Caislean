@@ -1,0 +1,22 @@
+location /lam {
+	alias	/usr/share/ldap-account-manager;
+	index	index.html;
+	try_files $uri $uri/ index.php;
+
+	location ~ ^/lam(.+?\.php)(/.*)?$ {
+		try_files $1 =404;
+		fastcgi_pass	unix:/var/run/php5-fpm/ldap-account-manager.sock;
+		fastcgi_index	index.php;
+		include		/etc/nginx/fastcgi_params;
+		fastcgi_param 	SCRIPT_FILENAME $document_root$1;
+		fastcgi_param	PATH_INFO $2;
+		fastcgi_param	SCRIPT_NAME /lam$1;
+		fastcgi_param	HTTPS on;
+		fastcgi_intercept_errors	on;
+	}
+}
+
+location ~ ^/lam/(tmp/internal|sess|config|lib|help|locale) {
+	deny all;
+}
+

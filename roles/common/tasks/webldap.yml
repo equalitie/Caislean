@@ -26,6 +26,13 @@
   tags:
     - webldap
 
+- name: Install LAM nginx configuration
+  template: src=nginx-ldap-account-manager.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/ldap-account-manager owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - webldap
+
 - name: Create PHP session directory for LAM
   file: path=/var/lib/phpsession/ldap-account-manager state=directory owner=lam group=lam mode=0700 recurse=no
   tags:
