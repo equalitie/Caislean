@@ -1,0 +1,17 @@
+- name: Download ldap-account-manager (LAM) Debian package file file
+  get_url: url=http://sourceforge.net/projects/lam/files/LAM/5.0/ldap-account-manager_5.0-1_all.deb dest=/root/ owner=root group=root mode=0644
+  tags:
+    - webldap
+
+- name: Install LAM's dependencies (from backports)
+  apt: pkg={{item}} state=install default_release=wheezy-backports
+  with_items:
+    - php5-imagick
+    - php-fpdf
+  tags:
+    - webldap
+
+- name: Install LAM
+  apt: deb=/root/ldap-account-manager_5.0-1_all.deb state=installed
+  tags:
+    - webldap

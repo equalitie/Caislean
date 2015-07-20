@@ -139,6 +139,7 @@
 - include: php-fpm.yml
 - include: webmail.yml
 - include: samba.yml
+- include: webldap.yml
 - include: owncloud.yml
 - include: xmpp.yml
 - include: wordpress.yml
