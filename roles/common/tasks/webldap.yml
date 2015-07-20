@@ -15,3 +15,13 @@
   apt: deb=/root/ldap-account-manager_5.0-1_all.deb state=installed
   tags:
     - webldap
+
+- name: Add group lam
+  group: name=lam state=present
+  tags:
+    - webldap
+
+- name: Add user lam
+  user: name=lam state=present group=lam shell="/bin/false" home=/usr/share/ldap-account-manager createhome=no password="*"
+  tags:
+    - webldap
