@@ -1,7 +1,6 @@
 location /lam {
 	alias	/usr/share/ldap-account-manager;
 	index	index.html;
-	try_files $uri $uri/ index.php;
 
 	location ~ ^/lam(.+?\.php)(/.*)?$ {
 		try_files $1 =404;
