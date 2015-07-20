@@ -67,6 +67,6 @@
     - webldap
 
 - name: Add 'caislean' profile for LAM
-  template: src=caislean-lam.conf.j2 dest=/var/lib/ldap-account-manager/caislean.conf group=root owner=lam mode=0600
+  template: src=caislean-lam.conf.j2 dest=/var/lib/ldap-account-manager/config/caislean.conf group=root owner=lam mode=0600
   tags:
     - webldap
