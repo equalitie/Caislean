@@ -1,0 +1,178 @@
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+ServerURL: ldap://localhost:389
+Admins: cn=admin,{{ base_dn }}
+Passwd: {{ hashed_ldap_password }}
+treesuffix: {{ base_dn }}
+default_language: en_GB.utf8
+scriptPath:
+scriptServer:
+scriptRights: 750
+cachetimeout: 5
+searchLimit: 0
+
+modules: posixAccount_minUID: 50001
+modules: posixAccount_maxUID: 60000
+modules: posixAccount_minMachine: 70000
+modules: posixAccount_maxMachine: 80000
+modules: posixGroup_minGID: 50001
+modules: posixGroup_maxGID: 60000
+modules: posixGroup_pwdHash: SSHA
+modules: posixAccount_pwdHash: SSHA
+
+activeTypes: user,group,host,smbDomain
+
+types: suffix_user: ou=Users,ou=samba,{{ base_dn }}
+types: attr_user: #uid;#givenName;#sn;#uidNumber;#gidNumber
+types: modules_user: inetOrgPerson,posixAccount,shadowAccount,sambaSamAccount
+
+types: suffix_group: ou=Groups,ou=samba,{{ base_dn }}
+types: attr_group: #cn;#gidNumber;#memberUID;#description
+types: modules_group: posixGroup,sambaGroupMapping
+
+lamProMailSubject: Your password was reset
+lamProMailText: Dear @@givenName@@ @@sn@@,+::++::+your password was reset to: @@newPassword@@+::++::++::+Best regards+::++::+deskside support+::+
+lamProMailFrom:
+lamProMailReplyTo:
+lamProMailIsHTML: false
+lamProMailAllowAlternateAddress: true
+
+useTLS: yes
+followReferrals: false
+pagedResults: false
+accessLevel: 100
+
+loginMethod: bind
+loginSearchSuffix: {{ base_dn }}
+loginSearchFilter: uid=%USER%
+loginSearchDN:
+loginSearchPassword:
+
+httpAuthentication: false
+
+modules: posixGroup_gidGenerator: range
+modules: posixGroup_sambaIDPoolDN: 
+modules: posixGroup_gidCheckSuffix: 
+modules: posixGroup_hidememberUid: false
+modules: sambaSamAccount_timeZone: 0
+modules: sambaSamAccount_lmHash: yes
+modules: sambaSamAccount_hideHomeDrive: false
+modules: sambaSamAccount_hideHomePath: false
+modules: sambaSamAccount_hideProfilePath: false
+modules: sambaSamAccount_hideLogonScript: false
+modules: sambaSamAccount_hideSambaPwdLastSet: false
+modules: sambaSamAccount_hideWorkstations: false
+modules: sambaSamAccount_hideLogonHours: false
+modules: sambaSamAccount_hideTerminalServer: false
+modules: posixAccount_uidGeneratorUsers: range
+modules: posixAccount_sambaIDPoolDNUsers: 
+modules: posixAccount_uidCheckSuffixUser: 
+modules: posixAccount_uidGeneratorHosts: range
+modules: posixAccount_sambaIDPoolDNHosts: 
+modules: posixAccount_uidCheckSuffixHost: 
+modules: posixAccount_shells: /bin/bash+::+/bin/csh+::+/bin/dash+::+/bin/false+::+/bin/ksh+::+/bin/sh
+modules: posixAccount_hidegecos: false
+modules: posixAccount_primaryGroupAsSecondary: false
+modules: posixAccount_userNameSuggestion: @givenname@%sn%
+modules: inetOrgPerson_hideDescription: false
+modules: inetOrgPerson_hideStreet: false
+modules: inetOrgPerson_hidePostOfficeBox: false
+modules: inetOrgPerson_hidePostalCode: false
+modules: inetOrgPerson_hideLocation: false
+modules: inetOrgPerson_hideState: false
+modules: inetOrgPerson_hidePostalAddress: false
+modules: inetOrgPerson_hideRegisteredAddress: false
+modules: inetOrgPerson_hideOfficeName: false
+modules: inetOrgPerson_hideRoomNumber: false
+modules: inetOrgPerson_hideTelephoneNumber: false
+modules: inetOrgPerson_hideHomeTelephoneNumber: false
+modules: inetOrgPerson_hideMobileNumber: false
+modules: inetOrgPerson_hideFaxNumber: false
+modules: inetOrgPerson_hidePager: true
+modules: inetOrgPerson_hideEMailAddress: false
+modules: inetOrgPerson_hideJobTitle: false
+modules: inetOrgPerson_hideCarLicense: false
+modules: inetOrgPerson_hideEmployeeType: false
+modules: inetOrgPerson_hideBusinessCategory: false
+modules: inetOrgPerson_hideDepartments: false
+modules: inetOrgPerson_hideManager: false
+modules: inetOrgPerson_hideOu: false
+modules: inetOrgPerson_hideO: false
+modules: inetOrgPerson_hideEmployeeNumber: false
+modules: inetOrgPerson_hideInitials: false
+modules: inetOrgPerson_hideLabeledURI: false
+modules: inetOrgPerson_hideuserCertificate: false
+modules: inetOrgPerson_hidejpegPhoto: false
+modules: inetOrgPerson_readOnly_businessCategory: false
+modules: inetOrgPerson_readOnly_cn: false
+modules: inetOrgPerson_readOnly_employeeType: false
+modules: inetOrgPerson_readOnly_postalAddress: false
+modules: inetOrgPerson_readOnly_uid: false
+modules: inetOrgPerson_readOnly_title: false
+modules: inetOrgPerson_readOnly_description: false
+modules: inetOrgPerson_readOnly_st: false
+modules: inetOrgPerson_readOnly_physicalDeliveryOfficeName: false
+modules: inetOrgPerson_readOnly_mail: false
+modules: inetOrgPerson_readOnly_facsimileTelephoneNumber: false
+modules: inetOrgPerson_readOnly_jpegPhoto: false
+modules: inetOrgPerson_readOnly_carLicense: false
+modules: inetOrgPerson_readOnly_labeledURI: false
+modules: inetOrgPerson_readOnly_initials: false
+modules: inetOrgPerson_readOnly_registeredAddress: false
+modules: inetOrgPerson_readOnly_mobile: false
+modules: inetOrgPerson_readOnly_sn: false
+modules: inetOrgPerson_readOnly_o: false
+modules: inetOrgPerson_readOnly_ou: false
+modules: inetOrgPerson_readOnly_l: false
+modules: inetOrgPerson_readOnly_pager: false
+modules: inetOrgPerson_readOnly_userPassword: false
+modules: inetOrgPerson_readOnly_employeeNumber: false
+modules: inetOrgPerson_readOnly_postOfficeBox: false
+modules: inetOrgPerson_readOnly_postalCode: false
+modules: inetOrgPerson_readOnly_roomNumber: false
+modules: inetOrgPerson_readOnly_street: false
+modules: inetOrgPerson_readOnly_homePhone: false
+modules: inetOrgPerson_readOnly_telephoneNumber: false
+modules: inetOrgPerson_readOnly_departmentNumber: false
+modules: inetOrgPerson_readOnly_manager: false
+modules: inetOrgPerson_readOnly_givenName: false
+modules: inetOrgPerson_jpegPhoto_maxWidth: 
+modules: inetOrgPerson_jpegPhoto_maxHeight: 
+modules: inetOrgPerson_jpegPhoto_maxSize: 
+types: filter_user: 
+types: customLabel_user: 
+types: filter_group: 
+types: customLabel_group: 
+types: hidden_user: 
+types: hideNewButton_user: 
+types: hideDeleteButton_user: 
+types: readOnly_user: 
+types: hidden_group: 
+types: hideNewButton_group: 
+types: hideDeleteButton_group: 
+types: readOnly_group: 
+types: hidden_host: 
+types: hideNewButton_host: 
+types: hideDeleteButton_host: 
+types: readOnly_host: 
+types: suffix_host: ou=machines,dc=my-domain,dc=com
+types: attr_host: #cn;#description;#uidNumber;#gidNumber
+types: filter_host: 
+types: customLabel_host: 
+types: hidden_smbDomain: 
+types: hideNewButton_smbDomain: 
+types: hideDeleteButton_smbDomain: 
+types: readOnly_smbDomain: 
+types: suffix_smbDomain: dc=my-domain,dc=com
+types: attr_smbDomain: #sambaDomainName;#sambaSID
+types: filter_smbDomain: 
+types: customLabel_smbDomain: 
+types: modules_host: account,posixAccount,sambaSamAccount
+types: modules_smbDomain: sambaDomain
+tools: tool_hide_toolServerInformation: false
+tools: tool_hide_toolFileUpload: false
+tools: tool_hide_toolMultiEdit: false
+tools: tool_hide_toolPDFEditor: false
+tools: tool_hide_toolOUEditor: false
+tools: tool_hide_toolProfileEditor: false
+tools: tool_hide_toolTests: false
+tools: tool_hide_toolSchemaBrowser: false
