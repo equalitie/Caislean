@@ -4,7 +4,7 @@
     - webldap
 
 - name: Install LAM's dependencies (from backports)
-  apt: pkg={{item}} state=install default_release=wheezy-backports
+  apt: pkg={{item}} state=installed default_release=wheezy-backports
   with_items:
     - php5-imagick
     - php-fpdf
