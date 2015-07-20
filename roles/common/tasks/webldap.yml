@@ -26,6 +26,11 @@
   tags:
     - webldap
 
+- name: Create PHP session directory for LAM
+  file: path=/var/lib/phpsession/ldap-account-manager state=directory owner=lam group=lam mode=0700 recurse=no
+  tags:
+    - webldap
+
 - name: Copy LAM PHP configuration
   copy: src=etc/php5/fpm/pool.d/ldap-account-manager.conf dest=/etc/php5/fpm/pool.d/ldap-account-manager.conf owner=root group=root mode=0644
   notify:
