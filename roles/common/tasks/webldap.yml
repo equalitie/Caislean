@@ -1,4 +1,4 @@
-- name: Download ldap-account-manager (LAM) Debian package file file
+- name: Download ldap-account-manager (LAM) Debian package file
   get_url: url=http://sourceforge.net/projects/lam/files/LAM/5.0/ldap-account-manager_5.0-1_all.deb dest=/root/ owner=root group=root mode=0644
   tags:
     - webldap
