@@ -44,3 +44,24 @@
     - restart php5-fpm
   tags:
     - webldap
+
+- name: Set correct ownership for /var/lib/ldap-account-manager/
+  file: path=/var/lib/ldap-account-manager state=directory group=root owner=lam recurse=yes
+  tags:
+    - webldap
+
+- name: Retrieve hashed LDAP admin password
+  command: slappasswd -s {{ ldap_admin_pass | quote }} -h '\{SSHA\}' -n
+  register: slappasswd_hash
+  tags:
+    - webldap
+
+- name: Set fact with hashed LDAP password
+  set_fact: hashed_ldap_password={{ slappasswd_hash.stdout }}
+  tags:
+    - webldap
+
+- name: Copy LAM configuration to /etc/ldap-account-manager/
+  template: src=lam-config.cfg.j2 dest=/etc/ldap-account-manager/config.cfg group=root owner=lam mode=0600
+  tags:
+    - webldap
