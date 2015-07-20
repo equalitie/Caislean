@@ -51,7 +51,7 @@
     - webldap
 
 - name: Retrieve hashed LDAP admin password
-  command: slappasswd -s {{ ldap_admin_pass | quote }} -h '\{SSHA\}' -n
+  command: slappasswd -s {{ ldap_admin_pass | quote }} -h '{SSHA}' -n
   register: slappasswd_hash
   tags:
     - webldap
