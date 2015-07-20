@@ -25,3 +25,10 @@
   user: name=lam state=present group=lam shell="/bin/false" home=/usr/share/ldap-account-manager createhome=no password="*"
   tags:
     - webldap
+
+- name: Copy LAM PHP configuration
+  copy: src=etc/php5/fpm/pool.d/ldap-account-manager.conf dest=/etc/php5/fpm/pool.d/ldap-account-manager.conf owner=root group=root mode=0644
+  notify:
+    - restart php5-fpm
+  tags:
+    - webldap
