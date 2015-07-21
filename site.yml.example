@@ -1,8 +1,24 @@
 ---
 
-- hosts: all
+# The Caislean full stack
+# Note: suricata not enabled by default
+
+- hosts: caislean-full
   become: true
   become_user: root
   become_method: su
   roles:
     - common
+    - tls
+    - backupninja
+    - openvpn
+    - nginx
+    - openldap
+    - virtualmail
+    - prosody
+    - php-fpm
+    - roundcube
+    - owncloud
+    - wordpress
+    - samba
+    - ldap-account-manager
