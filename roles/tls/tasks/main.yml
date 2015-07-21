@@ -2,9 +2,6 @@
   file: path=/etc/ssl/crls state=directory owner=root group=root mode=0755
   tags:
     - tls
-    - vpn
-    - vmail
-    - webserver
 
 - name: Install our TLS files
   copy: content="{{lookup('file', tls_directory + '/' + item.local)}}" dest=/etc/ssl/{{item.remote}} owner=root group=ssl-cert mode={{item.mode}}
@@ -14,15 +11,16 @@
     - { local: 'server.key.pem', remote: 'private/{{ server_name }}.{{ domain_name }}.key', mode: '0640' }
     - { local: 'dhparam.pem', remote: 'dhparam.pem', mode: '0644' }
     - { local: 'crl.pem', remote: 'crls/{{ server_name }}.{{ domain_name }}.crl', mode: '0644' }
-  notify:
-    - restart openvpn
-    - restart postfix
-    - restart nginx
-    - restart dovecot
-    - restart prosody
+# Commenting out: these handlers may not exist if the following services are not
+# activated
+#  notify:
+#    - restart openvpn
+#    - restart postfix
+#    - restart nginx
+#    - restart dovecot
+#    - restart prosody
+# Do this rather, and can be reused from these services' plays:
+  register: tls_files
   tags:
     - tls
-    - vpn
-    - vmail
-    - webserver
-    - xmpp
+
