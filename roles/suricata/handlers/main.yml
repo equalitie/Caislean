@@ -1,0 +1,16 @@
+---
+
+- name: rebuild rkhunter proplist
+  command: rkhunter --propupd
+
+- name: disable network offloading
+  command: /opt/disable-network-offload.sh
+
+- name: update suricata ET rules
+  command: oinkmaster -C /etc/oinkmaster/oinkmaster.conf -o /etc/snort/rules
+
+- name: update suricata Snort rules
+  command: oinkmaster -C /etc/oinkmaster/oinkmaster-snort-community.conf -o /etc/snort/rules
+
+- name: restart suricata
+  service: name=suricata state=restarted

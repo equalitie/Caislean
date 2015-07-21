@@ -1,0 +1,8 @@
+---
+
+- name: restart prosody
+  service: name=prosody state=restarted
+
+- name: restart saslauthd
+  service: name=saslauthd state=restarted
+
