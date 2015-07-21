@@ -7,7 +7,7 @@
     - webserver
 
 - name: Install our TLS files
-  copy: content="{{ lookup('file', tls_directory + '/' + item.local) }}" dest=/etc/ssl/{{item.remote}} owner=root group=ssl-cert mode={{item.mode}}
+  copy: content="{{lookup('file', tls_directory + '/' + item.local)}}" dest=/etc/ssl/{{item.remote}} owner=root group=ssl-cert mode={{item.mode}}
   with_items:
     - { local: 'ca.crt.pem', remote: 'certs/{{ server_name }}.{{ domain_name}}_CA.pem', mode: '0644' }
     - { local: 'server.crt.pem', remote: 'certs/{{ server_name }}.{{ domain_name }}.pem', mode: '0644' }
