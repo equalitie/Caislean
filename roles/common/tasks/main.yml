@@ -121,11 +121,5 @@
     - update mail aliases
   tags: base
 
-- name: Set /etc/mailname with our FQDN
-  copy: dest=/etc/mailname content="{{ server_name }}.{{ domain_name }}" group=root owner=root mode=0644
-  notify:
-    - restart postfix
-  tags: base
-
 - include: unwanted-pkgs.yml
 - include: sysctl.yml
