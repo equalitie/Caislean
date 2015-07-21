@@ -3,7 +3,7 @@
 # The Caislean full stack
 # Note: suricata not enabled by default
 
-- hosts: caislean-full
+- hosts: caislean_full
   become: true
   become_user: root
   become_method: su
