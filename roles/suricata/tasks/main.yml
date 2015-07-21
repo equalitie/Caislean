@@ -87,6 +87,11 @@
   tags:
    - ids
 
+- name: Install chkrootkit warning suppression pattern file
+  template: src=chkrootkit.ignore.j2 dest=/etc/chkrootkit.ignore group=root owner=root mode=0644
+  tags:
+   - ids
+
 - name: Make sure Suricata is enabled
   service: name=suricata enabled=yes
   tags:

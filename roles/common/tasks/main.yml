@@ -45,6 +45,11 @@
     - etc/ufw/before.rules
   tags: firewall
 
+- name: Disable UFW
+  ufw: state=disabled
+  when: ( ufw_config_files|changed )
+  tags: firewall
+
 - name: Reload UFW
   ufw: state=reloaded
   when: ( ufw_config_files|changed )
@@ -76,10 +81,6 @@
 
 - name: Install chkrootkit configuration
   copy: src=etc/chkrootkit.conf dest=/etc/chkrootkit.conf group=root owner=root mode=0600
-  tags: base
-
-- name: Install chkrootkit warning suppression pattern file
-  template: src=chkrootkit.ignore.j2 dest=/etc/chkrootkit.ignore group=root owner=root mode=0644
   tags: base
 
 - name: Install chkroot daily cron job script
