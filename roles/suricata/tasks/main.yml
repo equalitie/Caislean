@@ -1,3 +1,11 @@
+- name: Install Suricata and Oinkmaster from backports
+  apt: pkg={{item}} default_release=wheezy-backports state=installed
+  with_items:
+    - suricata
+    - oinkmaster
+  tags:
+    - ids
+
 - name: Create suricata user
   user: name=suricata shell=/bin/false createhome=no
   tags:
