@@ -1,5 +1,5 @@
 - name: Set options for slapd package (password, domain name)
-  debconf: name=slapd question={{ item.q }} vtype={{ item.t }} value={{ item.v }}
+  debconf: name=slapd question="{{item.q}}" vtype="{{item.t}}" value="{{item.v}}"
   with_items:
     - { q: 'slapd/password1', t: 'password', v: "{{ ldap_admin_pass }}" }
     - { q: 'slapd/password2', t: 'password', v: "{{ ldap_admin_pass }}" }
