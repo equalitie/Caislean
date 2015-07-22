@@ -1,6 +1,6 @@
 {% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
 SID="{{ samba_sid }}"
-sambaDomain="{{ domain_name | truncate(15) | upper }}"
+sambaDomain="{{ domain_name | truncate(15, true, '') | upper }}"
 masterLDAP="localhost"
 masterPort="389"
 ldapTLS="0"

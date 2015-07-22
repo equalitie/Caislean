@@ -25,10 +25,10 @@
 
 ## Browsing/Identification ###
 
-   netbios name = {{ server_name | truncate(15) | upper }}
+   netbios name = {{ server_name | truncate(15, true, '') | upper }}
 
 # Change this to the workgroup/NT-domain name your Samba server will part of
-   workgroup = {{ domain_name | truncate(15) | upper }}
+   workgroup = {{ domain_name | truncate(15, true, '') | upper }}
 
 # Windows Internet Name Serving Support Section:
 # WINS Support - Tells the NMBD component of Samba to enable its WINS Server
