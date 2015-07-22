@@ -53,7 +53,7 @@
     - ldap
 
 - name: Add organizationalUnit mail LDAP entry (2/2)
-  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/mail_ou.ldif
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass | quote }} -f /tmp/mail_ou.ldif
   when: ldapsearch_mail_ou | failed
   tags:
     - ldap

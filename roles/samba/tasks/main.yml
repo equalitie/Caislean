@@ -18,7 +18,7 @@
     - samba
 
 - name: Provide Samba with the LDAP admin user password
-  command: smbpasswd -w {{ ldap_admin_pass }}
+  command: smbpasswd -w {{ ldap_admin_pass | quote }}
   when: smb_conf | changed
   tags:
     - samba
@@ -67,7 +67,7 @@
     - samba
 
 - name: Add organizationalUnit samba LDAP entry (2/2)
-  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/samba_ou.ldif
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass | quote }} -f /tmp/samba_ou.ldif
   when: ldapsearch_samba_ou | failed
   tags:
     - samba
@@ -112,7 +112,7 @@
     - samba
 
 - name: Insert Samba LDAP entries
-  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass }} -f /tmp/sambaldap.ldif
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass | quote }} -f /tmp/sambaldap.ldif
   when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
   tags:
     - samba
