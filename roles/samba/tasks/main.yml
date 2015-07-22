@@ -145,7 +145,7 @@
     - samba
 
 - name: Retrieve group ID for Domain Users group
-  shell: ldapsearch -LLL -x -b "cn=Domain Users,ou=Groups,ou=samba,{{'dc=' + domain_name|split('.')|join(',dc=')}}" -s base gidNumber | sed '/^gidNumber: /!d;s/^gidNumber: //'
+  shell: "ldapsearch -LLL -x -b 'cn=Domain Users,ou=Groups,ou=samba,{{'dc=' + domain_name|split('.')|join(',dc=')}}' -s base gidNumber | sed '/^gidNumber: /!d;s/^gidNumber: //'"
   register: domain_users_gid
   tags:
     - samba
