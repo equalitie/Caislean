@@ -26,7 +26,7 @@
     - owncloud
 
 - name: Set MySQL root password
-  debconf: name=mysql-server-5.5 question={{ item }} vtype=password value={{ mysql_root_password }}
+  debconf: name=mysql-server-5.5 question="{{item}}" vtype=password value="{{mysql_root_password}}"
   with_items:
     - mysql-server/root_password
     - mysql-server/root_password_again
