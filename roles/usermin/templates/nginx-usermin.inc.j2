@@ -1,4 +1,5 @@
-location /useradmin {
+location /useradmin/ {
 	proxy_pass http://localhost:20000/;
+	proxy_redirect http://$host:20000/ https://{{server_name}}.{{domain_name}}/useradmin/;
 	proxy_set_header Host $host;
 }
