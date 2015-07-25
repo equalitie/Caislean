@@ -1,0 +1,4 @@
+---
+
+- name: restart usermin
+  service: name=usermin state=restarted
