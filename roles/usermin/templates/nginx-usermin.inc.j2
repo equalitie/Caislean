@@ -1,5 +1,31 @@
 location /useradmin/ {
+
 	proxy_pass http://localhost:20000/;
-	proxy_redirect http://$host:20000/ https://{{server_name}}.{{domain_name}}/useradmin/;
+	proxy_redirect http://$host:20000/ https://intpensrv02.pen-international.org/useradmin/;
 	proxy_set_header Host $host;
+
+	location ^~ /useradmin/changepass/ {
+		proxy_pass http://localhost:20000/changepass/;
+		proxy_redirect http://$host:20000/changepass/ https://intpensrv02.pen-international.org/useradmin/changepass/;
+		proxy_set_header Host $host;
+
+		location ~ ^/useradmin/changepass/(.*\.(pm|pl)|u?config.*|CHANGELOG|module\.info)$ { return 403; }
+	}
+
+	location ^~ /useradmin/images/ {
+		proxy_pass http://localhost:20000/images/;
+		proxy_redirect http://$host:20000/images/ https://intpensrv02.pen-international.org/useradmin/images/;
+		proxy_set_header Host $host;
+	}
+
+	location ^~ /useradmin/unauthenticated/ {
+		proxy_pass http://localhost:20000/unauthenticated/;
+		proxy_redirect http://$host:20000/unauthenticated/ https://intpensrv02.pen-international.org/useradmin/unauthenticated/;
+		proxy_set_header Host $host;
+	}
+
+	location ~ ^/useradmin/(.+/.*|.+\.(pm|pl)|config)$ {
+		return 403;
+	}
 }
+
