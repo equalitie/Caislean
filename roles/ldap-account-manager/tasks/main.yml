@@ -57,7 +57,7 @@
     - webldap
 
 - name: Set fact with hashed LDAP password
-  set_fact: hashed_ldap_password={{ slappasswd_hash.stdout }}
+  set_fact: hashed_ldap_password="{{slappasswd_hash.stdout}}"
   tags:
     - webldap
 
