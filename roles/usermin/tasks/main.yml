@@ -21,7 +21,7 @@
     - usermin
 
 - name: Install Usermin config
-  copy: src=etc/usermin/config dest=/etc/usermin/config owner=root group=root mode=0644
+  template: src=usermin-config.j2 dest=/etc/usermin/config owner=root group=root mode=0644
   notify:
     - restart usermin
   tags:
