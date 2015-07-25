@@ -1,0 +1,4 @@
+location /useradmin {
+	proxy_pass http://localhost:20000/;
+	proxy_set_header Host $host;
+}
