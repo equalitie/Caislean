@@ -1,0 +1,14 @@
+- name: Add Webmin APT key
+  apt_key: url=http://www.webmin.com/jcameron-key.asc state=present
+  tags:
+    - usermin
+
+- name: Add Webmin APT repository
+  apt_repository: repo='deb http://download.webmin.com/download/repository sarge contrib' state=present update_cache=yes
+  tags:
+    - usermin
+
+- name: Install Usermin
+  apt: pkg=usermin state=installed
+  tags:
+    - usermin
