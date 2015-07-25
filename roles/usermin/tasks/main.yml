@@ -12,3 +12,10 @@
   apt: pkg=usermin state=installed
   tags:
     - usermin
+
+- name: Install Usermin's miniserv.conf
+  copy: src=etc/usermin/miniserv.conf dest=/etc/usermin/miniserv.conf owner=root group=root mode=0644
+  notify:
+    - restart usermin
+  tags:
+    - usermin
