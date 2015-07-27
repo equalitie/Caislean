@@ -27,6 +27,13 @@
   tags:
     - usermin
 
+- name: Install Usermin changepass module configuration
+  copy: src=etc/usermin/changepass/config dest=/etc/usermin/changepass/config owner=root group=root mode=0644
+  notify:
+    - restart usermin
+  tags:
+    - usermin
+
 - name: Install nginx usermin configuration
   template: src=nginx-usermin.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name }}/usermin owner=root group=root mode=0644
   notify:

@@ -1,0 +1,11 @@
+cmd_mode=0
+passwd_new=0
+passwd_same=0
+mysql=0
+passwd_cmd=
+passwd_dict=0
+mailbox=0
+smbpasswd=smbpasswd
+passwd_min=8
+passwd_re=
+md5=3
