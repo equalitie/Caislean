@@ -5,7 +5,7 @@
     - dnsmasq
   tags: vpn
 
-- name: Open VPN port (1194, inboud)  by UFW
+- name: Open VPN port (1194, inbound)  by UFW
   ufw: rule=allow direction=in port=1194
   tags:
     - firewall
