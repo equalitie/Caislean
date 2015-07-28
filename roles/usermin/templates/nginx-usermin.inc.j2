@@ -24,7 +24,7 @@ location /useradmin/ {
 		proxy_set_header Host $host;
 	}
 
-	location ~ ^/useradmin/(.+/.*|.+\.(pm|pl)|config)$ {
+	location ~ ^/useradmin/(.+/.*|.+\.(pm|pl)|u?config.*)$ {
 		return 403;
 	}
 }
