@@ -219,7 +219,7 @@
    path = {{ share.path }}
    guest ok = no
    read only = no
-   create mask = 0700
+   create mask = {{ share.create_mask }}
    valid users = {{ share.valid_users }}
 
 {% endfor %}
