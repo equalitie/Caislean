@@ -212,6 +212,19 @@
    read only = no
    create mask = 0750
 
+{% if samba_shares is defined %}
+{% for share in samba_shares %}
+[{{ share.name }}]
+   comment = {{ share.caption }}
+   path = {{ share.path }}
+   guest ok = no
+   read only = no
+   create mask = 0700
+   valid users = {{ share.valid_users }}
+
+{% endfor %}
+{% endif %}
+
 # Un-comment the following and create the netlogon directory for Domain Logons
 # (you need to configure Samba to act as a domain controller too.)
 ;[netlogon]
