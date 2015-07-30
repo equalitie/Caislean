@@ -14,6 +14,3 @@
 
 - name: restart dovecot
   service: name=dovecot state=restarted
-
-- name: update mail aliases
-  command: newaliases

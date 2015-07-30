@@ -8,3 +8,6 @@
 
 - name: disable network offloading
   command: /opt/disable-network-offload.sh
+
+- name: update mail aliases
+  command: newaliases
