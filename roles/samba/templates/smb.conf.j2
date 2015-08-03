@@ -223,12 +223,12 @@
 {% if samba_shares is defined %}
 {% for share in samba_shares %}
 [{{ share.name }}]
-   comment = {{ share.caption }}
+   comment = {{ share.caption if share.caption is defined else share.name }}
    path = {{ share.path }}
    guest ok = no
    read only = no
-   create mask = {{ share.create_mask }}
-   directory mask = {{ share.directory_mask }}
+   create mask = {{ share.create_mask if share.create_mask is defined else '0600' }}
+   directory mask = {{ share.directory_mask if share.directory_mask is defined else '0700' }}
    valid users = {{ share.valid_users }}
    vfs objects = recycle
    recycle:keeptree = yes
