@@ -11,30 +11,12 @@
 - name: Install Owncloud and dependencies
   apt: pkg={{item}} state=installed default_release=wheezy-backports
   with_items:
-    - python-mysqldb
     - python-configparser
-    - mysql-common
-    - mysql-client
-    - mysql-server
-    - php5-mysqlnd
     - php5-ldap
     - php-apc
     - owncloud-server
   notify:
     - restart php5-fpm
-  tags:
-    - owncloud
-
-- name: Set MySQL root password
-  debconf: name=mysql-server-5.5 question="{{item}}" vtype=password value="{{mysql_root_password}}"
-  with_items:
-    - mysql-server/root_password
-    - mysql-server/root_password_again
-  tags:
-    - owncloud
-
-- name: Reconfigure MySQL
-  command: dpkg-reconfigure -f noninteractive mysql-server-5.5
   tags:
     - owncloud
 
