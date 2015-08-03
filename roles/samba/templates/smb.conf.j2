@@ -205,6 +205,9 @@
    create mask = 0700
    directory mask = 0700
    valid users = %S
+   vfs objects = recycle
+   recycle:keeptree = yes
+   recycle:touch = no
 
 [Shared]
    comment = Shared documents
@@ -212,6 +215,9 @@
    guest ok = no
    read only = no
    create mask = 0750
+   vfs objects = recycle
+   recycle:keeptree = yes
+   recycle:touch = no
 
 {% if samba_shares is defined %}
 {% for share in samba_shares %}
@@ -222,6 +228,9 @@
    read only = no
    create mask = {{ share.create_mask }}
    valid users = {{ share.valid_users }}
+   vfs objects = recycle
+   recycle:keeptree = yes
+   recycle:touch = no
 
 {% endfor %}
 {% endif %}
