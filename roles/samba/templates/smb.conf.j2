@@ -214,7 +214,8 @@
    path = /var/samba
    guest ok = no
    read only = no
-   create mask = 0750
+   create mask = 0660
+   directory mask = 0770
    vfs objects = recycle
    recycle:keeptree = yes
    recycle:touch = no
