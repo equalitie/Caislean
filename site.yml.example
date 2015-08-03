@@ -18,6 +18,7 @@
     - prosody
     - php-fpm
     - roundcube
+    - mysql
     - owncloud
     - wordpress
     - samba
