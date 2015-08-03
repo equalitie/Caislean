@@ -228,6 +228,7 @@
    guest ok = no
    read only = no
    create mask = {{ share.create_mask }}
+   directory mask = {{ share.directory_mask }}
    valid users = {{ share.valid_users }}
    vfs objects = recycle
    recycle:keeptree = yes
