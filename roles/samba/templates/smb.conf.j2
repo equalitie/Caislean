@@ -219,6 +219,7 @@
    vfs objects = recycle
    recycle:keeptree = yes
    recycle:touch = no
+   recycle:directory_mode = 0770
 
 {% if samba_shares is defined %}
 {% for share in samba_shares %}
@@ -233,6 +234,7 @@
    vfs objects = recycle
    recycle:keeptree = yes
    recycle:touch = no
+   recycle:directory_mode = {{ share.directory_mask if share.directory_mask is defined else '0700' }}
 
 {% endfor %}
 {% endif %}
