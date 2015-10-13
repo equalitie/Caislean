@@ -1,8 +1,12 @@
 # Caisleán
-*Caisleán - the Irish word for "castle". Pronounced "cash-lawn". For ease of reference, it's safe to drop the a-fada (á) and refer to the recipes as Caislean*
 
-Ansible recipes for deployment of secure communications systems
+*Caisleán - the Irish word for "castle". Pronounced "cash-lawn". For ease of
+reference, it's safe to drop the a-fada (á) and refer to the recipes as
+Caislean*
 
-Full documentation is available here for the moment:
+This is a set of [Ansible](https://www.ansible.com) recipes for deployment of
+secure communication systems.
 
-https://github.com/equalitie/Caislean/wiki
+Full documentation is for the moment available on the [GitHub
+Wiki](https://github.com/equalitie/Caislean/wiki) but is being progressively
+improved and moved into the `doc/` directory.
