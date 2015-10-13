@@ -42,4 +42,29 @@ file is and writing a simple playbook (?) file.
 
 # Using the playbooks
 
-The repository follows the usual Ansible structure.
+## Quick start
+
+The repository follows the usual Ansible structure, and each component sits in
+an Ansible role, in the `roles` directory. Getting started is as follows:
+
+- write your inventory file (see `ansible_hosts.example` for a simple example);
+- specify the components you want on each target system by writing a playbook
+  (an example is given in `site.yml.example`) that matches one or several hosts
+  from your inventory file;
+- configure the necessary variables required by the roles you selected by
+  writing a host variable files in the `host_vars` (see the example file);
+- the roles you select may require a few manual steps: read the documentation to
+  make sure you perform them all.
+
+Once these steps completed, run your playbook from the root of the repository
+tree:
+
+    ansible-playbook -i ansible_hosts site.yml
+
+You may need to use some of these additional options on the command line,
+depending on your case:
+
+- `-u <user>` to specify the remote user to connect as;
+- `-l <hostname or group>` to apply the playbook to only a hostname or group
+  defined in your inventory;
+- `-K` to make Ansible prompt for a `su` or `sudo` password.
