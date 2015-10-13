@@ -83,28 +83,28 @@ Roles are the following:
 
 - `common`: basic system configuration hardening, including SSH, `sysctl`
   configuration and default file creation mask;
-- `backupninja`: backup system using backupninja and duplicity to a SFTP-enabled
-  remote host
-- `ldap-account-manager` (_broken_): web-based management of LDAP user accounts
-- `mysql`: basic MySQL installation for use by web services
-- `nginx`: basic nginx installation without any content
-- `openldap`: OpenLDAP installation and setup for basic multi-user support
-- `openvpn`: OpenVPN server and dnsmasq for Internet access through the VPN,
-  with authentication to OpenLDAP and/or through TLS certificates
-- `owncloud`: Owncloud service and its configuration for nginx and PHP-FPM
-- `php-fpm`: PHP-FPM service and configuration for a use with nginx and web
-  services that require PHP
-- `prosody`: Prosody XMPP server with authentication against local OpenLDAP
-- `roundcube`: Roundcube webmail client
-- `samba` (_work in progress_): Samba file sharing server, to be used through
-  the VPN, with LDAP-based authentication
-- `suricata` (_broken_): Suricata Intrusion Detection System (IDS), to produce
-  warnings in case of network-based attacks
+- `backupninja` (_work in progress_): backup system using backupninja and
+  duplicity to a SFTP-enabled remote host;
 - `tls`: system's TLS configuration (certificate, keys and revocation list),
-  used by all network services
-- `usermin` (_work in progress_): web-based usermin software to allow users to
-  perform 
+  used by all network services;
+- `openldap`: OpenLDAP installation and setup for basic multi-user support;
+- `openvpn`: OpenVPN server and dnsmasq for Internet access through the VPN,
+  with authentication to OpenLDAP and/or through TLS certificates;
 - `virtualmail`: Postfix email server and dovecot SMTP server, authenticating
-  against and delivering mails to LDAP users
+  against and delivering mails to LDAP users;
+- `nginx`: basic nginx installation without any content;
+- `php-fpm`: PHP-FPM service and configuration for a use with nginx and web
+  services that require PHP;
+- `mysql`: basic MySQL installation for use by web services;
+- `ldap-account-manager` (_broken_): web-based management of LDAP user accounts;
+- `owncloud`: Owncloud service and its configuration for nginx and PHP-FPM;
+- `prosody`: Prosody XMPP server with authentication against local OpenLDAP;
+- `roundcube`: Roundcube webmail client;
+- `samba` (_work in progress_): Samba file sharing server, to be used through
+  the VPN, with LDAP-based authentication;
+- `suricata` (_broken_): Suricata Intrusion Detection System (IDS), to produce
+  warnings in case of network-based attacks;
+- `usermin` (_work in progress_): web-based usermin software to allow users to
+  perform;
 - `wordpress`: Wordpress installation and its configuration for ngins and
-  PHP-FPM
+  PHP-FPM.
