@@ -69,3 +69,42 @@ depending on your case:
   defined in your inventory;
 - `-K` to make Ansible prompt for a `su` or `sudo` password so that it obtains
   the right priviledges on the target system.
+
+## Overview of the roles
+
+For detailed explanations, required manual steps and all available variables,
+refer to each role's specific documentation.
+
+Several roles depend on the presence of other ones within the same playbook in
+order to run successfully: refer to their documentation to make sure you include
+all necessary roles.
+
+Roles are the following:
+
+- `common`: basic system configuration hardening, including SSH, `sysctl`
+  configuration and default file creation mask;
+- `backupninja`: backup system using backupninja and duplicity to a SFTP-enabled
+  remote host
+- `ldap-account-manager` (_broken_): web-based management of LDAP user accounts
+- `mysql`: basic MySQL installation for use by web services
+- `nginx`: basic nginx installation without any content
+- `openldap`: OpenLDAP installation and setup for basic multi-user support
+- `openvpn`: OpenVPN server and dnsmasq for Internet access through the VPN,
+  with authentication to OpenLDAP and/or through TLS certificates
+- `owncloud`: Owncloud service and its configuration for nginx and PHP-FPM
+- `php-fpm`: PHP-FPM service and configuration for a use with nginx and web
+  services that require PHP
+- `prosody`: Prosody XMPP server with authentication against local OpenLDAP
+- `roundcube`: Roundcube webmail client
+- `samba` (_work in progress_): Samba file sharing server, to be used through
+  the VPN, with LDAP-based authentication
+- `suricata` (_broken_): Suricata Intrusion Detection System (IDS), to produce
+  warnings in case of network-based attacks
+- `tls`: system's TLS configuration (certificate, keys and revocation list),
+  used by all network services
+- `usermin` (_work in progress_): web-based usermin software to allow users to
+  perform 
+- `virtualmail`: Postfix email server and dovecot SMTP server, authenticating
+  against and delivering mails to LDAP users
+- `wordpress`: Wordpress installation and its configuration for ngins and
+  PHP-FPM
