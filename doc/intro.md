@@ -37,7 +37,9 @@ not intented for use by unexperimented users.
 It is also recommended to at least have basic experience and understanding of
 the components that are going to be used.
 
-Basic knowledge of Ansible (how to run a playbook) is also necessary.
+Basic knowledge of Ansible is also necessary, i.e. knowing what the inventory
+file is and writing a simple playbook (?) file.
 
+# Using the playbooks
 
-
+The repository follows the usual Ansible structure.
