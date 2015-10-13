@@ -67,4 +67,5 @@ depending on your case:
 - `-u <user>` to specify the remote user to connect as;
 - `-l <hostname or group>` to apply the playbook to only a hostname or group
   defined in your inventory;
-- `-K` to make Ansible prompt for a `su` or `sudo` password.
+- `-K` to make Ansible prompt for a `su` or `sudo` password so that it obtains
+  the right priviledges on the target system.
