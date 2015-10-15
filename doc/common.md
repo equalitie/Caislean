@@ -10,5 +10,8 @@
 
 ## Mandatory parameters
 
+- `admin_email`
+
 ## Optional parameters
 
+(none)
