@@ -19,6 +19,14 @@ The passphrase for the PGP key.
 
 Local directory containing the necessary backup-related files.
 
+`backup_remote_ssh_port`
+
+SSH port for the host to backup to.
+
+`backup_remote_ip`
+
+IP address of the host to backup to.
+
 ## Optional parameters
 
 (none)
