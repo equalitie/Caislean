@@ -52,7 +52,9 @@ an Ansible role, in the `roles` directory. Getting started is as follows:
   (an example is given in `site.yml.example`) that matches one or several hosts
   from your inventory file;
 - configure the necessary variables required by the roles you selected by
-  writing a host variable files in the `host_vars` (see the example file);
+  writing host variable files in the `host_vars` directory (see the example
+  file in that directory): each role requires a number of variables to be set,
+  as specified by the documentation;
 - the roles you select may require a few manual steps: read the documentation to
   make sure you perform them all.
 
