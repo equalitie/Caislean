@@ -4,3 +4,8 @@
 
 # Configuration parameters (ansible variables)
 
+
+## Mandatory parameters
+
+## Optional parameters
+
