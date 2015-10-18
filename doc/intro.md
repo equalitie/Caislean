@@ -33,9 +33,6 @@ file is and writing a simple playbook file.
 
 ## Target system
 
-The target system onto which you will be applying the recipes is probably a
-dedicated or virtual remote server.
-
 Only Debian 7 (Wheezy) is supported at the moment. SSH access and access to
 `root` privileges are necessary.
 
