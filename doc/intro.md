@@ -1,4 +1,6 @@
-# What is Caisleán?
+# Caisleán project
+
+## What is Caisleán?
 
 Caisleán is a set of [Ansible](https://www.ansible.com) recipes designed to ease
 the setup and management of secure communication systems on a server. It aims at
@@ -12,6 +14,20 @@ web server security options, files and directories permissions and ownership,
 etc. This should not only save the time needed to system administrator to
 properly dig into these settings but also give assurance that secure settings
 are setup by default.
+
+## Who can use it?
+
+Setting up and managing systems with these recipes requires good knowledge of
+GNU/Linux system administration, ease with the command line and knowledge of
+server security best practices.
+
+Basic experience and understanding of the components that are going to be
+installed is also recommended. That is, if you choose to use Caisleán to install
+a mail server then you should know the basics of Postfix and Dovecot, if you
+intend to do web hosting, knowing the basics of Nginx is recommended, and so on.
+
+Basic knowledge of Ansible is also necessary, i.e. knowing what the inventory
+file is and writing a simple playbook file.
 
 # Preparation
 
@@ -44,18 +60,6 @@ Indeed, you also need a copy of the Caisleán git repository, that you can get
 this way:
 
     git clone https://github.com/equalitie/Caislean/
-
-## Knowledge
-
-Setting up and managing systems with these recipes requires good knowledge of
-GNU/Linux system administration and ease with the command line. The recipes are
-not intented for use by unexperimented users.
-
-It is also recommended to at least have basic experience and understanding of
-the components that are going to be used.
-
-Basic knowledge of Ansible is also necessary, i.e. knowing what the inventory
-file is and writing a simple playbook (?) file.
 
 # Using the playbooks
 
