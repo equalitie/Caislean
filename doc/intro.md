@@ -15,18 +15,35 @@ are setup by default.
 
 # Preparation
 
-## Supported target systems
+## Target system
 
-Target systems supported by the recipes are for the moment only Debian 7
-(Wheezy).
+The target system onto which you will be applying the recipes is probably a
+dedicated or virtual remote server.
+
+Only Debian 7 (Wheezy) is supported at the moment. SSH access and access to
+`root` privileges are necessary.
+
+The packages `python` and `python-apt` are required.
+
+To better take care of the users whose data you will be hosting, it is
+recommended to enable full disk encryption (FDE) on your system that you will be
+using. This can only be done at installation time and requires full control over
+the Debian installation process. See the instructions in `fde-debian7-remote.md`
+for how to setup FDE on Debian for a server you do not have physical access to.
 
 ## System running the recipes
 
-The machine where the recipes run must have Ansible installed in version 1.8 or
-more recent.
+The machine where the recipes run must have [Ansible](https://www.ansible.com)
+installed in version 1.8 or more recent. It is packaged in most GNU/Linux
+distributions.
 
 Some components require the manual use of additional software such as OpenSSL
 and GnuPG.
+
+Indeed, you also need a copy of the Caisleán git repository, that you can get
+this way:
+
+    git clone https://github.com/equalitie/Caislean/
 
 ## Knowledge
 
