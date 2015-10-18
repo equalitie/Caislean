@@ -13,7 +13,7 @@ etc. This should not only save the time needed to system administrator to
 properly dig into these settings but also give assurance that secure settings
 are setup by default.
 
-# Prerequisites
+# Preparation
 
 ## Supported target systems
 
