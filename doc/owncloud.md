@@ -40,6 +40,15 @@ to the LDAP configuration. Configure the application as follows:
 - in the Group filter tab, enter `objectClass=mailAccount` as raw filter
 - select the Advanced tab, scroll down and click on the Save button
 
+## Enabling calendar and contacts management
+
+- log into your Owncloud instance with the administrator account
+- click on the top-left menu and select "Apps"
+- select the PIM category
+- enable both Calendar 8.0 and Contacts 8.0 applications
+- logout : when you log back in, or whenever any user logs in, management of
+  calendar and contacts becomes possible.
+
 # Configuration parameters (ansible variables)
 
 ## Mandatory parameters
