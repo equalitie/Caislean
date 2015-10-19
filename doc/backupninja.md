@@ -4,7 +4,6 @@
 
 # Configuration parameters (ansible variables)
 
-
 ## Mandatory parameters
 
 ### `backup_pgp_key_id`
