@@ -6,6 +6,8 @@
 
 # Manual steps to setup backup system
 
+GnuPG must be installed on your local machine.
+
 ## Create a PGP key pair for encrypting backups
 
 A dedicated PGP keypair is necessary to secure the backups. Create, on your
