@@ -2,7 +2,21 @@
 
 ## Description
 
+This role installs an email system, with Postfix as the SMTP server and Dovecot
+to provide IMAP access to mailboxes. Both are setup with proper TLS support and
+cipherlists.
+
+Users are authenticated against the LDAP database both for sending e-mails and
+for accessing their mailboxes. Whenever e-mails come from the outside, only
+valid LDAP users in the `mail` organizational unit will have their messages
+delivered. See the `openldap` role documentation for more information on the
+LDAP structure.
+
 ## Prerequired roles
+
+- `common`
+- `tls`
+- `openldap`
 
 # Manual steps
 
