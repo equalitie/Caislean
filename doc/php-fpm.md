@@ -10,8 +10,8 @@
 
 ## Mandatory parameters
 
-(none)
+None.
 
 ## Optional parameters
 
-(none)
+None.

@@ -62,4 +62,4 @@ Local directory where TLS files are stored (in the examples above, we used
 
 ## Optional parameters
 
-(none)
+None.

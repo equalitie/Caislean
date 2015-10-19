@@ -24,4 +24,4 @@ The LDAP administrator password.
 
 ## Optional parameters
 
-(none)
+None.

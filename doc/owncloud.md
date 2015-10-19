@@ -64,4 +64,4 @@ the role).
 
 ## Optional parameters
 
-(none)
+None.

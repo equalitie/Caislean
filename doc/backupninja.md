@@ -106,4 +106,4 @@ SSH `known_hosts` file, listed following the YAML syntax, like for instance:
 
 ## Optional parameters
 
-(none)
+None.

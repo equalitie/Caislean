@@ -76,4 +76,4 @@ Password for the `wordpress` MySQL user used by Wordpress.
 
 ## Optional parameters
 
-(none)
+None.

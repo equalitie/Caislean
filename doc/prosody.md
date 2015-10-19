@@ -48,4 +48,4 @@ The domain name, e.g. "mydomain.org".
 
 ## Optional parameters
 
-(none)
+None.

@@ -16,4 +16,4 @@
 
 ## Optional parameters
 
-(none)
+None.

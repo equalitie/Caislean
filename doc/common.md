@@ -2,7 +2,16 @@
 
 ## Description
 
+This role contains tasks meant to bring basic security improvement to the
+system: setting up a firewall using `ufw`, changing default file creation mask,
+hardening SSH configuration, etc.
+
+It is strongly recommended to include this role in first position in any
+Caisleán installation.
+
 ## Prerequired roles
+
+None.
 
 # Manual steps
 
@@ -17,4 +26,4 @@ alerts will be sent to.
 
 ## Optional parameters
 
-(none)
+None.

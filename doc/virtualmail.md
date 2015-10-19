@@ -69,4 +69,4 @@ Local directory where DKIM keys are stored.
 
 ## Optional parameters
 
-(none)
+None.

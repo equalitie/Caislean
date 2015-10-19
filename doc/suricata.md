@@ -35,4 +35,4 @@ some trafic is emitted by or directed to the server).
 
 ## Optional parameters
 
-(none)
+None.
