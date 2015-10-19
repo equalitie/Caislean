@@ -8,6 +8,9 @@
 
 GnuPG must be installed on your local machine.
 
+A remote server accessible through SFTP with SSH key authentication must be
+available.
+
 ## Create a PGP key pair for encrypting backups
 
 A dedicated PGP keypair is necessary to secure the backups. Create, on your
