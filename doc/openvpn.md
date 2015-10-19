@@ -4,6 +4,10 @@
 
 ## Prerequired roles
 
+- `common`
+- `tls`
+- `openldap` (only if using the LDAP authentication)
+
 # Manual steps: managing VPN clients access through TLS certificates
 
 ## Authorizing a new client
