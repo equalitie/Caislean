@@ -2,7 +2,13 @@
 
 ## Description
 
+This role installs MySQL server and client as well as the `php5-mysqlnd`
+package. It is required by other roles such `owncloud` or `wordpress`, that need
+a MySQL server to run.
+
 ## Prerequired roles
+
+- `common`
 
 # Manual steps
 
