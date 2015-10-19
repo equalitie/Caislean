@@ -2,7 +2,23 @@
 
 ## Description
 
+This role installs the Owncloud package from the OpenSUSE repositories and
+installs the proper Nginx configuration file containing a `location` block that
+configures the `/owncloud/` HTTP directory properly, including with forwarding
+PHP requests to `php-fpm`. It also install a dedicated `php-fpm` service,
+running as a distinct user.
+
+Note that after installation of the package through the Ansible playbook,
+finalizing the installation is done via web access to the Owncloud instance.
+
 ## Prerequired roles
+
+- `common`
+- `tls`
+- `nginx`
+- `php-fpm`
+- `mysql`
+- `openldap` (if using LDAP authentication)
 
 # Manual steps: finalizing Owncloud setup
 
