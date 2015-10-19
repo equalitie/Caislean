@@ -2,14 +2,31 @@
 
 ## Description
 
+This role downloads and installs Wordpress from their official website, and
+installs an Nginx configuration file containing a `location` block, making the
+Wordpress instance available under the `/wordpress/` HTTP subdirectory. It also
+creates a dedicated `wordpress` system user and creates a separate PHP-FPM
+instance running as this user.
+
+It is needed to finalize the Wordpress installation by accessing it through HTTP
+as soon as the Ansible Wordpress playbook is finished. Wordpress is able to
+authentify users against the LDAP database with the proper plugin.
+
 ## Prerequired roles
+
+- `common`
+- `tls`
+- `nginx`
+- `php-fpm`
+- `mysql`
+- `openldap` (if using LDAP user authentication)
 
 # Manual steps
 
 ## Finalizing Wordpress installation
 
 Assuming that your server is at `caislean.example.org`, connect to the following
-URL with your web browser after having push the relevant Wordpress Ansible
+URL with your web browser after having pushed the relevant Wordpress Ansible
 recipes: <https://caislean.example.org/wordpress/>. Make sure you are using
 `https` and not `http`, as the information that you will input contains a login
 and a password.
