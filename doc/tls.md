@@ -2,15 +2,33 @@
 
 ## Description
 
+This role installs to the server the TLS-related files specific to your
+installation:
+
+- your certification authority's public certificate;
+- your server's public certificate (certified by the CA) and private key;
+- a custom Diffie-Hellmann parameters file;
+- a certificate revocation list.
+
+All these files have to be created by yourself, manually, on your local system
+from which you are running the playbook. The `tls/` directory at the root of
+this repository provides a bare TLS management repository, with a pre-set
+OpenSSL configuration file usable as-is.
+
+The playbook will upload them to the proper place onto the server, with the
+correct permissions.
+
 ## Prerequired roles
+
+- `common`
 
 # Manual steps
 
 ## TLS certificates creation
 
 Copy the empty TLS certicate management directory provided with the repository
-into a local directory of your choice, for instance
-`/home/user/caislean_admin/` and move to that directory:
+into a local directory of your choice (see variable `tls_directory`), for
+instance `/home/user/caislean_admin/` and move to that directory:
 
     cp -Rn tls /home/user/caislean_admin
     cd /home/user/caislean_admin/tls/
