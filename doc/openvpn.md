@@ -2,6 +2,12 @@
 
 ## Description
 
+This role installs OpenVPN and dnsmasq in order to allow clients to access the
+Internet through the server.
+
+It supports authentication either through the locally running LDAP server or
+through the use of TLS certificates, or both.
+
 ## Prerequired roles
 
 - `common`
