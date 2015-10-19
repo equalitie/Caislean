@@ -30,4 +30,10 @@ The domain name, e.g. "mydomain.org".
 
 ## Optional parameters
 
-(none)
+### `auth_use_samba`
+
+Can be set to either `true` or `false` (default). Defines whether LDAP
+authentication should check credentials against the `samba` organisational unit
+in the LDAP tree rather than the `mail` one. This option is only useful if you
+are also using the `samba` role.
+
