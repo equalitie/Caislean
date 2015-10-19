@@ -2,7 +2,16 @@
 
 ## Description
 
+This role installs the Prosody XMPP server, with a TLS cipherlist aiming at
+protecting decently communications to and from the server, and with
+authentication against the locally running LDAP server (through `saslauthd`
+daemon), using users' email addresses as login.
+
 ## Prerequired roles
+
+- `common`
+- `tls`
+- `openldap`
 
 # Manual steps
 
