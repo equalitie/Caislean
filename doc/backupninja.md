@@ -2,7 +2,17 @@
 
 ## Description
 
+This role uses backupninja and duplicity to make remote incremental encrypted
+backups of some directories of the system.
+
+Only SFTP is supported at the moment.
+
+This role is a work in progress, mostly due to the fact that the list of
+backed-up directories is still static.
+
 ## Prerequired roles
+
+- `common`
 
 # Manual steps to setup backup system
 
