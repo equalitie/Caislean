@@ -18,6 +18,10 @@ OpenSSL configuration file usable as-is.
 The playbook will upload them to the proper place onto the server, with the
 correct permissions.
 
+Note: at the moment, a change in your TLS files will not automatically trigger a
+restart of your network services that provide TLS, and you need to restart them
+manually.
+
 ## Prerequired roles
 
 - `common`
