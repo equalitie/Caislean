@@ -14,6 +14,7 @@ includes:
 ## Prerequired roles
 
 - `common`
+- `tls`
 
 # Manual steps
 
