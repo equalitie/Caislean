@@ -8,7 +8,7 @@
 
 ## DNS settings for XMPP server
 
-Supposing your domain is _domain.com_ and your server running at
+Assuming your domain is _domain.com_ and your server running at
 _caislean.domain.com_, add the following DNS entries for _domain.com_:
 
     _xmpp-client._tcp    IN    SRV    0 5 5222      caislean
