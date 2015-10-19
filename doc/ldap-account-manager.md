@@ -2,7 +2,17 @@
 
 ## Description
 
+This role installs and setups LDAP Account Manager, a web interface designed to
+fully administrate a LDAP tree.
+
+This role is currently broken.
+
 ## Prerequired roles
+
+- `common`
+- `openldap`
+- `nginx`
+- `php-fpm`
 
 # Manual steps
 
