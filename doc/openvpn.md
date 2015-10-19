@@ -10,6 +10,10 @@
 
 # Manual steps: managing VPN clients access through TLS certificates
 
+Clients need to produce TLS certification requests to be signed by your
+certification authority. Hence, all machines need a working OpenSSL
+installation. On Windows machines, OpenSSL is provided with the OpenVPN package.
+
 ## Authorizing a new client
 
 ### Step 1 (client machine): key and certificate signing request creation
