@@ -125,6 +125,6 @@ Roles are the following:
 - `suricata` (_broken_): Suricata Intrusion Detection System (IDS), to produce
   warnings in case of network-based attacks;
 - `usermin` (_work in progress_): web-based usermin software to allow users to
-  perform;
-- `wordpress`: Wordpress installation and its configuration for ngins and
+  perform basic customization of their account;
+- `wordpress`: Wordpress installation and its configuration for nginx and
   PHP-FPM.
