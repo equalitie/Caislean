@@ -1,6 +1,6 @@
 # Overview of the roles
 
-For each role there is a specific documentation file in the role-doc/ directory,
+For each role there is a specific documentation file in the `role-doc` directory,
 with detailed explanations, required manual steps and all available variables.
 
 Several roles depend on the presence of other ones within the same playbook in

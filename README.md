@@ -12,7 +12,7 @@ service to communities and organizations.
 
 ## What does Caislean do?
 
-Caislean helps system administrators to set up one or more [secure](security.md)
+Caislean helps system administrators to set up one or more [secure](doc/security.md)
 servers in few simple steps.
 
 The recipes install a set of free and open-source tools for communication,
@@ -60,7 +60,7 @@ webhosting.
 
 ### Basic skills
 
-Setting up and managing a server with Caislean requires some knowledge of
+Setting up and managing a server with Caislean requires familiarity with
 GNU/Linux system administration, ease with the command line and some knowledge
 of server security best practices.
 
@@ -86,11 +86,11 @@ intend to host a website or a blog, knowing the basics of
        recommended to enable full disk encryption (FDE) on your target system.
        This can only be done when you install the system and requires full
        control over the Debian installation process (see the [server setup
-       guide](debian7-remote.md) for more information).
+       guide](doc/debian7-remote.md) for more information).
     *  Only Debian 7 (Wheezy) is supported at the moment.
     *  SSH access and access to root privileges are necessary.
     *  The packages `python` and `python-apt` are required.
-    *  Read the [server setup guide](debian7-remote.md) for more details on
+    *  Read the [server setup guide](doc/debian7-remote.md) for more details on
        how to set up the target system.
 
 *  A **local machine** to run Caislean.
@@ -107,7 +107,7 @@ intend to host a website or a blog, knowing the basics of
 
 ## How does Caislean work?
 
-Once you have installed and set up your [target system](debian7-remote.md)
+Once you have installed and set up your [target system](doc/debian7-remote.md)
 and have everything you need in your local machine, have a look at the Caislean
 directory you have just downloaded.
 
@@ -120,10 +120,10 @@ single services you may want to offer. So if, for example, you just want to
 offer your users a Jabber/XMPP service and a VPN, your configuration files won't
 have to include the roles that are needed for email and Wordpress.
 
-In each role's detailed documentation (in the role-doc/ directory) you will also
+In each role's detailed documentation (in the `role-doc` directory) you will also
 find a list of the necessary roles that you need to launch for that module to
 work. But to be sure, in the present directory you will also find an [overview
-of the roles](roles_list.md) where roles that are fundamental for the server to
+of the roles](doc/roles_list.md) where roles that are fundamental for the server to
 run correctly are separated from the roles for each single service.
 
 
@@ -140,7 +140,7 @@ start configuring your cookbook:
 * configure the necessary variables required by the roles you selected by
   writing host variable files in the `host_vars` directory (see the example file
   in that directory): each role requires a number of variables to be set -- read
-  the documentation for each role (in the role-doc/ directory) to learn how to
+  the documentation for each role (in the `role-doc` directory) to learn how to
   configure the variables according to your needs;
 * please, note that the roles you select may require a few manual steps: read
   the documentation to make sure you perform them all.
