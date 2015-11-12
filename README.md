@@ -12,21 +12,26 @@ service to communities and organizations.
 
 ## What does Caislean do?
 
-Caislean helps system administrators to set up one or more [secure](doc/security.md)
-servers in few simple steps.
+Caislean helps system administrators to set up one or more
+[secure](doc/security.md) servers **in few simple steps**.
 
 The recipes install a set of free and open-source tools for communication,
-file-sharing, secure Internet access and webhosting.
+file-sharing, secure Internet access and webhosting. Since Caislean is
+**modular**, you can decide either to roll out all services or to just choose
+the ones you need.
 
-Furthermore, Caislean is designed to provide by default a good level of
-security, thanks to proper specific tweakings regarding TLS cipher lists, web
-server security options, files and directories permissions and ownership, etc.
+Furthermore, Caislean is designed to provide by default a good level of **basic
+server security**, thanks to proper specific tweakings regarding TLS cipher
+lists, web server security options, files and directories permissions and
+ownership, etc.
 
 
 ## What services will the server offer?
 
-If you point Caislean at a server, you will be able to offer several secure
-services to your users:
+If you point Caislean at a server, you will be able to offer several
+[secure](doc/security.md) services to your users. The cookbook has a **modular
+structure**, so you can choose to provide all the services listed below or just
+some of them (see "How does Caislean work?" below for more details).
 
 *  **Email**:  IMAP and SMTP over SSL via [Postfix](http://www.postfix.org/) and
    [Dovecot](http://dovecot.org/), with a webmail interface via
@@ -39,9 +44,6 @@ services to your users:
    [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) for Internet access
    through a **VPN**.
 
-Since Caislean has a **modular structure**, you can choose to provide all the
-services listed above or just some of them (see "How does Caislean work?" below
-for more details).
 
 ## Who is Caislean for?
 
@@ -50,9 +52,9 @@ by anyone who has some familiarity with managing a server.
 
 This makes it easy for single individuals, as well as for small groups and
 organizations who cannot afford to hire a tech team (or prefer to rely solely on
-volunteers) to have their own secure server and to offer to a number of users a
-set of tools for communication, file-sharing, secure Internet access and
-webhosting.
+volunteers) to have their own [secure](doc/security.md) server and to offer to a
+number of users a set of tools for communication, file-sharing, secure Internet
+access and webhosting.
 
 
 ## What do I need to use Caislean?
@@ -79,8 +81,8 @@ intend to host a website or a blog, knowing the basics of
 *  One or more dedicated servers (the **target system**) with typical Debian
    requirements (see for instance the minimum hardware requirements for Debian
    [Wheezy](https://www.debian.org/releases/wheezy/amd64/ch03s04.html.en) and
-   [Jessie](https://www.debian.org/releases/jessie/amd64/ch03s04.html.en)).
-   In general, requirements will vary depending on the services you offer and on
+   [Jessie](https://www.debian.org/releases/jessie/amd64/ch03s04.html.en)).  In
+   general, requirements will vary depending on the services you offer and on
    the number of your users.
     *  To better take care of the users whose data you will be hosting, it is
        recommended to enable full disk encryption (FDE) on your target system.
@@ -120,11 +122,11 @@ single services you may want to offer. So if, for example, you just want to
 offer your users a Jabber/XMPP service and a VPN, your configuration files won't
 have to include the roles that are needed for email and Wordpress.
 
-In each role's detailed documentation (in the `role-doc` directory) you will also
-find a list of the necessary roles that you need to launch for that module to
-work. But to be sure, in the present directory you will also find an [overview
-of the roles](doc/roles_list.md) where roles that are fundamental for the server to
-run correctly are separated from the roles for each single service.
+In each role's detailed documentation (in the `role-doc` directory) you will
+also find a list of the necessary roles that you need to launch for that module
+to work. But to be sure, in the `doc` directory you will also find an [overview
+of the roles](doc/roles_list.md) where roles that are fundamental for the server
+to run correctly are separated from the roles for each single service.
 
 
 ## How to launch Caislean
@@ -161,7 +163,7 @@ depending on your case:
 * `-vvvv` to obtain a verbose output and check for errors.
 
 
-# Contacts/Troubleshooting
+## Contacts/Troubleshooting
 
 To report a bug, ask questions or provide feedback of any kind, open an issue in
 Caislean's [Github project](https://github.com/equalitie/Caislean/issues) or
