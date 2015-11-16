@@ -19,9 +19,9 @@ as well as to warn them about the limits of personal VPNs (you can find a good
 explanation [here](https://help.riseup.net/it/vpn), in the section "Limitations
 to using RiseupVPN").
 
-You should also understand that having implemented basic security settings in the
-server you run doesn't protect you from any possible risk. Depending on the
-**political context** where you and your community live and where your
+You should also understand that having implemented basic security settings in
+the server you run does not protect you from every possible risk. Depending on
+the **political context** where you and your community live and where your
 activities take place, as well as where your server is located, your server
 might be seized or intercepted by authorities and there might be legal
 proceedings against you, your organization and/or your users.
