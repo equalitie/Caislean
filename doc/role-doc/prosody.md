@@ -33,7 +33,7 @@ The Prosody documentation provides extensive
 
 ## Accepting your server's TLS certificate on clients
 
-In order to avoind repeated warnings or even clients refusing to connect due to
+In order to avoid repeated warnings or even clients refusing to connect due to
 your TLS certificate not being trusted, users will need to make sure your CA
 certificate is trusted by their XMPP client.
 
@@ -41,7 +41,7 @@ Pidgin will typically not connect to the server in its default configuration.
 [This page](http://cl0secall.net/post/425) explains how to make it trust a root
 CA certificate, and [this
 one](http://www.maketecheasier.com/having-pidgin-ssl-certificate-error-heres-the-fix/)
-to make it trust single per-host certificates.
+how to make it trust single per-host certificates.
 
 # Configuration parameters (ansible variables)
 

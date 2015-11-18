@@ -13,7 +13,7 @@ installation:
 All these files have to be created by yourself, manually, on your local system
 from which you are running the playbook. The `tls/` directory at the root of
 this repository provides a bare TLS management repository, with a pre-set
-OpenSSL configuration file usable as-is.
+OpenSSL configuration file usable as is.
 
 The playbook will upload them to the proper place onto the server, with the
 correct permissions.
@@ -38,7 +38,7 @@ instance `/home/user/caislean_admin/` and move to that directory:
     cd /home/user/caislean_admin/tls/
 
 Create the root CA certificate. It will be used both by the VPN server to
-authenticate the connecting clients, as well as by the clients to authenticate
+authenticate the connecting clients and  by the clients to authenticate
 the server.
 
     umask 0077

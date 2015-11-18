@@ -4,8 +4,8 @@
 
 This role installs the Owncloud package from the OpenSUSE repositories and
 installs the proper Nginx configuration file containing a `location` block that
-configures the `/owncloud/` HTTP directory properly, including with forwarding
-PHP requests to `php-fpm`. It also install a dedicated `php-fpm` service,
+configures the `/owncloud/` HTTP directory properly, also with forwarding
+PHP requests to `php-fpm`. It also installs a dedicated `php-fpm` service,
 running as a distinct user.
 
 Note that after installation of the package through the Ansible playbook,
@@ -62,7 +62,7 @@ to the LDAP configuration. Configure the application as follows:
 - click on the top-left menu and select "Apps"
 - select the PIM category
 - enable both Calendar 8.0 and Contacts 8.0 applications
-- logout : when you log back in, or whenever any user logs in, management of
+- log out: when you log back in, or whenever any user logs in, management of
   calendar and contacts becomes possible.
 
 # Configuration parameters (ansible variables)
