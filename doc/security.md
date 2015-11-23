@@ -1,6 +1,6 @@
 # What we talk about when we talk about security
 
-Caislean helps set up in few simple steps one or more secure servers. This means
+Caisleán helps set up in few simple steps one or more secure servers. This means
 that the cookbook includes a whole range of **best practices for basic
 security**, with tweakings regarding TLS cipher lists, web server security
 options, files and directories permissions and ownership, etc.
