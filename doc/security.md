@@ -162,9 +162,17 @@ key pair on the local system. The documentation for the role `virtualmail`
 provides OpenSSL-based commands to generate these keys, and the role itself
 pushes them to the administered server.
 
-### PGP backup private key
+### PGP backup private key and backup server security
 
-### Other manual tasks
+Caisleán provides the possibility to make encrypted incremental backups thanks
+to Backupninja and Duplicity. Backupninja is the backup scheduler, and the
+backup itself is made by Duplicity, which requires a PGP key pair.
+
+The PGP private and public keys used for backup must be stored as files on the
+local system, and are subsequently uploaded to the server. This upload as well
+as the documentation on how to export the PGP keys to files are part of the
+`backupninja` role. Its documentation also includes instructions on setting up
+the backup server's SSH-based access to allow the backups to be pushed to it.
 
 # What we talk about when we talk about security
 
