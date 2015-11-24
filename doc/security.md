@@ -122,7 +122,7 @@ individual associated roles.
 ## Manual administration tasks for better awareness
 
 Some tasks were deliberately left to the system administrator, in order to make
-sure they are conscious of the place where sensitive files are stored on the
+sure they are conscious of the place where sensitive files are stored on their
 local system.
 
 ### TLS private keys and certificates
@@ -138,10 +138,12 @@ The TLS setup used by Caisleán includes:
 Among these, the private keys are particularly sensitive and must be protected
 on the local machine used by the server administrator. For this reason, their
 creation is left to the administrator, to make sure that their location is
-clearly known and that a passphrase is provided. The `tls` role documentation
-provides the necessary commands to create and securely store theses files, and
-the `tls/` directory at the root of the repository can be used as empty TLS CA
-tree, as it notably contains a pre-configured `openssl.cnf` file.
+clearly known and that a passphrase is provided.
+
+The `tls` role documentation provides the necessary commands to create and
+securely store theses files, and it is advised to use the `tls/` directory at
+the root of the repository as an empty TLS CA tree, as it notably contains a
+pre-configured `openssl.cnf` file.
 
 The CA public certificate, the server certificate and private key and the
 Diffie-Hellmann parameters are pushed to the server by the `tls` role. These
@@ -150,12 +152,11 @@ Prosody, etc.).
 
 ### DKIM private key
 
-[DKIM](https://en.wikipedia.org/wiki/DKIM) e-mail certification is used to
-certify that a message was legitimately sent from a given domain. It relies on
-adding a header to every sent e-mail, containing a cryptographic signature based
-on a private key. The corresponding public key is available as a specific DNS
-entry for the given domain, and is read by the receiving server to check the
-signature.
+[DKIM](https://en.wikipedia.org/wiki/DKIM) is used to certify that an e-mail was
+legitimately sent from a given domain. It relies on adding a header to every
+sent e-mail, containing a cryptographic signature based on a private key. The
+corresponding public key is available as a specific DNS entry for the given
+domain, and is read by the receiving server to check the signature.
 
 Similarly to the TLS keys, it is asked to the administrator to generate the DKIM
 key pair on the local system. The documentation for the role `virtualmail`
@@ -174,7 +175,7 @@ as the documentation on how to export the PGP keys to files are part of the
 `backupninja` role. Its documentation also includes instructions on setting up
 the backup server's SSH-based access to allow the backups to be pushed to it.
 
-# What we talk about when we talk about security
+# Technical security measures cannot replace awareness and mindful behavior
 
 Caisleán helps set up in few simple steps one or more secure servers. This means
 that the cookbook includes a whole range of **best practices for basic
