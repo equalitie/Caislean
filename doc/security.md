@@ -112,7 +112,7 @@ using SHA1
 however placed at the end of the list, as this algorithm's security is
 increasingly questioned.
 
-A 3DES cipher is added for HTTPS, to ensure compatibility with Internet
+A 3DES cipher is appended for HTTPS, to ensure compatibility with Internet
 Explorer 8, despite its questionable security. It is the only one that does not
 provide forward secrecy.
 
