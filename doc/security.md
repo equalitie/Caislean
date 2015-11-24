@@ -150,10 +150,21 @@ Prosody, etc.).
 
 ### DKIM private key
 
-DKIM e-mail certification is used to certify that a message was sent by a
-legitimate user.
+[DKIM](https://en.wikipedia.org/wiki/DKIM) e-mail certification is used to
+certify that a message was legitimately sent from a given domain. It relies on
+adding a header to every sent e-mail, containing a cryptographic signature based
+on a private key. The corresponding public key is available as a specific DNS
+entry for the given domain, and is read by the receiving server to check the
+signature.
+
+Similarly to the TLS keys, it is asked to the administrator to generate the DKIM
+key pair on the local system. The documentation for the role `virtualmail`
+provides OpenSSL-based commands to generate these keys, and the role itself
+pushes them to the administered server.
 
 ### PGP backup private key
+
+### Other manual tasks
 
 # What we talk about when we talk about security
 
