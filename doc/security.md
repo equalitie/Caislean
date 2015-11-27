@@ -1,16 +1,16 @@
-# Security-related design choices in Caisleán
+# Security-related design choices in Caislean
 
-Among the configuration files provided by Caisleán for its various included
-pieces of software, choices were made with security as a high criterion. This
-section provides more details about changes that were made with security in
-mind:
+Among the configuration files provided by Caislean for its various included
+pieces of software, choices were made with security as a high criterion.
+This section provides more details about changes that were made to improve
+security. Specifically, these are the main security outcomes we had in mind: 
 
-- reducing risks of illegitimate access on the server running Caisleán;
-- securing the content of communcations between the server and its users;
-- having the administrator to perform some important tasks by hand to ensure a
+- reducing risks of illegitimate access on the server running Caislean;
+- securing the content of communications between the server and its users;
+- having the administrator perform some important tasks by hand to ensure a
   sufficient awareness about the important files stored on the local system.
 
-## Security of the system running Caisleán
+## Security of the system running Caislean
 
 ### Automatic update notifications
 
@@ -20,7 +20,7 @@ upgraded.
 
 Software upgrades often fix security issues, making it important to remind the
 administrator to perform them. They are one of the most basic measures for
-keeping a system reasonable secure.
+keeping a system reasonably secure.
 
 Since upgrades are often coupled with necessary manual operations (rebooting the
 system, restarting some services), the action of upgrading packages is left to
@@ -31,10 +31,10 @@ This is set up in the role `common`.
 ### Rootkit and filesystem alteration checking
 
 Using `rkhunter` and `chkrootkit`, periodic checks are made in order to spot
-illegitimate changes in the filesystem or apparition of well-known pieces of
+illegitimate changes in the filesystem or appearance of well-known pieces of
 malware.
 
-Both of these tools are used because their detection mechanisms differ.
+These tools are used together because their detection mechanisms differ.
 `rkhunter` checks for any suspicious changes in files on the system, regardless
 of the content of the changes. For instance, an alert will be raised if a binary
 under `/usr/bin` is changed outside of a system upgrade. On the other hand,
@@ -50,7 +50,7 @@ The SSH server configuration is changed so that:
 
 - no password-based authentication is permitted, to remove the risk of
   bruteforce attacks;
-- `root` login is forbidden, so that a SSH key compromission does not lead to
+- `root` login is forbidden, so that an SSH key compromission does not lead to
   direct compromission of the `root` account;
 - only one login is allowed: the one with which Ansible connects to the system,
   to make sure other logins cannot be used to access the system.
@@ -59,28 +59,28 @@ This is set up by the role `common`.
 
 ### Firewall
 
-Using `ufw` and `iptables`, most of the trafic to and from the server is
-blocked. TCP and UDP ports are by default blocked inbound and outbound, excepted
-22 and 25 inbound as well as 80 and 443 outbound, as HTTP access is required for
-system upgrades.
+Using `ufw` and `iptables`, most of the traffic to and from the server is
+blocked. TCP and UDP ports are by default blocked inbound and outbound, except
+for 22 and 25 inbound as well as 80 and 443 outbound, as HTTP access is required
+for system upgrades.
 
-These measures may notably prevent illegitimate software from from generatic
-network trafic, in case they are remotely controled.
+These measures may notably prevent illegitimate software from generating
+network traffic, in case they are remotely controlled.
 
 This is set up by the role `common`, and more ports are allowed in roles setting
 up network services, such as OpenVPN.
 
 ### PHP hardening
 
-Caisleán includes several web-based services that require PHP: Roundcube,
+Caislean includes several web-based services that require PHP: Roundcube,
 Wordpress, Owncloud and others. The web server is Nginx and PHP pages are
 processed by PHP-FPM.
 
 As PHP applications may be the source of security issues, it is a good idea to
-try to mitigate in advance potiential illegitimate access to PHP functions. For
-this, each PHP-based application in Caisleán is associated with a unique PHP-FPM
+try to mitigate potential illegitimate access to PHP functions in advance. For
+this, each PHP-based application in Caislean is associated with a unique PHP-FPM
 process running with its own UNIX user and a separate session directory. In
-addition, each have a white list of directories it is allowed to access to, in
+addition, each has a white list of directories it is allowed to access to, in
 order to reduce illegitimate access to files. These measures are set by each
 role associated to a particular service, such as `roundcube`, `owncloud`, etc.
 
@@ -104,20 +104,20 @@ The role `common` also brings the following improvements:
 ### TLS cipher list
 
 Helping securing exchanges between the server and its users is done through a
-careful selection of available TLS ciphers. The cipherlist first privileges
+careful selection of available TLS ciphers. The cipher list first privileges
 elliptic curve Diffie-Hellmann (ECDH) based ciphers sorted by decreasing key
 size order, followed by "classical" Diffie-Hellman (DH) based ciphers. Ciphers
 using SHA1
 [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) are
-however placed at the end of the list, as this algorithm's security is
+however placed at the end of the list, as the security of this algorithm is
 increasingly questioned.
 
 A 3DES cipher is appended for HTTPS, to ensure compatibility with Internet
 Explorer 8, despite its questionable security. It is the only one that does not
 provide forward secrecy.
 
-The cipherlists are provided in the configuration files for each service, in the
-individual associated roles.
+The cipher lists are provided in the configuration files for each service, in
+the individual associated roles.
 
 ## Manual administration tasks for better awareness
 
@@ -127,13 +127,13 @@ local system.
 
 ### TLS private keys and certificates
 
-The TLS setup used by Caisleán includes:
+The TLS setup used by Caislean includes:
 
 - a certification authority (CA) certificate along with its private key;
 - a certificate for the server, signed by this CA, along with its private key;
 - a file containing Diffie-Hellmann parameters;
 - optionally, other certificates signed by the CA, notably in case of VPN
-  clients being allow through the use of TLS certificates.
+  clients being allowed through the use of TLS certificates.
 
 Among these, the private keys are particularly sensitive and must be protected
 on the local machine used by the server administrator. For this reason, their
@@ -145,7 +145,7 @@ securely store theses files, and it is advised to use the `tls/` directory at
 the root of the repository as an empty TLS CA tree, as it notably contains a
 pre-configured `openssl.cnf` file.
 
-The CA public certificate, the server certificate and private key and the
+The CA public certificate, the server certificate and private key, and the
 Diffie-Hellmann parameters are pushed to the server by the `tls` role. These
 files are subsequently needed by all TLS-enabled services (Nginx, Postfix,
 Prosody, etc.).
@@ -158,14 +158,14 @@ sent e-mail, containing a cryptographic signature based on a private key. The
 corresponding public key is available as a specific DNS entry for the given
 domain, and is read by the receiving server to check the signature.
 
-Similarly to the TLS keys, it is asked to the administrator to generate the DKIM
+As for the TLS keys, the administrator is aked to generate the DKIM
 key pair on the local system. The documentation for the role `virtualmail`
 provides OpenSSL-based commands to generate these keys, and the role itself
 pushes them to the administered server.
 
 ### PGP backup private key and backup server security
 
-Caisleán provides the possibility to make encrypted incremental backups thanks
+Caislean offers the possibility of making encrypted incremental backups thanks
 to Backupninja and Duplicity. Backupninja is the backup scheduler, and the
 backup itself is made by Duplicity, which requires a PGP key pair.
 
@@ -177,7 +177,7 @@ the backup server's SSH-based access to allow the backups to be pushed to it.
 
 # Technical security measures cannot replace awareness and mindful behavior
 
-Caisleán helps set up in few simple steps one or more secure servers. This means
+Caislean helps set up in few simple steps one or more secure servers. This means
 that the cookbook includes a whole range of **best practices for basic
 security**, with tweakings regarding TLS cipher lists, web server security
 options, files and directories permissions and ownership, etc.
