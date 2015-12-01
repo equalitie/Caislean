@@ -8,9 +8,9 @@ Wordpress instance available under the `/wordpress/` HTTP subdirectory. It also
 creates a dedicated `wordpress` system user and creates a separate PHP-FPM
 instance running as this user.
 
-It is needed to finalize the Wordpress installation by accessing it through HTTP
-as soon as the Ansible Wordpress playbook is finished. Wordpress is able to
-authentify users against the LDAP database with the proper plugin.
+In order to finalize the Wordpress installation, you will need to access it
+through HTTP as soon as the Ansible Wordpress playbook is finished. Wordpress is
+able to authentify users against the LDAP database with the proper plugin.
 
 ## Prerequired roles
 
@@ -28,7 +28,7 @@ authentify users against the LDAP database with the proper plugin.
 Assuming that your server is at `caislean.example.org`, connect to the following
 URL with your web browser after having pushed the relevant Wordpress Ansible
 recipes: <https://caislean.example.org/wordpress/>. Make sure you are using
-`https` and not `http`, as the information that you will input contains a login
+`https` and not `http`, as the information that you will enter contains a login
 and a password.
 
 You will be prompted for:
@@ -45,7 +45,7 @@ username and password you just entered.
 
 ## Allowing LDAP users into Wordpress
 
-If you wish to allow the LDAP users to log into Wordpress, you may use the
+If you wish to allow the LDAP users to log into Wordpress, you can use the
 [wpDirAuth](https://wordpress.org/plugins/wpdirauth/) plugin:
 
 - move into the Plugin section and click "Add new"
@@ -61,7 +61,7 @@ If you wish to allow the LDAP users to log into Wordpress, you may use the
     - customize or blank Institution Name, Login Screen Message and Password
       Change Message
 
-Users can now login using their email address and usual password. They will have
+Users can now log in using their email address and usual password. They will have
 the "Subscriber" role by default upon their first login. You can change this
 once they have logged in once.
 
