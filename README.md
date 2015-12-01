@@ -173,4 +173,4 @@ depending on your case:
 
 To report a bug, ask questions or provide feedback of any kind, open an issue in
 Caislean's [Github project](https://github.com/equalitie/Caislean/issues) or
-write to: kheops@equalit.ie (PGP key: 0xBA5B6E9F53BB2174).
+write to: caislean@equalit.ie.
