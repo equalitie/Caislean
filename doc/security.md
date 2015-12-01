@@ -1,3 +1,8 @@
+In this document you will find all you need to know about the security of your
+server, with descriptions of security-related **design choices** in Caislean and
+important recommendations on **further measures** you need to take to improve
+security. Please, make sure you read it all.
+
 # Security-related design choices in Caislean
 
 Among the configuration files provided by Caislean for its various included
@@ -178,16 +183,39 @@ the backup server's SSH-based access to allow the backups to be pushed to it.
 # Technical security measures cannot replace awareness and mindful behavior
 
 Caislean helps set up in few simple steps one or more secure servers. This means
-that the cookbook includes a whole range of **best practices for basic
-security**, with tweakings regarding TLS cipher lists, web server security
-options, files and directories permissions and ownership, etc.
+that, as explained above, the cookbook includes a whole range of best practices
+for basic security. Nevertheless, depending on your and your users' threat
+model, it is worth pointing out that Caislean's basic settings are **just one
+part** of the setup that is needed for attaining a suitable security level for
+yourself and your users.
 
-Nevertheless, depending on your and your users' threat model, it is worth
-pointing out that basic server security is **just one part** of the setup that
-is needed for attaining a suitable security level for yourself and your users.
+## Additional manual steps for security
 
-Therefore, we strongly recommend you to **inform your users** on how to improve
-their security through end-to-end encryption (for example advising them to read
+By default, the servers you install with Caislean keep logs of connections,
+including IP addresses that can trace back your users to their real identity.
+There is still no way to avoid that globally, but you can mitigate the problem
+by configuring a short log retention (via `logrotate` rules) and redact IP
+addresses that are processed by `syslog` by using appropriate filters.
+
+Depending on your user base, you may or may not be able to have a trusted
+channel of communication with your users in order to give them your TLS
+certificate. Remember that if you cannot hand over your certificate in a trusted
+way, verification may become tricky for less expert users. This means that users
+may tend to install the certificate in their clients without verifying it.
+
+Since at the moment you can only use self-signed certificates, we recommend you
+to either make sure that all your users can get the key through a trusted
+channel or, if this is impossible for logistical reasons, to sign the
+certificate with GnuPG and provide them with the fingerprint and instructions
+for verification.
+
+## Communication and awareness
+
+Besides technical tweakings on your part, there are some more recommendations to
+improve the security of your server.
+
+We strongly recommend you to **inform your users** on how to improve their
+security through end-to-end encryption (for example advising them to read
 manuals on
 [GPG](https://learn.equalit.ie/wiki/To_send_an_email_that_no_one_but_me_and_the_recipient_can_read)
 and
@@ -208,7 +236,7 @@ is therefore strongly advisable to **consider the risks** that you may be facing
 and to make decisions accordingly as regards the location of your servers, the
 services you want to offer (which may be for instance illegal in some states),
 the activities you want to take place on your server and also your legal status
-(in some countries you could be considered a provider and further rules could
+(in some countries you could be labeled as a provider and further rules could
 apply to your case).
 
 Finally consider that a strong user community, if well informed, may be one of
