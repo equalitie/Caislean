@@ -36,9 +36,11 @@ the first time.
 Here are the attributes to set:
 
 - `cn`: user's common name
-- `mail`: the actual email address of the user
+- `mail`: the user's actual email address
 - `mailbox`: local user ID to deliver the mail to, followed by a trailing `/`
 - `userPassword`: user's password (use `ldappasswd` to set, see below)
+
+### How to add a user
 
 Create a LDIF file on your server, called for instance `newuser.ldif`, with the
 following content:
@@ -72,7 +74,7 @@ The new user's login will be their full email address (`test@example.org`).
 
 ## Revoking access
 
-To delete a user's account, simply remove their LDAP coresponding entry:
+To delete a user's account, simply remove their LDAP corresponding entry:
 
     ldapdelete -W -D cn=admin,dc=example,dc=org "cn=LDAP Test User,ou=mail,dc=example,dc=org"
 

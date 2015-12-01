@@ -41,4 +41,20 @@ your cookbook configuration files, depending on your needs.
 *  `wordpress`: Wordpress installation and its configuration for nginx and
    PHP-FPM.
 *  `openvpn`: OpenVPN server and dnsmasq for Internet access through the VPN,
-   with authentication to OpenLDAP and/or through TLS certificates; 
+   with authentication to OpenLDAP and/or through TLS certificates;
+
+
+## Future roles
+
+Some of the roles contained in this repository are unfinished, but will be ready
+soon. Here's the complete list:
+
+*  `backupninja`: backup system using backupninja and duplicity to a
+   SFTP-enabled remote host;
+*  `ldap-account-manager`: web-based management of LDAP user accounts;
+*  `suricata`: Suricata Intrusion Detection System (IDS), to produce warnings in
+   case of network-based attacks;
+*  `usermin`: web-based usermin software to allow users to perform basic
+   customization of their account;
+*  `samba`: Samba file sharing server, to be used through the VPN, with
+   LDAP-based authentication.

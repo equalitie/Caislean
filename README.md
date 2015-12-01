@@ -9,6 +9,10 @@ steps** one or more servers offering free and open-source **tools for
 communication and security** such as e-mail, a VPN and an instant messaging
 service to communities and organizations.
 
+All of the services included in these recipes have been carefully and
+meticulously configured to ensure confidentiality, integrity and authenticity
+to users whenever they are interacting with the server
+
 
 ## What does Caislean do?
 
@@ -44,6 +48,8 @@ some of them (see "How does Caislean work?" below for more details).
    [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) for Internet access
    through a **VPN**.
 
+Each service will run in a **secure system** that grants confidentiality, integrity and
+authenticity whenever users interact with the server.
 
 ## Who is Caislean for?
 
