@@ -204,8 +204,8 @@ way, verification may become tricky for less expert users. This means that users
 may tend to install the certificate in their clients without verifying it.
 
 Since at the moment you can only use self-signed certificates, we recommend you
-to either make sure that all your users can get the key through a trusted
-channel or, if this is impossible for logistical reasons, to sign the
+to either make sure that all your users can get the certificate through a
+trusted channel or, if this is impossible for logistical reasons, to sign the
 certificate with GnuPG and provide them with the fingerprint and instructions
 for verification.
 
