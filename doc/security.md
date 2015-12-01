@@ -194,7 +194,7 @@ yourself and your users.
 By default, the servers you install with Caislean keep logs of connections,
 including IP addresses that can trace back your users to their real identity.
 There is still no way to avoid that globally, but you can mitigate the problem
-by configuring a short log retention (via `logrotate` rules) and redact IP
+by configuring a short log retention (via `logrotate` rules) and redacting IP
 addresses that are processed by `syslog` by using appropriate filters.
 
 Depending on your user base, you may or may not be able to have a trusted
