@@ -16,7 +16,7 @@ requirements and instructions for launching the cookbook, in the
   [Wheezy](doc/debian7-remote.md)** or **Jessie**.
 * Before launching the cookbook, you will also need to read the documentation
   for the single roles you will launch, contained in the
-  **[`role-doc`](/role-doc)** folder.
+  **[`role-doc`](doc/role-doc)** folder.
 * To learn more about about Caislean's basic security settings and how to make
   your server reasonably secure, read the document on
   **[security](doc/security.md)**.
