@@ -168,10 +168,9 @@ sent e-mail, containing a cryptographic signature based on a private key. The
 corresponding public key is available as a specific DNS entry for the given
 domain, and is read by the receiving server to check the signature.
 
-As for the TLS keys, the administrator is aked to generate the DKIM
-key pair on the local system. The documentation for the role `virtualmail`
-provides OpenSSL-based commands to generate these keys, and the role itself
-pushes them to the administered server.
+Similarly to the TLS keys, the administrator is asked to generate the DKIM key
+pair on the local system. The documentation for the role `virtualmail` provides
+OpenSSL-based commands to generate these keys.
 
 ### PGP backup private key and backup server security
 
