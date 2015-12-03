@@ -132,6 +132,9 @@ Some tasks were deliberately left to the system administrator, in order to make
 sure they are conscious of the place where sensitive files are stored on their
 local system.
 
+These manual tasks are however all documented in the corresponding role
+documentation.
+
 ### TLS private keys and certificates
 
 The TLS setup used by Caislean includes:
