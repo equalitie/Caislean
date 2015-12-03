@@ -81,10 +81,10 @@ Caislean includes several web-based services that require PHP: Roundcube,
 Wordpress, Owncloud and others. The web server is Nginx and PHP pages are
 processed by PHP-FPM.
 
-As PHP applications are a common concern for security, it is a good idea to try
-to mitigate potential illegitimate access to PHP functions in advance. For this,
-each PHP-based application in Caislean is associated with a unique PHP-FPM
-process running with its own UNIX user and a separate session directory. In
+As PHP applications are a common concern for security, part of the answer lies
+in mitigating potential illegitimate access to PHP functions in advance. For
+this, each PHP-based application in Caislean is associated with a unique PHP-FPM
+pool running with its own UNIX user and a separate session directory. In
 addition, each has a white list of directories it is allowed to access to, in
 order to reduce illegitimate access to files. These measures are set by each
 role associated to a particular service, such as `roundcube`, `owncloud`, etc.
