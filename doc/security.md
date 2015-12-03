@@ -186,7 +186,7 @@ documentation on how to export the PGP keys to files are part of the
 This role's documentation also includes instructions on setting up the backup
 server's SSH access to allow the backups to be pushed to it.
 
-# Technical security measures cannot replace awareness and mindful behavior
+# Awareness and mindful behavior the administrator needs to have
 
 Caislean helps set up in few simple steps one or more secure servers. This means
 that, as explained above, the cookbook includes a whole range of best practices
