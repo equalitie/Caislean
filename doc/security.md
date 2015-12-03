@@ -119,10 +119,12 @@ increasingly questioned.
 
 A 3DES cipher is appended for HTTPS, to ensure compatibility with Internet
 Explorer 8, despite its questionable security. It is the only one that does not
-provide forward secrecy.
+provide [forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy).
 
 The cipher lists are provided in the configuration files for each service, in
-the individual associated roles.
+the individual associated roles. Comprehensive explanations on server-side TLS
+cipher list is provided on the [Mozilla
+wiki](https://wiki.mozilla.org/Security/Server_Side_TLS).
 
 ## Manual administration tasks for better awareness
 
