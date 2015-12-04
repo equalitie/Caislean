@@ -9,7 +9,7 @@
     - webmail
 
 - name: Install roundcube and dependencies (from backports)
-  apt: pkg={{item}} state=installed default_release=wheezy-backports
+  apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
   with_items:
     - roundcube-sqlite3
     - roundcube-core

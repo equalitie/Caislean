@@ -1,5 +1,5 @@
 - name: Install packages for XMPP server
-  apt: default_release=wheezy-backports pkg={{item}} state=installed
+  apt: default_release={{ansible_distribution_release}}-backports pkg={{item}} state=installed
   with_items:
     - prosody
     - sasl2-bin

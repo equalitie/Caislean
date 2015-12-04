@@ -1,5 +1,5 @@
 - name: Install web server packages (from backports)
-  apt: pkg={{item}} state=installed default_release=wheezy-backports
+  apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
   with_items:
     - nginx
   tags:

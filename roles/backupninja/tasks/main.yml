@@ -9,7 +9,7 @@
     - backup
 
 - name: Install backup software from backports
-  apt: pkg={{item}} default_release=wheezy-backports state=installed
+  apt: pkg={{item}} default_release={{ansible_distribution_release}}-backports state=installed
   with_items:
     - backupninja
     - duplicity

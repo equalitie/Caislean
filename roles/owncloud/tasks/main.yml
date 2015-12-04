@@ -9,7 +9,7 @@
     - owncloud
 
 - name: Install Owncloud and dependencies
-  apt: pkg={{item}} state=installed default_release=wheezy-backports
+  apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
   with_items:
     - python-configparser
     - php5-ldap

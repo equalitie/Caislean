@@ -1,5 +1,5 @@
 - name: Install Suricata and Oinkmaster from backports
-  apt: pkg={{item}} default_release=wheezy-backports state=installed
+  apt: pkg={{item}} default_release={{ansible_distribution_release}}-backports state=installed
   with_items:
     - suricata
     - oinkmaster
