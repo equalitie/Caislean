@@ -56,7 +56,7 @@ The SSH server configuration is changed so that:
 - no password-based authentication is permitted, to remove the risk of
   bruteforce attacks;
 - `root` login is forbidden, so that a compromised SSH key does not lead to
-  direct the `root` account being directly compromised;
+  the `root` account being directly compromised;
 - only one login is allowed: the one with which Ansible connects to the system,
   to make sure other logins cannot be used to access the system.
 
