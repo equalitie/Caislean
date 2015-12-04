@@ -1,0 +1,24 @@
+DISABLE_TESTS=none
+
+USER_FILEPROP_FILES_DIRS=/boot/*
+EXCLUDE_USER_FILEPROP_FILES_DIRS=/boot/lost+found
+EXCLUDE_USER_FILEPROP_FILES_DIRS=/boot/grub
+EXCLUDE_USER_FILEPROP_FILES_DIRS=/boot/grub/*
+
+# This was included in the debian7 conf file.
+# rkhunter -C complains it is invalid (non-existent
+# pathname) when no files matching the pattern exist,
+# which is the case on a clean install, so I have
+# disabled it.
+#EXCLUDE_USER_FILEPROP_FILES_DIRS=/boot/*.dpkg-bak
+
+ALLOWPROCDELFILE=/usr/sbin/cron:/tmp/tmp*
+ALLOWPROCDELFILE=/bin/dash:/tmp/tmp*
+ALLOWPROCDELFILE=/bin/bash:/tmp/tmp*
+ALLOWPROCDELFILE=/bin/run-parts:/tmp/tmp*
+
+ALLOWPROCLISTEN=/usr/bin/suricata
+
+SUSPSCAN_MAXSIZE=10240000
+
+DISABLE_UNHIDE=2

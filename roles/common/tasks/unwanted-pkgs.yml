@@ -1,4 +1,4 @@
-- name: Make sure unwanted packages are absent
+- name: Make sure unwanted packages are absent - common
   apt: pkg={{item}} state=absent purge=yes
   with_items:
     - nfs-common
@@ -7,5 +7,11 @@
     - exim4-base
     - exim4-config
     - exim4-daemon-light
+  tags: base
+
+- name: Make sure unwanted packages are absent - wheezy
+  apt: pkg={{item}} state=absent purge=yes
+  with_items:
     - unhide.rb
+  when: ansible_distribution_release == "wheezy"
   tags: base
