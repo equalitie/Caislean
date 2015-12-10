@@ -1,0 +1,26 @@
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+dn: olcDatabase=mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: mdb
+olcDbDirectory: /var/lib/caislean_ldap
+olcSuffix: {{ base_dn }}
+olcAccess: to attrs=userPassword,sambaLMPassword,sambaNTPassword,shadowLastChange
+  by dn="cn=admin,{{ base_dn }}" write
+  by anonymous auth
+  by self write
+  by * none
+olcAccess: to dn.base="" by * read
+olcAccess: to *
+  by dn="cn=admin,{{ base_dn }}" write
+  by * read
+olcLastMod: TRUE
+olcRootDN: cn=admin,{{ base_dn }}
+olcRootPW: {{ hashed_ldap_password }}
+olcDbCheckpoint: 512 30
+olcDbIndex: objectClass eq
+olcDbIndex: cn,uid eq
+olcDbIndex: uidNumber,gidNumber eq
+olcDbIndex: member,memberUid eq
+olcDbMaxSize: 1073741824
+
