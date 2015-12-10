@@ -1,0 +1,94 @@
+- name: Set fact with our Base DN
+  set_fact: base_dn="dc={{domain_name|split('.')|join(',dc=')}}"
+  tags:
+    - ldap
+
+- name: Install LDAP packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - slapd
+    - ldap-utils
+  tags:
+    - ldap
+
+- name: Install custom LDAP schemas
+  copy: src={{ item }} dest=/etc/ldap/schema/ owner=root group=root mode=0644
+  with_fileglob:
+    - etc/ldap/schema/*
+  notify:
+    - restart slapd
+  tags:
+    - ldap
+
+- name: Install slapd Debian default file
+  copy: src=etc/default/slapd dest=/etc/default/slapd owner=root group=root mode=0644
+  notify:
+    - restart slapd
+  tags:
+    - ldap
+
+- name: Check whether the mail schema exists
+  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=schema,cn=config '(&(cn={*}mail)(objectClass=olcSchemaConfig))'
+  register: ldapsearch_mail_schema
+  tags:
+    - ldap
+
+- name: Add mail schema
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/ldap/schema/mail.schema.ldif
+  when: ldapsearch_mail_schema.stdout == ""
+  tags:
+    - ldap
+
+- name: Check if the database exists for our domain
+  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix=dc={{base_dn}}))'
+  register: ldapsearch_db
+  tags:
+    - ldap
+
+- name: Create dedicated directory for our database
+  file: path=/var/lib/caislean_ldap state=directory group=openldap owner=openldap mode=0755
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Upload temporary database creation LDIF file
+  template: src=new_ldap_db.ldif.j2 dest=/tmp/new_ldap_db.ldif group=root owner=root mode=0600
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Create our database
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/new_ldap_db.ldif
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Remove temporary LDIF database creation file
+  file: state=absent path=/tmp/new_ldap_db.ldif
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Check whether organizationalUnit mail LDAP entry exists
+  command: ldapsearch -x -b ou=mail,dc={{ domain_name|split('.')|join(',dc=') }} -s base
+  ignore_errors: true
+  register: ldapsearch_mail_ou
+  tags:
+    - ldap
+
+- name: Add organizationalUnit mail LDAP entry (1/2)
+  template: src=mail_ou.ldif.j2 dest=/tmp/mail_ou.ldif owner=root group=root mode=0644
+  when: ldapsearch_mail_ou | failed
+  tags:
+    - ldap
+
+- name: Add organizationalUnit mail LDAP entry (2/2)
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass | quote }} -f /tmp/mail_ou.ldif
+  when: ldapsearch_mail_ou | failed
+  tags:
+    - ldap
+
+- name: Remove LDIF temporary file for organizationalUnit mail entry
+  file: path=/tmp/mail_ou.ldif state=absent
+  tags:
+    - ldap
