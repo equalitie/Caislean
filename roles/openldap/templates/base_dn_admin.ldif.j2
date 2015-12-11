@@ -1,0 +1,7 @@
+dn: cn=admin,{{base_dn}}
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword: {{hashed_ldap_password}}
+
