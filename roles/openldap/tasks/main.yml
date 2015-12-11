@@ -180,7 +180,7 @@
     - ldap
 
 - name: Check whether organizationalUnit mail LDAP entry exists
-  command: ldapsearch -x -b ou=mail,dc={{base_dn}} -s base
+  command: ldapsearch -x -b ou=mail,{{base_dn}} -s base
   ignore_errors: true
   register: ldapsearch_mail_ou
   tags:
