@@ -84,8 +84,6 @@
   tags:
     - ldap
 
-- debug: msg={{db_dn}}
-
 - name: Set fact with our database DN
   set_fact: ldap_db_config_dn={{db_dn.stdout_lines[0]}}
   tags:
