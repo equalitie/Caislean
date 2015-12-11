@@ -1,0 +1,5 @@
+{{ldap_db_config_dn}}
+changetype: modify
+replace: olcRootPW
+olcRootPW: {{hashed_ldap_password}}
+
