@@ -1,5 +1,5 @@
 - name: Set fact with our Base DN
-  set_fact: base_dn="dc={{domain_name|split('.')|join(',dc=')}}"
+  set_fact: base_dn="dc={{domain_name.split('.')|join(',dc=')}}"
   tags:
     - ldap
 
@@ -101,6 +101,31 @@
 
 - name: Remove ACL temporary LDIF file
   file: path=/tmp/ldap_db_acl.ldif state=absent
+  tags:
+    - ldap
+
+- name: Test if the administrator password works
+  command: ldapwhoami -w {{ldap_admin_password}} -D cn=admin,{{base_dn}}
+  ignore_errors: true
+  register: admin_auth_test
+  tags:
+    - ldap
+
+- name: Upload administrator password update LDIF file
+  template: src=ldap_db_rootpw.ldif.j2 dest=/tmp/ldap_db_rootpw.ldif group=root owner=root mode=0600
+  when: admin_auth_test | failed
+  tags:
+    - ldap
+
+- name: Update administrator password entry
+  command: ldapmodify -Y EXTERNAL -H ldapi:/// -f /tmp/ldap_db_rootpw.ldif
+  when: admin_auth_test | failed
+  tags:
+    - ldap
+
+- name: Remove temporary password update LDIF file
+  file: path=/tmp/ldap_db_rootpw.ldif state=absent
+  when: admin_auth_test | failed
   tags:
     - ldap
 
