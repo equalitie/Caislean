@@ -54,8 +54,6 @@
   tags:
     - ldap
 
-- debug: var=ldapsearch_db
-
 - name: Create dedicated directory for our database
   file: path=/var/lib/caislean_ldap_{{domain_name}} state=directory group=openldap owner=openldap mode=0755
   when: ldapsearch_db.stdout == ""
