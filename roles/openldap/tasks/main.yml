@@ -49,10 +49,12 @@
     - ldap
 
 - name: Check if the database exists for our domain
-  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix=dc={{base_dn}}))'
+  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix={{base_dn}}))'
   register: ldapsearch_db
   tags:
     - ldap
+
+- debug: var=ldapsearch_db
 
 - name: Create dedicated directory for our database
   file: path=/var/lib/caislean_ldap_{{domain_name}} state=directory group=openldap owner=openldap mode=0755
@@ -79,10 +81,12 @@
     - ldap
 
 - name: Retrieve our database DN in cn=config
-  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix=dc={{base_dn}}))' dn
+  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix={{base_dn}}))' dn
   register: db_dn
   tags:
     - ldap
+
+- debug: msg={{db_dn}}
 
 - name: Set fact with our database DN
   set_fact: ldap_db_config_dn={{db_dn.stdout_lines[0]}}
