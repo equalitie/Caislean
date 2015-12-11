@@ -105,7 +105,7 @@
     - ldap
 
 - name: Test if the administrator password works
-  command: ldapwhoami -w {{ldap_admin_password}} -D cn=admin,{{base_dn}}
+  command: ldapwhoami -w {{ldap_admin_pass}} -D cn=admin,{{base_dn}}
   ignore_errors: true
   register: admin_auth_test
   tags:
