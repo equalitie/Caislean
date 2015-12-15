@@ -1,7 +1,6 @@
 - name: Configure roundcube debconf parameters
   debconf: name=roundcube-core question={{ item.q }} vtype={{ item.t }} value={{ item.v }}
   with_items:
-    - { q: roundcube/hosts, t: string, v: localhost }
     - { q: roundcube/database-type, t: select, v: sqlite3 }
     - { q: roundcube/db/basepath, t: string, v: /var/lib/dbconfig-common/sqlite3/roundcube }
     - { q: roundcube/restart-webserver, t: boolean, v: 'false' }
@@ -59,8 +58,15 @@
   tags:
     - webmail
 
+- name: Set correct permissions for /etc/roundcube/debian-db.php
+  file: path=/etc/roundcube/debian-db.php group=roundcube owner=root mode=0640
+  when: ansible_distribution_release == "jessie"
+  tags:
+    - webmail
+
 - name: Set correct script permissions in /etc/roundcube
   file: path=/etc/roundcube/{{item}} group=roundcube owner=root mode=0640
+  when: ansible_distribution_release == "wheezy"
   with_items:
     - debian-db.php
     - main.inc.php
@@ -79,6 +85,12 @@
 
 - name: Set correct permissions for roundcube sqlite3 database file
   file: path=/var/lib/dbconfig-common/sqlite3/roundcube/roundcube state=file group=roundcube owner=roundcube mode=0660
+  tags:
+    - webmail
+
+- name: Set correct permissions for roundcube's config.inc.php
+  file: path=/var/lib/roundcube/config/config.inc.php group=roundcube owner=root mode=0640
+  when: ansible_distribution_release == "jessie"
   tags:
     - webmail
 
