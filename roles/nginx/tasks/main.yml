@@ -2,6 +2,15 @@
   apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
   with_items:
     - nginx
+  when: ansible_distribution_release == "wheezy"
+  tags:
+    - webserver
+
+- name: Install web server packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - nginx
+  when: ansible_distribution_release == "jessie"
   tags:
     - webserver
 
@@ -15,11 +24,18 @@
   tags:
     - webserver
 
-- name: Create nginx log, runtime and data directories
+- name: Create nginx log directory
   file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
   with_items:
     - /var/log/nginx
+  tags:
+    - webserver
+
+- name: Create nginx runtime directory
+  file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
+  with_items:
     - /var/run/nginx
+  when: ansible_distribution_release == "wheezy"
   tags:
     - webserver
 
@@ -38,7 +54,7 @@
     - webserver
 
 - name: Install nginx configuration
-  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  template: src={{ ansible_distribution_release }}-nginx.conf.j2 dest=/etc/nginx/nginx.conf
   notify:
     - restart nginx
   tags:

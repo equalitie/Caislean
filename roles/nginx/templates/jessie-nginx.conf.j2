@@ -1,0 +1,73 @@
+user			www;
+worker_processes	4;
+pid			/run/nginx.pid;
+error_log		/var/log/nginx/error.log;
+
+events {
+    worker_connections	1024;
+}
+
+http {
+
+	##
+	# Basic Settings
+	##
+
+	index			index.html index.html index.php;
+	sendfile		on;
+	tcp_nopush		on;
+	tcp_nodelay		on;
+	keepalive_timeout       65;
+	types_hash_max_size     2048;
+	server_tokens		off;
+
+	server_names_hash_bucket_size 128;
+
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	##
+	# SSL Settings
+	##
+
+	add_header		Strict-Transport-Security max-age=63072000;
+	add_header		X-Frame-Options sameorigin;
+	add_header		X-Content-Type-Options nosniff;
+	add_header		X-XSS-Protection "1; mode=block";
+	charset			utf-8;
+
+	ssl_certificate		/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem;
+	ssl_certificate_key	/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key;
+	ssl_dhparam		/etc/ssl/dhparam.pem;
+
+	ssl_protocols			TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+	ssl_prefer_server_ciphers       on;
+
+	ssl_session_timeout	5m;
+	ssl_session_cache	shared:SSL:5m;
+	ssl_ciphers		kEECDH+aECDSA:kEECDH+aRSA:@STRENGTH:kEDH+aRSA:!MEDIUM:!LOW:!EXPORT:!RC4:!MD5:!aNULL:!eNULL:-3DES:+SHA1:DES-CBC3-SHA;
+
+	##
+	# Logging Settings
+	##
+
+	log_format      main '$remote_addr - $remote_user [$time_local]  $status '
+		'"$request" $body_bytes_sent "$http_referer" '
+		'"$http_user_agent" "$http_x_forwarded_for"';
+
+	access_log /var/log/nginx/access.log main;
+
+	##
+	# Gzip Settings
+	##
+
+	gzip on;
+	gzip_disable	"MSIE [1-6]\.(?!.*SV1)";
+
+	##
+	# Virtual Host Configs
+	##
+
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+}
