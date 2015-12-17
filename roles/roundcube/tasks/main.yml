@@ -80,6 +80,35 @@
   tags:
     - webmail
 
+- name: Check whether PHP Net_IDNA2 library is installed
+  command: pear list Net_IDNA2
+  when: ansible_distribution_release == "jessie"
+  ignore_errors: true
+  register: pear_idna
+  tags:
+    - webmail
+
+- name: Update pear
+  command: pear channel-update pear.php.net
+  when:
+    - ansible_distribution_release == "jessie"
+    - pear_idna|failed
+  tags:
+    - webmail
+ 
+- name: Install PHP Net_IDNA2 library
+  command: pear install channel://pear.php.net/Net_IDNA2-0.1.1
+  when:
+    - ansible_distribution_release == "jessie"
+    - pear_idna|failed
+  tags:
+    - webmail
+
+- name: Ensure Net_IDNA2 libraries are word-readable
+  file: path=/usr/share/php/Net/IDNA2 state=directory mode=go+rX recurse=yes
+  tags:
+    - webmail
+
 - name: Create roundcube group
   group: name=roundcube state=present
   tags:
