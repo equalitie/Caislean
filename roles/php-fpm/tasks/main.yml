@@ -3,7 +3,6 @@
   with_items:
     - php5-fpm
     - php5
-    - php5-common
   tags:
     - php-fpm
 
