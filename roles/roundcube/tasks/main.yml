@@ -1,6 +1,7 @@
 - name: Configure roundcube debconf parameters
   debconf: name=roundcube-core question={{ item.q }} vtype={{ item.t }} value={{ item.v }}
   with_items:
+    - { q: roundcube/hosts, t: string, v: localhost }
     - { q: roundcube/database-type, t: select, v: sqlite3 }
     - { q: roundcube/db/basepath, t: string, v: /var/lib/dbconfig-common/sqlite3/roundcube }
     - { q: roundcube/restart-webserver, t: boolean, v: 'false' }
@@ -14,6 +15,25 @@
     - roundcube-sqlite3
     - roundcube-core
     - roundcube
+  tags:
+    - webmail
+
+- name: Ensure necessary PHP ini files for modules loading are present
+  copy: src=etc/php5/mods-available/{{item}} dest=/etc/php5/mods-available/{{item}} owner=root group=root mode=0644
+  with_items:
+    - pdo.ini
+  notify:
+    - restart php5-fpm
+  tags:
+    - webmail
+
+- name: Ensure necessary PHP ini files for modules loading are present (jessie)
+  copy: src=etc/php5/mods-available/{{item}} dest=/etc/php5/mods-available/{{item}} owner=root group=root mode=0644
+  when: ansible_distribution_release == "jessie"
+  with_items:
+    - json.ini
+  notify:
+    - restart php5-fpm
   tags:
     - webmail
 
