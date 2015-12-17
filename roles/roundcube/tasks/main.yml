@@ -43,6 +43,8 @@
   command: php5query -s fpm -m {{item}}
   with_items:
     - pdo
+    - sqlite3
+    - pdo_sqlite
   ignore_errors: true
   register: phpquery_all
   tags:
