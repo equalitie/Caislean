@@ -22,6 +22,8 @@
   copy: src=etc/php5/mods-available/{{item}} dest=/etc/php5/mods-available/{{item}} owner=root group=root mode=0644
   with_items:
     - pdo.ini
+    - sqlite3.ini
+    - pdo_sqlite.ini
   notify:
     - restart php5-fpm
   tags:
