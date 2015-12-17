@@ -37,6 +37,48 @@
   tags:
     - webmail
 
+- name: Detect if necessary PHP modules are enabled
+  command: php5query -s fpm -m {{item}}
+  with_items:
+    - pdo
+  ignore_errors: true
+  register: phpquery_all
+  tags:
+    - webmail
+
+- name: Detect if necessary PHP modules are enabled (jessie)
+  command: php5query -s fpm -m {{item}}
+  when: ansible_distribution_release == "jessie"
+  with_items:
+    - json
+  ignore_errors: true
+  register: phpquery_jessie
+  tags:
+    - webmail
+
+- debug: var=phpquery_all
+- debug: var=phpquery_jessie
+
+- name: Enable required PHP modules
+  command: php5enmod {{item.item}}
+  when: "{{item|failed}}"
+  with_items: "{{phpquery_all.results}}"
+  notify:
+    - restart php5-fpm
+  tags:
+    - webmail
+
+- name: Enabled required PHP modules (jessie)
+  command: php5enmod {{item.item}}
+  when:
+    - ansible_distribution_release == "jessie"
+    - "{{item|failed}}"
+  with_items: "{{phpquery_jessie.results}}"
+  notify:
+    - restart php5-fpm
+  tags:
+    - webmail
+
 - name: Create roundcube group
   group: name=roundcube state=present
   tags:
