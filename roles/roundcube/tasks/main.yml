@@ -60,9 +60,6 @@
   tags:
     - webmail
 
-- debug: var=phpquery_all
-- debug: var=phpquery_jessie
-
 - name: Enable required PHP modules
   command: php5enmod {{item.item}}
   when: "{{item|failed}}"
