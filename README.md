@@ -94,11 +94,11 @@ intend to host a website or a blog, knowing the basics of
        recommended to enable full disk encryption (FDE) on your target system.
        This can only be done when you install the system and requires full
        control over the Debian installation process (see the [server setup
-       guide](doc/debian7-remote.md) for more information).
+       guide](doc/debian-installation.md) for more information).
     *  Only Debian 7 (Wheezy) is supported at the moment.
     *  SSH access and access to root privileges are necessary.
     *  The packages `python` and `python-apt` are required.
-    *  Read the [server setup guide](doc/debian7-remote.md) for more details on
+    *  Read the [server setup guide](doc/debian-installation.md) for more details on
        how to set up the target system.
 
 *  A **local machine** to run Caislean.
@@ -115,7 +115,7 @@ intend to host a website or a blog, knowing the basics of
 
 ## How does Caislean work?
 
-Once you have installed and set up your [target system](doc/debian7-remote.md)
+Once you have installed and set up your [target system](doc/debian-installation.md)
 and have everything you need in your local machine, have a look at the Caislean
 directory you have just downloaded.
 
