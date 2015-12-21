@@ -19,6 +19,7 @@
 
 - name: Install OpenVPN LDAP plugin package
   apt: pkg=openvpn-auth-ldap state=installed
+  when: ( openvpn_auth_mech == 'ldap' or openvpn_auth_mech == 'both' )
   tags:
     - vpn
 
