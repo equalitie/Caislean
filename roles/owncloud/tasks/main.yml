@@ -1,10 +1,24 @@
-- name: Add OpenSUSE PGP signing key
+- name: Add OpenSUSE PGP signing key (wheezy)
   apt_key: url=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key state=present
+  when: ansible_distribution_release == "wheezy"
   tags:
     - owncloud
 
-- name: Add OpenSUSE repository for Owncloud package
+- name: Add OpenSUSE PGP signing key (jessie)
+  apt_key: url=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_8.0/Release.key state=present
+  when: ansible_distribution_release == "jessie"
+  tags:
+    - owncloud
+
+- name: Add OpenSUSE repository for Owncloud package (wheezy)
   apt_repository: repo='deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_7.0/ /' state=present update_cache=yes
+  when: ansible_distribution_release == "wheezy"
+  tags:
+    - owncloud
+
+- name: Add OpenSUSE repository for Owncloud package (jessie)
+  apt_repository: repo='deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_8.0/ /' state=present update_cache=yes
+  when: ansible_distribution_release == "jessie"
   tags:
     - owncloud
 
