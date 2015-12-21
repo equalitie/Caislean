@@ -72,11 +72,11 @@ Rebuild the initramfs:
 
     update-initramfs -u
 
-The file `/etc/network/interfaces` needs a little tweeking to ensure the network
-is setup properly: add this line to the configuration of your Internet network
-interface (again, probably `eth0`)
+The file `/etc/rc.local` needs a little tweeking to ensure the network
+is setup properly: add these lines to the file, before the line `exit 0`:
 
-        pre-up ifdown eth0
+        ifdown -a
+	ifup -a
 
 Exit the shell, you will have to type `exit` three times.
 
