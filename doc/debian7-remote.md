@@ -1,7 +1,25 @@
-These instructions explain how to install Debian with full disk encryption (FDE)
-on a remote server to which physical access is not possible.
+These instructions explain how to prepare a Debian installation to run with
+Caisleán, without or with full disk encryption (FDE) on a remote server to which
+physical access is not possible.
 
-# Requirements
+# Standard Debian installation (without FDE)
+
+During installation, we recommend that you choose only to install the _Standard
+system utilities_ and the _SSH server_.
+
+As soon as installing Debian is done, make sure the non-privileged user created
+during the installation has a valid SSH public key in
+`/home/user/.ssh/authorized_keys`. Caisleán disables password-based SSH, and
+failing to do this will result in being locked out.
+
+Apart from this step, Caisleán is designed to run smoothly on a standard Debian
+installation.  Preferably, run Caisleán on a freshly installed system, to make
+sure you avoid conflicts between what Caisleán configures and previously
+installed software.
+
+# Remote Debian installation with FDE
+
+## Requirements
 
 Remote access to the screen and keyboard with KVM/IP is necessary in order to
 access the Debian installer that normally appears when physically using the
@@ -13,7 +31,7 @@ without KVM/IP exists if your hosting provider enables you to boot your machine
 on a rescue GNU/Linux system loaded into the RAM of your machine. This is
 notably the case for OVH/SoYouStart.
 
-# Debian Installation process
+## Debian Installation process
 
 For disk partitioning, select "_Use entire disk and set up encrypted LVM_". Make
 sure you use a secure passphrase.
@@ -82,7 +100,7 @@ Exit the shell, you will have to type `exit` three times.
 
 Select "Finish the installation".
 
-# Finish installation
+## Finish installation
 
 Reboot the server when the installation is complete. When the initramfs starts,
 it should setup its network configuration and start the dropbear SSH server.
