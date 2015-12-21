@@ -34,6 +34,37 @@
   tags:
     - owncloud
 
+- name: PHP modules INI files for Owncloud
+  copy: src=etc/php5/mods-available/{{item}} dest=/etc/php5/mods-available/{{item}} owner=root group=root mode=0644
+  when: ansible_distribution_release == "jessie"
+  with_items:
+    - gd.ini
+  notify:
+    - restart php5-fpm
+  tags:
+    - owncloud
+
+- name: Detect if necessary PHP modules for Owncloud are enabled
+  command: php5query -s fpm -m {{item}}
+  when: ansible_distribution_release == "jessie"
+  with_items:
+    - gd
+  ignore_errors: true
+  register: phpquery_oc
+  tags:
+    - owncloud
+  
+- name: Enable necessary PHP modules for Owncloud
+  command: php5enmod {{item.item}}
+  when:
+    - ansible_distribution_release == "jessie"
+    - "{{item|failed}}"
+  with_items: "{{phpquery_oc.results}}"
+  notify:
+    - restart php5-fpm
+  tags:
+    - owncloud
+
 - name: Create owncloud group
   group: name=owncloud state=present
   tags:
@@ -55,7 +86,7 @@
     - owncloud
 
 - name: Set correct permissions in some Owncloud apps subdirectory
-  file: path=/var/www/owncloud/apps/{{item}} group=www owner=owncloud mode="u=rwX,g=rX,o-rwx" recurse=yes
+  file: path=/var/www/owncloud/apps/{{item}} state=directory group=www owner=owncloud mode="u=rwX,g=rX,o-rwx" recurse=yes
   with_items:
     - calendar
     - contacts
