@@ -24,8 +24,9 @@ A list of all the roles that are necessary to run all or most of the services:
     *  `php-fpm`: PHP-FPM service and configuration for use with nginx and web
        services that require PHP;
     *  `mysql`: basic MySQL installation for use by web services;
-    *  `nginx`: basic nginx installation.
-
+    *  `nginx`: basic nginx installation;
+    *  `letsencrypt`: replacement TLS certificates from the Let's Encrypt
+       project - these are trusted by most modern browsers.
 
 ## Roles for the services
 

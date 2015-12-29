@@ -1,6 +1,6 @@
 server {
-	listen	80 default;
-	listen	[::]:80	default ipv6only=on;
+	listen	80 default_server;
+	listen	[::]:80	default_server ipv6only=on;
 	server_name _;
 
 	expires -1;
