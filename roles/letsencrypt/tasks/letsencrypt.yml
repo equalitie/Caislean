@@ -1,0 +1,55 @@
+- name: Set apt preferences
+  copy: src=etc/apt/preferences.d/{{ item }} dest=/etc/apt/preferences.d/{{ item }} group=root owner=root
+  with_items:
+    - stable.pref
+    - security.pref
+    - testing.pref
+  tags: letsencrypt
+
+- name: Add testing Debian repository
+  apt_repository:
+  args:
+    repo: 'deb http://http.debian.net/debian stretch main'
+    state: present
+    update_cache: yes
+  tags: letsencrypt
+
+- name: Install letsencrypt client
+  apt: pkg=letsencrypt state=installed default_release=testing
+  tags: letsencrypt
+
+- name: Generate certificate for domain
+  command: "letsencrypt certonly --webroot --webroot-path /var/www/{{ server_name }}.{{ domain_name }} --email {{ webmaster_email }} -d {{ website_domain_name }} --agree-tos --keep"
+  tags: letsencrypt
+
+- name: Remove previous nginx certificate configuration
+  lineinfile: "dest=/etc/nginx/nginx.conf state=absent line='	ssl_certificate		/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem;'"
+  tags: letsencrypt
+
+- name: Remove previous nginx private key configuration
+  lineinfile: "dest=/etc/nginx/nginx.conf state=absent line='	ssl_certificate_key	/etc/ssl/private/{{ server_name }}.{{ domain_name}}.key;'"
+  tags: letsencrypt
+
+- name: Add new nginx certificate configuration
+  lineinfile: "dest=/etc/nginx/nginx.conf state=present insertbefore='ssl_dhparam' line='	ssl_certificate		/etc/letsencrypt/live/{{ website_domain_name }}/fullchain.pem;'"
+  tags: letsencrypt
+  notify:
+    - restart nginx
+
+- name: Add new nginx private key configuration
+  lineinfile: "dest=/etc/nginx/nginx.conf state=present insertbefore='ssl_dhparam' line='	ssl_certificate_key	/etc/letsencrypt/live/{{ website_domain_name }}/privkey.pem;'"
+  tags: letsencrypt
+  notify:
+    - restart nginx
+
+# Try to renew the certificate daily, but keep the existing certificate unless it is due to be renewed.
+# Certificate renewals seem to fall due 10 days before expiry by default.
+- name: Schedule certificate renewals using cron
+  cron:
+  args:
+    cron_file: "ansible_letsencrypt_cert_renewal"
+    name: "letsencrypt renew certificate"
+    special_time: "daily"
+    user: "root"
+    job: "letsencrypt certonly --webroot --webroot-path /var/www/{{ server_name }}.{{ domain_name }} --email {{ webmaster_email }} -d {{ website_domain_name }} --agree-tos --keep && service nginx reload"
+  tags: letsencrypt

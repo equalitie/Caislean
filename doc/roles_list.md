@@ -24,8 +24,7 @@ A list of all the roles that are necessary to run all or most of the services:
     *  `php-fpm`: PHP-FPM service and configuration for use with nginx and web
        services that require PHP;
     *  `mysql`: basic MySQL installation for use by web services;
-    *  `nginx`: basic nginx installation.
-
+    *  `nginx`: basic nginx installation;
 
 ## Roles for the services
 
@@ -43,6 +42,12 @@ your cookbook configuration files, depending on your needs.
 *  `openvpn`: OpenVPN server and dnsmasq for Internet access through the VPN,
    with authentication to OpenLDAP and/or through TLS certificates;
 
+## Roles in beta
+
+These roles are finished in basic form but have not yet been tested widely
+
+*  `letsencrypt`: replacement TLS certificates from the Let's Encrypt
+   project - these are trusted by most modern browsers.
 
 ## Future roles
 
