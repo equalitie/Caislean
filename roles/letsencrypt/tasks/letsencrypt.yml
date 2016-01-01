@@ -36,8 +36,20 @@
   notify:
     - restart nginx
 
-- name: Add new nginx certificate configuration
+- name: Add new nginx private key configuration
   lineinfile: "dest=/etc/nginx/nginx.conf state=present insertbefore='ssl_dhparam' line='	ssl_certificate_key	/etc/letsencrypt/live/{{ website_domain_name }}/privkey.pem;'"
   tags: letsencrypt
   notify:
     - restart nginx
+
+# Try to renew the certificate daily, but keep the existing certificate unless it is due to be renewed.
+# Certificate renewals seem to fall due 10 days before expiry by default.
+- name: Schedule certificate renewals using cron
+  cron:
+  args:
+    cron_file: "ansible_letsencrypt_cert_renewal"
+    name: "letsencrypt renew certificate"
+    special_time: "daily"
+    user: "root"
+    job: "letsencrypt certonly --webroot --webroot-path /var/www/{{ server_name }}.{{ domain_name }} --email {{ webmaster_email }} -d {{ website_domain_name }} --agree-tos --keep && service nginx reload"
+  tags: letsencrypt
