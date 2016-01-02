@@ -14,8 +14,8 @@ server {
 }
 
 server {
-	listen   443 ssl default;
-	listen	[::]:443 ssl default ipv6only=on;
+	listen   443 ssl default_server;
+	listen	[::]:443 ssl default_server ipv6only=on;
 	server_name _;
 
 	expires -1;
