@@ -30,3 +30,4 @@ dkim_directory: /home/user/sec_comms_admin/dkim
 mysql_root_password: MySQLPass
 owncloud_mysql_password: OwncloudPass
 wordpress_mysql_password: WordpressPass
+wordpress_ldap_auth: true
