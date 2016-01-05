@@ -12,8 +12,7 @@ requirements and instructions for launching the cookbook, in the
 * For a list of the recipes contained in Caislean, divided into basic roles and
   modular roles for the services, go to the **[Roles List](doc/roles_list.md)**.
 * For details on how to prepare the remote system where you will install the
-  server, read the relevant instructions for **Debian
-  [Wheezy](doc/debian7-remote.md)** or **Jessie**.
+  server, read these [instructions](doc/debian-installation.md).
 * Before launching the cookbook, you will also need to read the documentation
   for the single roles you will launch, contained in the
   **[`role-doc`](doc/role-doc)** folder.
