@@ -95,7 +95,7 @@ intend to host a website or a blog, knowing the basics of
        This can only be done when you install the system and requires full
        control over the Debian installation process (see the [server setup
        guide](doc/debian-installation.md) for more information).
-    *  Only Debian 7 (Wheezy) and Jessie are supported at the moment.
+    *  Only Debian 7 (Wheezy) and 8 (Jessie) are supported at the moment.
     *  SSH access and access to root privileges are necessary.
     *  The packages `python` and `python-apt` are required.
     *  Read the [server setup guide](doc/debian-installation.md) for more details on
