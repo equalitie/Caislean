@@ -2,7 +2,8 @@
 
 ## Description
 
-This role configures nginx to use certifiates isseud by Let's Encrypt instead
+This role configures nginx to use certificates issued by [Let's
+Encrypt](https://letsencrypt.org/) instead
 of self-signed certificates installed by Caislean's TLS role. The advantage is
 that Let's Encrypt certificates are trusted by most browsers so visitors to
 your website won't see an untrusted certificate warning.
@@ -24,9 +25,9 @@ specifies apt preferences to make sure software is installed from the stable
 repositories unless explicitly specified otherwise.
 
 This role won't work unless `website_domain_name` resolves to the IP address of
-the remote machine. This is because Let's Encrypt verifies you control the
-demain for which you're requesting a certificate by placing a file in your
-webserver's webroot and then checking it can access that file from the domain
+the remote machine. This is because Let's Encrypt verifies that you control the
+domain for which you're requesting a certificate by placing a file in your
+webserver's webroot and then checking that it can access that file from the domain
 in question.
 
 ## Prerequired roles
