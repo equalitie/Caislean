@@ -61,11 +61,12 @@
   copy: src=etc/default/openvpn dest=/etc/default/openvpn owner=root group=root mode=0644
   tags: vpn
 
-- name: Allow VPN traffic by firewall
-  ufw: rule=allow {{item}}=10.1.0.0/24
-  with_items:
-    - to
-    - from
+- name: Allow VPN traffic by firewall (outbound)
+  ufw: rule=allow to_ip=10.1.0.0/24
+  tags: vpn
+
+- name: Allow VPN traffic by firewall (inboud)
+  ufw: rule=allow from_ip=10.1.0.0/24
   tags: vpn
 
 - name: Install dnsmasq configuration
