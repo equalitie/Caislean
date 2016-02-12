@@ -1,1 +1,0 @@
-@reboot	root	/usr/bin/rkhunter --cronjob --report-warnings-only --enable properties

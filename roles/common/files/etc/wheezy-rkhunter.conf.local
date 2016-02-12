@@ -1,5 +1,0 @@
-DISABLE_TESTS=""
-USER_FILEPROP_FILES_DIRS="/boot/* !/boot/*.dpkg-bak !/boot/lost+found !/boot/grub !/boot/grub/*"
-ALLOWPROCDELFILE="/usr/sbin/cron:/tmp/tmp* /bin/dash:/tmp/tmp* /bin/bash:/tmp/tmp* /bin/run-parts:/tmp/tmp*"
-ALLOWPROCLISTEN="/usr/bin/suricata"
-DISABLE_UNHIDE=2

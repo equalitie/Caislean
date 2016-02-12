@@ -102,59 +102,6 @@
   copy: src=etc/cron.daily/chkrootkit dest=/etc/cron.daily/chkrootkit group=root owner=root mode=0755
   tags: base
 
-- name: Install rkhunter Debian default file
-  copy: src=etc/default/rkhunter dest=/etc/default/rkhunter group=root owner=root mode=0644
-  tags: base
-
-- name: Install rkhunter configuration file
-  copy: src=etc/{{ ansible_distribution_release }}-rkhunter.conf.local
-  args:
-    dest: "/etc/rkhunter.conf.local"
-    group: root
-    owner: root
-    mode: 0600
-  tags: base
-
-- name: Check which version of grub is installed
-  command: dpkg-query -l grub2-common
-  register: grub2_installed
-  failed_when: grub2_installed.rc > 1
-  changed_when: false
-  tags: base
-
-- name: Modify config for grub2 if installed - wheezy (1/2)
-  lineinfile: "dest=/etc/rkhunter.conf.local state=absent line='USER_FILEPROP_FILES_DIRS=\"/boot/* !/boot/*.dpkg-bak !/boot/lost+found !/boot/grub !/boot/grub/*\"'"
-  when: ansible_distribution_release == "wheezy" and grub2_installed.rc == 0
-  notify:
-    - rebuild rkhunter proplist
-  tags: base
-
-- name: Modify config for grub2 if installed - wheezy (2/2)
-  lineinfile: "dest=/etc/rkhunter.conf.local state=present line='USER_FILEPROP_FILES_DIRS=\"/boot/* !/boot/*.dpkg-bak !/boot/lost+found !/boot/grub !/boot/grub/* !/boot/grub/*/*\"'"
-  when: ansible_distribution_release == "wheezy" and grub2_installed.rc == 0
-  notify:
-    - rebuild rkhunter proplist
-  tags: base
-
-- name: Modify config for grub2 if installed - jessie
-  lineinfile: "dest=/etc/rkhunter.conf.local state=present insertafter='USER_FILEPROP_FILES_DIRS=/boot/grub/*' line='USER_FILEPROP_FILES_DIRS=/boot/grub/*/*'"
-  when: ansible_distribution_release == "jessie" and grub2_installed.rc == 0
-  notify:
-    - rebuild rkhunter proplist
-  tags: base
-
-- name: Create /etc/initramfs/post-update.d
-  file: path=/etc/initramfs/post-update.d state=directory owner=root group=root mode=0755
-  tags: base
-
-- name: Add rkhunter initramfs post-update script
-  copy: src=etc/initramfs/post-update.d/rkhunter dest=/etc/initramfs/post-update.d/rkhunter owner=root group=root mode=0755
-  tags: base
-
-- name: Install rkhunter boot-job
-  copy: src=etc/cron.d/rkhunter-boot dest=/etc/cron.d/rkhunter-boot group=root owner=root mode=0644
-  tags: base
-
 - name: Install /etc/aliases
   template: src=aliases.j2 dest=/etc/aliases group=root owner=root mode=0644
   notify:

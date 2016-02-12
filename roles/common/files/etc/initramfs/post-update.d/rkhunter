@@ -1,6 +1,0 @@
-#!/bin/bash
-
-REL=$(uname -r)
-
-/usr/bin/rkhunter --propupd \
-  /boot/System.map-$REL,/boot/config-$REL,/boot/initrd.img-$REL,/boot/vmlinuz-$REL
