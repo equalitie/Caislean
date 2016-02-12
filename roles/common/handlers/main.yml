@@ -3,8 +3,5 @@
 - name: restart ssh
   service: name=ssh state=restarted
 
-- name: rebuild rkhunter proplist
-  command: rkhunter --propupd
-
 - name: update mail aliases
   command: newaliases
