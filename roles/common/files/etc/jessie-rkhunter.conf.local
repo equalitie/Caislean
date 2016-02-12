@@ -5,7 +5,6 @@ USER_FILEPROP_FILES_DIRS=/boot/initrd.img-*
 USER_FILEPROP_FILES_DIRS=/boot/System.map-*
 USER_FILEPROP_FILES_DIRS=/boot/vmlinuz-*
 USER_FILEPROP_FILES_DIRS=/boot/grub/*
-USER_FILEPROP_FILES_DIRS=/boot/grub/*/*
 
 ALLOWPROCDELFILE=/usr/sbin/cron:/tmp/tmp*
 ALLOWPROCDELFILE=/bin/dash:/tmp/tmp*

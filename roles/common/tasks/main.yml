@@ -106,18 +106,41 @@
   copy: src=etc/default/rkhunter dest=/etc/default/rkhunter group=root owner=root mode=0644
   tags: base
 
-- name: Install rkhunter configuration - wheezy
-  copy: src=etc/wheezy-rkhunter.conf dest=/etc/rkhunter.conf group=root owner=root mode=0600
-  notify:
-    - rebuild rkhunter proplist
-  when: ansible_distribution_release == "wheezy"
+- name: Install rkhunter configuration file
+  copy: src=etc/{{ ansible_distribution_release }}-rkhunter.conf.local
+  args:
+    dest: "/etc/rkhunter.conf.local"
+    group: root
+    owner: root
+    mode: 0600
   tags: base
 
-- name: Install rkhunter configuration - jessie
-  copy: src=etc/rkhunter.conf.local dest=/etc/rkhunter.conf.local group=root owner=root mode=0600
+- name: Check which version of grub is installed
+  command: dpkg-query -l grub2-common
+  register: grub2_installed
+  failed_when: grub2_installed.rc > 1
+  changed_when: false
+  tags: base
+
+- name: Modify config for grub2 if installed - wheezy (1/2)
+  lineinfile: "dest=/etc/rkhunter.conf.local state=absent line='USER_FILEPROP_FILES_DIRS=\"/boot/* !/boot/*.dpkg-bak !/boot/lost+found !/boot/grub !/boot/grub/*\"'"
+  when: ansible_distribution_release == "wheezy" and grub2_installed.rc == 0
   notify:
     - rebuild rkhunter proplist
-  when: ansible_distribution_release == "jessie"
+  tags: base
+
+- name: Modify config for grub2 if installed - wheezy (2/2)
+  lineinfile: "dest=/etc/rkhunter.conf.local state=present line='USER_FILEPROP_FILES_DIRS=\"/boot/* !/boot/*.dpkg-bak !/boot/lost+found !/boot/grub !/boot/grub/* !/boot/grub/*/*\"'"
+  when: ansible_distribution_release == "wheezy" and grub2_installed.rc == 0
+  notify:
+    - rebuild rkhunter proplist
+  tags: base
+
+- name: Modify config for grub2 if installed - jessie
+  lineinfile: "dest=/etc/rkhunter.conf.local state=present insertafter='USER_FILEPROP_FILES_DIRS=/boot/grub/*' line='USER_FILEPROP_FILES_DIRS=/boot/grub/*/*'"
+  when: ansible_distribution_release == "jessie" and grub2_installed.rc == 0
+  notify:
+    - rebuild rkhunter proplist
   tags: base
 
 - name: Create /etc/initramfs/post-update.d
