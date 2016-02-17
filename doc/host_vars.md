@@ -27,8 +27,8 @@ Required in: `common`, `suricata`.
 
 Set to `true` or `false` (default). Defines whether LDAP authentication should
 check credentials against the `samba` organisational unit in the LDAP tree
-rather than the `mail` one. This option is only useful if you are also using the
-`samba` role.
+rather than the `mail` one. This option is only useful if you are also using
+the `samba` role.
 
 Optional in: `openvpn`
 
@@ -64,13 +64,13 @@ Required in: `backupninja`
 
 `backup_remote_ssh_keys`
 
-List of public SSH keys of the backup server, as they would appear in a
-SSH `known_hosts` file, listed following the YAML syntax, like for instance:
+List of public SSH keys of the backup server, as they would appear in a SSH
+`known_hosts` file, listed following the YAML syntax, like for instance:
 
     backup_remote_ssh_keys:
         - ssh-rsa AAAAB3NzaC1y....
-	- ssh-dss AAAAB3NzaC1kc...
-	- ecdsa-sha2-nistp256 AAAAE2Vj...
+        - ssh-dss AAAAB3NzaC1kc...
+        - ecdsa-sha2-nistp256 AAAAE2Vj...
 
 Required in: `backupninja`
 
@@ -139,8 +139,8 @@ Authentication mechanism for OpenVPN. Can be:
 - `tls` to authenticate clients with their TLS certificates;
 - `ldap` to authenticate clients with a login and password, against the
   locally-running OpenLDAP instance;
-- `both` to perform both authentication, in which case a connecting client needs
-  both a valid TLS certificate and valid credentials to connect.
+- `both` to perform both authentication, in which case a connecting client
+  needs both a valid TLS certificate and valid credentials to connect.
 
 Required in: `openvpn`
 
@@ -163,10 +163,9 @@ parameters are needed:
   `valid users` parameter
 - `caption` (defaults to `name`): comment of the shared drive;
 - `create_mask` (defaults to "0600"): default permissions for newly created
-    files in the given share
-- `directory_mask` (defaults to "0700"): default permissions for newly
-      created
-        directories in the given share
+  files in the given share
+- `directory_mask` (defaults to "0700"): default permissions for newly created
+  directories in the given share
 
 Example:
 
@@ -197,8 +196,8 @@ Required in: `suricata`
 
 The machine name of the administered server, e.g. "mycomputer".
 
-Required in: `ldap-account-manager`, `nginx`, `openvpn`, `prosody`, `roundcube`,
-`samba`, `tls`, `usermin`, `virtualmail`, `wordpress`
+Required in: `ldap-account-manager`, `nginx`, `openvpn`, `prosody`,
+`roundcube`, `samba`, `tls`, `usermin`, `virtualmail`, `wordpress`
 
 `tls_directory`
 
@@ -206,6 +205,19 @@ Local directory (on the machine running Ansible) where all the TLS files are
 stored (certificates, keys and Diffie-Hellmann parameters).
 
 Required in: `tls`
+
+`website_domain_name`
+
+The domain name of the website being served (often different to domain_name).
+
+Required in: `letsencrypt`
+
+`webmaster_email`
+
+The email address of the person responsible for web services (often different
+to admin_email)
+
+Required in: `letsencrypt`
 
 `wordpress_mysql_password`
 

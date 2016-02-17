@@ -2,6 +2,8 @@
  
 admin_email: user@domain.com
 domain_name: domain.com
+webmaster_email: webmaster@website.com
+website_domain_name: website.com
 server_name: caislean
 tls_directory: /home/user/caislean_admin/tls
 openvpn_auth_mech: tls
