@@ -1,0 +1,19 @@
+server {
+	listen	80;
+	listen	[::]:80;
+	listen	443 ssl;
+	listen	[::]:443 ssl;
+
+	server_name {{ wordpress_domain_name }};
+
+	expires -1;
+
+	if ($request_method !~ ^(GET|HEAD|POST)$ )
+	{
+		return 405;
+	}
+
+	root /var/www/{{ wordpress_domain_name }};
+
+	include /etc/nginx/includes/{{ wordpress_domain_name }}/*;
+}

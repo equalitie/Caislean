@@ -1,0 +1,7 @@
+---
+
+wordpress_subdirectory: true
+wordpress_install_path: wordpress
+wordpress_domain_name: "{{ server_name }}.{{ domain_name }}"
+wordpress_network: false
+wordpress_ldap_auth: false

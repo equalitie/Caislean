@@ -1,0 +1,29 @@
+- name: Download domain-mapping plugin
+  get_url:
+    url: https://downloads.wordpress.org/plugin/wordpress-mu-domain-mapping.0.5.5.1.zip
+    dest: /root/wordpress-mu-domain-mapping.0.5.5.1.zip
+    sha256sum: c1fc04a52fdda12521b7c46d380c483ac648cb06df85e89a10890f4d9b954fdd
+  tags: wp-network
+
+- name: Extract domain-mapping plugin archive
+  unarchive:
+    copy: no
+    src: /root/wordpress-mu-domain-mapping.0.5.5.1.zip
+    dest: /root/wordpress/wp-content/plugins
+    creates: /root/wordpress/wp-content/plugins/wordpress-mu-domain-mapping
+    owner: wordpress
+    group: wordpress
+  tags: wp-network
+
+- name: Configure wordpress-mu-domain-mapping plugin
+  command: "mv /root/wordpress/wp-content/plugins/wordpress-mu-domain-mapping/sunrise.php /root/wordpress/wp-content/"
+  args:
+    creates: /root/wordpress/wp-content/sunrise.php
+  tags: wp-network
+
+- name: Enable wordpress network-mode in config file
+  lineinfile: "dest=/root/wordpress/wp-config.php state=present insertbefore='stop editing' line={{ item }}"
+  with_items:
+    - "/* Multisite */"
+    - "define( \'WP_ALLOW_MULTISITE\', true );\n"
+  tags: wp-network

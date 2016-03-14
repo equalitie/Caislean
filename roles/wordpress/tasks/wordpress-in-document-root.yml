@@ -1,0 +1,42 @@
+- name: Install nginx virtual server configuration for wordpress_domain_name
+  template:
+    src: nginx-wordpress-documentroot-vhost.j2
+    dest: "/etc/nginx/sites-available/{{ wordpress_domain_name }}"
+    group: root
+    owner: root
+    mode: 0644
+    force: no
+  tags: wordpress
+  notify:
+    - restart nginx
+
+- name: Create domain-specific directory in /etc/nginx/includes
+  file:
+    path: "/etc/nginx/includes/{{ wordpress_domain_name }}"
+    recurse: no
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
+  tags: wordpress
+
+- name: Install nginx configuration part for wordpress
+  template:
+    src: nginx-wordpress-documentroot.inc.j2
+    dest: "/etc/nginx/includes/{{ wordpress_domain_name }}/wordpress"
+    owner: root
+    group: root
+    mode: 0644
+  tags: wordpress
+  notify:
+    - restart nginx
+
+- name: Enable wordpress_domain_name virtual server
+  file:
+    path: "/etc/nginx/sites-enabled/{{ wordpress_domain_name }}"
+    state: link
+    src: "/etc/nginx/sites-available/{{ wordpress_domain_name }}"
+  tags: wordpress
+  notify:
+    - restart nginx
