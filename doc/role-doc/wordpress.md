@@ -57,6 +57,7 @@ authentiation:
   Settings menu
 - configure the plugin as follows:
     - select "Yes" to "Enable Directory Authentication"
+    - select "Yes" to "Automatically Register Authenticated Users"
     - input `localhost` in "Directory Servers"
     - write `mail` in "Account Filter"
     - write `ou=mail,dc=example,dc=org` (change this according to your domain
