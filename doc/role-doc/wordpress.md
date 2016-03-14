@@ -46,7 +46,10 @@ username and password you just entered.
 ## Allowing LDAP users into Wordpress
 
 If you wish to allow the LDAP users to log into Wordpress, you can use the
-[wpDirAuth](https://wordpress.org/plugins/wpdirauth/) plugin:
+[wpDirAuth](https://wordpress.org/plugins/wpdirauth/) plugin. This requires the
+php5-ldap package to be installed, which you can specify by setting the
+optional `wordpress_ldap_auth` parameter. To configure Wordpress to use LDAP
+authentiation:
 
 - move into the Plugin section and click "Add new"
 - search for _wpDirAuth_ and click "Install now"
@@ -93,4 +96,9 @@ Password for the `wordpress` MySQL user used by Wordpress.
 
 ## Optional parameters
 
-None.
+### `wordpress_ldap_auth`
+
+Tells Caislean whether to install the php5-ldap package, which is required for
+Wordpress authentication against LDAP to work.
+
+Default value: `false`. Set to `true` to enable this option.

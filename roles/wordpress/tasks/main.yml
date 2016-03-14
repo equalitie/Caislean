@@ -1,3 +1,9 @@
+- name: Install php5-ldap (for WP auth using openldap)
+  apt: pkg=php5-ldap state=installed
+  when: "{{ wordpress_ldap_auth | default(false) }} == true"
+  tags:
+    - wordpress
+
 - name: Download Wordpress
   get_url: url=https://wordpress.org/wordpress-4.2.2.tar.gz dest=/root/wordpress-4.2.2.tar.gz sha256sum=3c4e2cc3af289366ff5352e35c3f80fca2dcaed3d56a79f33b25374c356c3f90
   tags:
