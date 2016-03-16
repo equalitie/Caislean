@@ -3,41 +3,35 @@
   with_items:
     - nginx
   when: ansible_distribution_release == "wheezy"
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Install web server packages
   apt: pkg={{item}} state=installed
   with_items:
     - nginx
   when: ansible_distribution_release == "jessie"
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Create www group
   group: name=www state=present
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Create www user
   user: name=www group=www home=/var/www createhome=no shell=/bin/nologin
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Create nginx log directory
   file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
   with_items:
     - /var/log/nginx
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Create nginx runtime directory
   file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
   with_items:
     - /var/run/nginx
   when: ansible_distribution_release == "wheezy"
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Create nginx content directories
   file: path={{item}} state=directory group=root owner=root mode=0755 recurse=no
@@ -45,61 +39,43 @@
     - /var/www
     - /var/www/default
     - /var/www/{{ server_name }}.{{ domain_name }}
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Create domain-specific directory in /etc/nginx/includes
   file: path=/etc/nginx/includes/{{ server_name }}.{{ domain_name }} recurse=no state=directory owner=root group=root mode=0755
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Install nginx configuration
   template: src={{ ansible_distribution_release }}-nginx.conf.j2 dest=/etc/nginx/nginx.conf
-  notify:
-    - restart nginx
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Install custom default nginx virtual server
   copy: src=etc/nginx/sites-available/000-default dest=/etc/nginx/sites-available/000-default owner=root group=root mode=0644
-  notify:
-    - restart nginx
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Disable old default nginx virtual server
   file: path=/etc/nginx/sites-enabled/default state=absent
-  notify:
-    - restart nginx
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Enable custom default nginx virtual server
   file: path=/etc/nginx/sites-enabled/000-default state=link src=/etc/nginx/sites-available/000-default
-  notify:
-    - restart nginx
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Install nginx virtual server specific to our server's hostname
   template: src=nginx-vhost.j2 dest=/etc/nginx/sites-available/{{ server_name }}.{{ domain_name }} group=root owner=root mode=0644
-  notify:
-    - restart nginx
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Enable nginx virtual server
   file: path=/etc/nginx/sites-enabled/{{ server_name }}.{{ domain_name }} state=link src=/etc/nginx/sites-available/{{ server_name }}.{{ domain_name }}
-  notify:
-    - restart nginx
-  tags:
-    - webserver
+  tags: webserver
 
 - name: Open HTTP and HTTPS ports in UFW (inbound)
   ufw: rule=allow port={{item}} direction=in
+  tags: webserver, firewall
   with_items:
     - 80
     - 443
-  tags:
-    - webserver
-    - firewall
+
+- name: Force an nginx restart to pick up changes
+  service: name=nginx state=restarted
+  tags: webserver
