@@ -1,81 +1,159 @@
 - name: Install web server packages (from backports)
-  apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    default_release: "{{ansible_distribution_release}}-backports"
   with_items:
     - nginx
   when: ansible_distribution_release == "wheezy"
   tags: webserver
 
 - name: Install web server packages
-  apt: pkg={{item}} state=installed
+  apt:
+    pkg: "{{ item }}"
+    state: installed
   with_items:
     - nginx
   when: ansible_distribution_release == "jessie"
   tags: webserver
 
 - name: Create www group
-  group: name=www state=present
+  group:
+    name: www
+    state: present
   tags: webserver
 
 - name: Create www user
-  user: name=www group=www home=/var/www createhome=no shell=/bin/nologin
+  user:
+    name: www
+    group: www
+    home: /var/www
+    createhome: no
+    shell: /bin/nologin
   tags: webserver
 
 - name: Create nginx log directory
-  file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
+  file:
+    path: "{{ item }}"
+    state: directory
+    group: www
+    owner: www
+    mode: 0750
+    recurse: no
   with_items:
     - /var/log/nginx
   tags: webserver
 
 - name: Create nginx runtime directory
-  file: path={{item}} state=directory group=www owner=www mode=0750 recurse=no
+  file:
+    path: "{{ item }}"
+    state: directory
+    group: www
+    owner: www
+    mode: 0750
+    recurse: no
   with_items:
     - /var/run/nginx
   when: ansible_distribution_release == "wheezy"
   tags: webserver
 
 - name: Create nginx content directories
-  file: path={{item}} state=directory group=root owner=root mode=0755 recurse=no
+  file:
+    path: "/var/www/{{ item }}"
+    state: directory
+    group: root
+    owner: root
+    mode: 0755
+    recurse: no
   with_items:
-    - /var/www
-    - /var/www/default
-    - /var/www/{{ server_name }}.{{ domain_name }}
+    - default
+    - "{{ websites }}"
   tags: webserver
 
-- name: Create domain-specific directory in /etc/nginx/includes
-  file: path=/etc/nginx/includes/{{ server_name }}.{{ domain_name }} recurse=no state=directory owner=root group=root mode=0755
+- name: Add placeholder index.html file to document roots
+  template:
+    src: index.html.j2
+    dest: "/var/www/{{ item }}/index.html"
+    group: www
+    owner: www
+    mode: 0644
+  with_items:
+    - default
+    - "{{ websites }}"
+  tags: webserver
+
+- name: Create domain-specific directories in /etc/nginx/includes
+  file:
+    path: "/etc/nginx/includes/{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+    recurse: no
+  with_items:
+    - "{{ websites }}"
   tags: webserver
 
 - name: Install nginx configuration
-  template: src={{ ansible_distribution_release }}-nginx.conf.j2 dest=/etc/nginx/nginx.conf
-  tags: webserver
-
-- name: Install custom default nginx virtual server
-  copy: src=etc/nginx/sites-available/000-default dest=/etc/nginx/sites-available/000-default owner=root group=root mode=0644
+  template:
+    src: "{{ ansible_distribution_release }}-nginx.conf.j2"
+    dest: /etc/nginx/nginx.conf
   tags: webserver
 
 - name: Disable old default nginx virtual server
-  file: path=/etc/nginx/sites-enabled/default state=absent
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  tags: webserver
+
+- name: Install custom default nginx virtual server
+  copy:
+    src: etc/nginx/sites-available/000-default
+    dest: /etc/nginx/sites-available/000-default
+    owner: root
+    group: root
+    mode: 0644
   tags: webserver
 
 - name: Enable custom default nginx virtual server
-  file: path=/etc/nginx/sites-enabled/000-default state=link src=/etc/nginx/sites-available/000-default
+  file:
+    src: /etc/nginx/sites-available/000-default
+    path: /etc/nginx/sites-enabled/000-default
+    state: link
   tags: webserver
 
-- name: Install nginx virtual server specific to our server's hostname
-  template: src=nginx-vhost.j2 dest=/etc/nginx/sites-available/{{ server_name }}.{{ domain_name }} group=root owner=root mode=0644
+- name: Install nginx virtual servers
+  template:
+    src: nginx-vhost.j2
+    dest: "/etc/nginx/sites-available/{{ item }}"
+    group: root
+    owner: root
+    mode: 0644
+  with_items:
+    - "{{ websites }}"
   tags: webserver
 
-- name: Enable nginx virtual server
-  file: path=/etc/nginx/sites-enabled/{{ server_name }}.{{ domain_name }} state=link src=/etc/nginx/sites-available/{{ server_name }}.{{ domain_name }}
+- name: Enable nginx virtual servers
+  file:
+    src: "/etc/nginx/sites-available/{{ item }}"
+    path: "/etc/nginx/sites-enabled/{{ item }}"
+    state: link
+  with_items:
+    - "{{ websites }}"
   tags: webserver
 
 - name: Open HTTP and HTTPS ports in UFW (inbound)
-  ufw: rule=allow port={{item}} direction=in
+  ufw:
+    port: "{{ item }}"
+    rule: allow
+    direction: in
   tags: webserver, firewall
   with_items:
     - 80
     - 443
 
 - name: Force an nginx restart to pick up changes
-  service: name=nginx state=restarted
+  service:
+    name: nginx
+    state: restarted
   tags: webserver
