@@ -15,7 +15,9 @@ LogLevel INFO
 
 LoginGraceTime 120
 
+{% if ansible_ssh_user != "root" %}
 PermitRootLogin no
+{% endif %}
 AllowUsers {{ ansible_ssh_user }}
 
 StrictModes yes
