@@ -9,6 +9,10 @@ system: install essential packages and repositories, setting up a firewall using
 It is strongly recommended to include this role in first position in any
 Caislean installation.
 
+This role only consists in including subroles that fulfill these tasks:
+`base-packages`, `base-config`, `base-hardening`, `ufw` and `antivirus`. You may
+want to rather select them individually for a finer tuning of your system.
+
 ## Prerequired roles
 
 None.
