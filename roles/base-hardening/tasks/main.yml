@@ -1,0 +1,51 @@
+- name: Install login.defs
+  copy: src=etc/login.defs dest=/etc/login.defs owner=root group=root mode=0644
+  tags: base
+
+- name: Install PAM common-session file with umask module enabled
+  copy:
+  args:
+    src: etc/pam.d/{{ ansible_distribution_release }}-common-session
+    dest: /etc/pam.d/common-session
+    owner: root
+    group: root
+    mode: 0644
+  tags: base
+
+- name: Add backports Debian repository
+  apt_repository:
+  args:
+    repo: 'deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main'
+    state: present
+    update_cache: yes
+  tags: base
+
+- name: Install libpam-umask
+  apt: pkg=libpam-umask state=installed
+  tags: base
+
+- name: Install SSHd configuration
+  template:
+  args:
+    src: "{{ ansible_distribution_release }}-sshd_config.j2"
+    dest: /etc/ssh/sshd_config
+    group: root
+    owner: root
+  notify:
+    - restart ssh
+  tags: base
+
+- sysctl: name={{ item.name }} value={{ item.value }} state=present
+  with_items:
+    - { name: 'fs.suid.dumpable', value: '0' }
+    - { name: 'kernel.sysrq', value: '0' }
+    - { name: 'net.ipv4.conf.all.accept_redirects', value: '0' }
+    - { name: 'net.ipv4.conf.all.accept_source_route', value: '0' }
+    - { name: 'net.ipv4.conf.all.log_martians', value: '1' }
+    - { name: 'net.ipv4.conf.all.proxy_arp', value: '0' }
+    - { name: 'net.ipv4.conf.all.rp_filter', value: '1' }
+    - { name: 'net.ipv4.icmp_echo_ignore_broadcasts', value: '1' }
+    - { name: 'net.ipv4.tcp_timestamps', value: '0' }
+    - { name: 'net.ipv6.conf.all.accept_redirects', value: '0' }
+    - { name: 'net.ipv6.conf.all.accept_source_route', value: '0' }
+  tags: base
