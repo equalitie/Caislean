@@ -1,3 +1,32 @@
+- name: Install login.defs
+  copy: src=etc/login.defs dest=/etc/login.defs owner=root group=root mode=0644
+  tags: base
+
+- name: Install PAM common-session file with umask module enabled
+  copy:
+  args:
+    src: etc/pam.d/{{ ansible_distribution_release }}-common-session
+    dest: /etc/pam.d/common-session
+    owner: root
+    group: root
+    mode: 0644
+  tags: base
+
+- name: Install libpam-umask
+  apt: pkg=libpam-umask state=installed
+  tags: base
+
+- name: Install SSHd configuration
+  template:
+  args:
+    src: "{{ ansible_distribution_release }}-sshd_config.j2"
+    dest: /etc/ssh/sshd_config
+    group: root
+    owner: root
+  notify:
+    - restart ssh
+  tags: base
+
 - sysctl: name={{ item.name }} value={{ item.value }} state=present
   with_items:
     - { name: 'fs.suid.dumpable', value: '0' }

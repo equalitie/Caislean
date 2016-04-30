@@ -1,0 +1,2 @@
+- name: update mail aliases
+  command: newaliases
