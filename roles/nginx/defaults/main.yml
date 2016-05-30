@@ -1,0 +1,4 @@
+---
+
+websites:
+  - "{{ server_name }}.{{ domain_name }}"

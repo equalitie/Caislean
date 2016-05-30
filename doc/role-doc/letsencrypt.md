@@ -3,10 +3,10 @@
 ## Description
 
 This role configures nginx to use certificates issued by [Let's
-Encrypt](https://letsencrypt.org/) instead
-of self-signed certificates installed by Caislean's TLS role. The advantage is
-that Let's Encrypt certificates are trusted by most browsers so visitors to
-your website won't see an untrusted certificate warning.
+Encrypt](https://letsencrypt.org/) instead of self-signed certificates
+installed by Caislean's TLS role. The advantage is that Let's Encrypt
+certificates are trusted by most browsers so visitors to your website won't see
+an untrusted certificate warning.
 
 ## Notes
 
@@ -24,11 +24,11 @@ This role adds the "testing" repository to the remote machine. The role also
 specifies apt preferences to make sure software is installed from the stable
 repositories unless explicitly specified otherwise.
 
-This role won't work unless `website_domain_name` resolves to the IP address of
-the remote machine. This is because Let's Encrypt verifies that you control the
-domain for which you're requesting a certificate by placing a file in your
-webserver's webroot and then checking that it can access that file from the domain
-in question.
+This role won't work unless every domain listed in `websites` resolves to the
+IP address of the remote machine. This is because Let's Encrypt verifies that
+you control the domains for which you're requesting certificates by placing
+files in each virtual host's webroot and then checking that it can access those
+files from the domains in question.
 
 ## Prerequired roles
 
@@ -36,16 +36,28 @@ in question.
 - `tls`
 - `nginx`
 
-# Manual steps
-
 # Configuration parameters (ansible variables)
 
 ## Mandatory parameters
 
-### `website_domain_name`
+### `websites`
 
-The domain name of the website you are serving from this machine (e.g.
-example.com)
+A list of domain names for which Caislean should generate certificates. This is
+the same list used by the `nginx` role when creating virtual hosts to serve.
+
+Default:
+
+websites:
+  - "{{ server_name }}.{{ domain_name }}"
+
+Add or change lines to create new nginx virtual hosts and generate letsencrypt
+certificates for them.
+
+Example:
+
+websites:
+ - "{{ domain_name }}"
+ - "www.example.com"
 
 ### `webmaster_email`
 
