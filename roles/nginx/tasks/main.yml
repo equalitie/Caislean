@@ -142,16 +142,6 @@
     - "{{ websites }}"
   tags: webserver
 
-- name: Open HTTP and HTTPS ports in UFW (inbound)
-  ufw:
-    port: "{{ item }}"
-    rule: allow
-    direction: in
-  tags: webserver, firewall
-  with_items:
-    - 80
-    - 443
-
 - name: Force an nginx restart to pick up changes
   service:
     name: nginx
