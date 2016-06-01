@@ -24,13 +24,13 @@
 - name: Open ports in UFW (inbound)
   ufw: rule=allow port={{item}} direction=in
   with_items:
-    - "{{ ufw_open_ports_in }}"
+    - "{{ ufw_allow_ports_in }}"
   tags: firewall
 
 - name: Open ports in UFW (outbound)
   ufw: rule=allow port={{item}} direction=out
   with_items:
-    - "{{ ufw_open_ports_out }}"
+    - "{{ ufw_allow_ports_out }}"
   tags: firewall
 
 - name: Allow IPs in UFW (outbound)
