@@ -1,0 +1,5 @@
+dependencies:
+  - role: common
+  - role: tls
+
+#FIXME: add optional role openldap, if ldap auth is chosen
