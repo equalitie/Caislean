@@ -37,12 +37,14 @@
   ufw: rule=allow to_ip={{item}} direction=out
   with_items:
     - "{{ ufw_allow_ips_out }}"
+  when: ufw_allow_ips_out is defined
   tags: firewall
 
 - name: Allow IPs in UFW (inbound)
   ufw: rule=allow from_ip={{item}} direction=in
   with_items:
     - "{{ ufw_allow_ips_in }}"
+  when: ufw_allow_ips_in is defined
   tags: firewall
 
 - name: Enable UFW
