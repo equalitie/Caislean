@@ -24,17 +24,13 @@
 - name: Open ports in UFW (inbound)
   ufw: rule=allow port={{item}} direction=in
   with_items:
-    - 22
-    - 25
+    - "{{ ufw_open_ports_in }}"
   tags: firewall
 
 - name: Open ports in UFW (outbound)
   ufw: rule=allow port={{item}} direction=out
   with_items:
-    - 53
-    - 25
-    - 80
-    - 443
+    - "{{ ufw_open_ports_out }}"
   tags: firewall
 
 - name: Enable UFW
