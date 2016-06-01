@@ -1,0 +1,8 @@
+dependencies:
+  - role: common
+  - role: tls
+  - role: nginx
+  - role: php-fpm
+  - role: mysql
+
+#FIXME: add conditional openldap role
