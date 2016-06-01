@@ -1,0 +1,5 @@
+dependencies:
+  - role: common
+  - role: openldap
+  - role: nginx
+  - role: php-fpm
