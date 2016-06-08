@@ -90,10 +90,3 @@
   tags:
     - base
     - backup
-
-- name: Open UFW outbound SSH connections to backup host
-  ufw: rule=allow port={{ backup_remote_ssh_port }} direction=out to_ip={{ backup_remote_ip }}
-  tags:
-    - base
-    - backup
-    - firewall

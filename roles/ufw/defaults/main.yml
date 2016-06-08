@@ -1,0 +1,11 @@
+---
+
+ufw_allow_ports_out:
+  - 25
+  - 53
+  - 80
+  - 443
+
+ufw_allow_ports_in:
+  - {{ ansible_ssh_port if ansible_ssh_port is defined else 22 }}
+  - 25
