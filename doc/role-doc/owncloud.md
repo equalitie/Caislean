@@ -13,7 +13,8 @@ finalizing the installation is done via web access to the Owncloud instance.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `nginx`
 - `php-fpm`
