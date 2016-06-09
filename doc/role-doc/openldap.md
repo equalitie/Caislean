@@ -18,7 +18,8 @@ deprecated practice and should thus be changed in the future.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 
 # Manual steps: managing users in the LDAP database
 
