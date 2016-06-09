@@ -9,7 +9,7 @@ daemon), using users' email addresses as login.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
 - `tls`
 - `openldap`
 
