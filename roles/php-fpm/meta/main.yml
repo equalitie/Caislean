@@ -1,4 +1,4 @@
 dependencies:
-  - role: common
+  - role: base-packages
   - role: tls
   - role: nginx
