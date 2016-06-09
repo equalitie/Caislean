@@ -32,7 +32,8 @@ files from the domains in question.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `nginx`
 
