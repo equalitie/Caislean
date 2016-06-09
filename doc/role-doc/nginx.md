@@ -13,7 +13,7 @@ includes:
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
 - `tls`
 
 # Manual steps
