@@ -1,5 +1,5 @@
 dependencies:
-  - role: common
+  - role: base-packages
   - role: tls
 
 #FIXME: add optional role openldap, if ldap auth is chosen
