@@ -16,6 +16,7 @@ This role is automatically included in the `common` role.
 ## Prerequired roles
 
 - `base-packages`
+- `base-config`
 
 # Manual steps
 

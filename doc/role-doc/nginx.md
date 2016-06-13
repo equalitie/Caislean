@@ -14,6 +14,7 @@ includes:
 ## Prerequired roles
 
 - `base-packages`
+- `base-config`
 - `tls`
 
 # Manual steps

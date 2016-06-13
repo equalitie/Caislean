@@ -10,6 +10,7 @@ This role is currently broken.
 ## Prerequired roles
 
 - `base-packages`
+- `base-config`
 - `openldap`
 - `nginx`
 - `php-fpm`

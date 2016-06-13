@@ -18,6 +18,7 @@ resources will quickly be saturated by the live analysis of packets.
 ## Prerequired roles
 
 - `base-packages`
+- `base-config`
 
 # Manual steps
 

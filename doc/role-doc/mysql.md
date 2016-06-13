@@ -9,6 +9,7 @@ need a MySQL server to run.
 ## Prerequired roles
 
 - `base-packages`
+- `base-config`
 
 # Manual steps
 

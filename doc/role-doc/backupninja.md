@@ -13,6 +13,7 @@ backed-up directories is still static.
 ## Prerequired roles
 
 - `base-packages`
+- `base-config`
 
 # Manual steps to setup backup system
 
