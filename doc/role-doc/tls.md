@@ -24,7 +24,7 @@ manually.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
 
 # Manual steps
 
