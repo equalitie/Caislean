@@ -12,7 +12,8 @@ Users are identified against the locally running Dovecot server, through IMAP.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `nginx`
 - `php-fpm`
