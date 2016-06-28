@@ -83,6 +83,12 @@ To delete a user's account, simply remove their LDAP corresponding entry:
 
 ## Mandatory parameters
 
+### `ldap_bind_address`
+
+Default: `127.0.0.1`
+
+Local IP address for the OpenLDAP server to listen on.
+
 ### `ldap_admin_pass`
 
 The LDAP administrator password.
