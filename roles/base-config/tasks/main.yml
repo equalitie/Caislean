@@ -6,6 +6,20 @@
     - apticron
   tags: base
 
+- name: Stat remote postfix master.cf
+  stat: path=/etc/postfix/master.cf
+  register: remote_master_cf
+  
+- name: Stat local postfix master.cf in virtualmail role
+  local_action: stat path=roles/virtualmail/files/etc/postfix/master.cf
+  register: local_master_cf
+
+- name: Install daemon-less postfix configuration file (unless role virtualmail previously installed this file)
+  file: src=etc/postfix/master.cf dest=/etc/postfix/master.cf group=root owner=root mode=0644
+  when: local_master_cf.stat.checksum != remote_master_cf.stat.checksum
+  notify:
+    - restart postfix - base
+
 - name: Install Apticron configuration
   template: src=apticron.conf.j2 dest=/etc/apticron/apticron.conf group=root owner=root mode=0644
   tags: base
