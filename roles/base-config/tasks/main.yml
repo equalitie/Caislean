@@ -1,8 +1,9 @@
 - name: Install apticron and postfix
   apt: pkg={{item}} state=installed
   with_items:
-    - apticron
+    - bsd-mailx
     - postfix
+    - apticron
   tags: base
 
 - name: Install Apticron configuration
