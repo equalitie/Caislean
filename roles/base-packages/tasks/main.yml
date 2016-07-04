@@ -13,6 +13,7 @@
     - bash
     - wget
     - debconf-utils
+    - aptitude
   tags: base
 
 - name: Make sure unwanted packages are absent - common
