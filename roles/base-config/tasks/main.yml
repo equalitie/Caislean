@@ -15,7 +15,7 @@
   register: local_master_cf
 
 - name: Install daemon-less postfix configuration file (unless role virtualmail previously installed this file)
-  file: src=etc/postfix/master.cf dest=/etc/postfix/master.cf group=root owner=root mode=0644
+  copy: src=etc/postfix/master.cf dest=/etc/postfix/master.cf group=root owner=root mode=0644
   when: local_master_cf.stat.checksum != remote_master_cf.stat.checksum
   notify:
     - restart postfix - base
