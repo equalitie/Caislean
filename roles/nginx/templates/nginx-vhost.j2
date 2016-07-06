@@ -4,7 +4,7 @@ server {
 	listen	443 ssl;
 	listen	[::]:443 ssl;
 
-	server_name {{ item }};
+	server_name {{ item.name }};
 
 	expires -1;
 
@@ -13,7 +13,7 @@ server {
 		return 405;
 	}
 
-	root /var/www/{{ item }};
+	root /var/www/{{ item.name }};
 
-	include /etc/nginx/includes/{{ item }}/*;
+	include /etc/nginx/includes/{{ item.name }}/*;
 }
