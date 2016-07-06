@@ -1,0 +1,9 @@
+{% for rp_config in item.reverse_proxy %}
+location {{ rp_config.location if rp_config.location is defined else '/' }} {
+	proxy_pass {{ rp_config.target }};
+	proxy_set_header Host $host;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Real-IP $remote_addr;
+}
+
+{% endfor %}
