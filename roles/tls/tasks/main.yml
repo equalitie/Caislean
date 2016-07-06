@@ -34,7 +34,7 @@
     - tls
 
 - name: Install additional domains TLS files (keys)
-  copy: content="{{lookup('file', tls_directory + '/' + item + '.key.pem')}}" dest=/etc/ssl/certs/{{item}}.key.pem owner=root group=ssl-cert mode=0640
+  copy: content="{{lookup('file', tls_directory + '/' + item + '.key.pem')}}" dest=/etc/ssl/private/{{item}}.key.pem owner=root group=ssl-cert mode=0640
   when: tls_additional_domains is defined
   with_items: "{{ tls_additional_domains }}"
   tags:
