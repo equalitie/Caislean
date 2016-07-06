@@ -25,7 +25,7 @@
   tags: letsencrypt
 
 - name: Generate certificates for websites
-  command: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item }} --email {{ webmaster_email }} -d {{ item }} --agree-tos --keep"
+  command: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item.name }} --email {{ webmaster_email }} -d {{ item.name }} --agree-tos --keep"
   with_items:
     - "{{ websites }}"
   tags: letsencrypt
@@ -33,7 +33,7 @@
 - name: Configure nginx to use new certificates
   template:
     src: letsencrypt.j2
-    dest: "/etc/nginx/includes/{{ item }}/letsencrypt"
+    dest: "/etc/nginx/includes/{{ item.name }}/letsencrypt"
     owner: root
     group: root
     mode: 0644
@@ -48,8 +48,8 @@
 - name: Schedule certificate renewals using cron
   cron:
     name: letsencrypt renew certificate
-    job: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item }} --email {{ webmaster_email }} -d {{ item }} --agree-tos --keep && service nginx reload"
-    cron_file: "ansible_letsencrypt_{{ item }}_cert_renewal"
+    job: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item.name }} --email {{ webmaster_email }} -d {{ item.name }} --agree-tos --keep && service nginx reload"
+    cron_file: "ansible_letsencrypt_{{ item.name }}_cert_renewal"
     state: present
     special_time: daily
     user: root
