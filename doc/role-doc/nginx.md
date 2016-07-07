@@ -64,4 +64,11 @@ Example:
 
 ## Optional parameters
 
-None.
+### `tls_additional_parameters`
+
+A set of additional domains for which nginx will also serve content in HTTPS.
+These domains must be defined in the `websites` variable, or the role will fail
+to execute. The default domain name must not be specified in this variable, as
+TLS is enabled for it by default.
+
+See the TLS role documentation for more information on this parameter.
