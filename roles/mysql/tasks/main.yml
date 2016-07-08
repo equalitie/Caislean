@@ -13,15 +13,32 @@
   tags:
     - mysql
 
-- name: Set MySQL root password
+- name: Set MySQL root password (wheezy)
   debconf: name=mysql-server-5.5 question="{{item}}" vtype=password value="{{mysql_root_password}}"
+  when: ansible_distribution_release == "wheezy"
   with_items:
     - mysql-server/root_password
     - mysql-server/root_password_again
   tags:
     - mysql
 
-- name: Reconfigure MySQL
+- name: Set MySQL root password (jessie)
+  debconf: name=mysql-server-5.6 question="{{item}}" vtype=password value="{{mysql_root_password}}"
+  when: ansible_distribution_release == "jessie"
+  with_items:
+    - mysql-server/root_password
+    - mysql-server/root_password_again
+  tags:
+    - mysql
+
+- name: Reconfigure MySQL (wheezy)
   command: dpkg-reconfigure -f noninteractive mysql-server-5.5
+  when: ansible_distribution_release == "wheezy"
+  tags:
+    - mysql
+
+- name: Reconfigure MySQL (jessie)
+  command: dpkg-reconfigure -f noninteractive mysql-server-5.6
+  when: ansible_distribution_release == "jessie"
   tags:
     - mysql
