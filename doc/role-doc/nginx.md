@@ -64,7 +64,7 @@ Example:
 
 ## Optional parameters
 
-### `tls_additional_parameters`
+### `tls_additional_domains`
 
 A set of additional domains for which nginx will also serve content in HTTPS.
 These domains must be defined in the `websites` variable, or the role will fail
