@@ -92,7 +92,8 @@
     - { dirname: apps, rec: no }
     - { dirname: config, rec: yes }
     - { dirname: data, rec: yes }
-    - { dirname: assets, rec: yes } 
+    - { dirname: assets, rec: yes }
+    - { dirname: themes, rec: yes }
   tags:
     - owncloud
 
