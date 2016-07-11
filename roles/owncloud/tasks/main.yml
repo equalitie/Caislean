@@ -85,14 +85,6 @@
   tags:
     - owncloud
 
-- name: Set correct permissions in some Owncloud apps subdirectory
-  file: path=/var/www/owncloud/apps/{{item}} state=directory group=www owner=owncloud mode="u=rwX,g=rX,o-rwx" recurse=yes
-  with_items:
-    - calendar
-    - contacts
-  tags:
-    - owncloud
-
 - name: Create owncloud database
   mysql_db: login_user=root login_password="{{mysql_root_password}}" name=owncloud state=present
   tags:
