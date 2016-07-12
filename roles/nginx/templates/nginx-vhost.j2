@@ -8,11 +8,6 @@ server {
 
 	expires -1;
 
-	if ($request_method !~ ^(GET|HEAD|POST)$ )
-	{
-		return 405;
-	}
-
 	root /var/www/{{ item.name }};
 
 	include /etc/nginx/includes/{{ item.name }}/*;
