@@ -97,16 +97,6 @@
   tags:
     - owncloud
 
-- name: Create owncloud database
-  mysql_db: login_user=root login_password="{{mysql_root_password}}" name=owncloud state=present
-  tags:
-    - owncloud
-
-- name: Create owncloud MySQL user and grant access to database
-  mysql_user: login_user=root login_password="{{mysql_root_password}}" name=owncloud state=present password="{{owncloud_mysql_password}}" priv=owncloud.*:ALL
-  tags:
-    - owncloud
-
 - name: Install nginx configuration part for owncloud
   template: src=nginx-owncloud.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/owncloud owner=root group=root mode=0644
   notify:
