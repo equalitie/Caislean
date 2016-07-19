@@ -24,3 +24,26 @@
   tags:
     - tls
 
+- name: Install additional domains TLS files (certificates)
+  copy: content="{{lookup('file', tls_directory + '/' + item[0] + item[1])}}" dest=/etc/ssl/certs/{{item[0]}}{{item[1]}} owner=root group=ssl-cert mode=0644
+  when: tls_additional_domains is defined
+  with_nested:
+    - "{{ tls_additional_domains }}"
+    - [ '.ca.crt.pem', '.cert.crt.pem'  ]
+  tags:
+    - tls
+
+- name: Install additional domains TLS files (chain)
+  copy: content="{{lookup('file', tls_directory + '/' + item + '.cert.crt.pem')}}\n{{lookup('file', tls_directory + '/' + item + '.ca.crt.pem')}}" dest=/etc/ssl/certs/{{item}}.chain.pem owner=root group=ssl-cert mode=0644
+  when: tls_additional_domains is defined
+  with_items: "{{ tls_additional_domains }}"
+  tags:
+    - tls
+
+- name: Install additional domains TLS files (keys)
+  copy: content="{{lookup('file', tls_directory + '/' + item + '.key.pem')}}" dest=/etc/ssl/private/{{item}}.key.pem owner=root group=ssl-cert mode=0640
+  when: tls_additional_domains is defined
+  with_items: "{{ tls_additional_domains }}"
+  tags:
+    - tls
+

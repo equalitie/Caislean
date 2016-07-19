@@ -16,7 +16,11 @@ location /owncloud {
 	rewrite ^/owncloud/.well-known/carddav /owncloud/remote.php/carddav/ redirect;
 	rewrite ^/owncloud/.well-known/caldav /owncloud/remote.php/caldav/ redirect;
 
-	location ~ ^/owncloud/(?:\.htaccess|data|config|db_structure\.xml|README) {
+	location ~ ^/owncloud/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+		deny all;
+	}
+
+	location ~ ^/owncloud/(?:\.|autotest|occ|issue|indie|db_|console) {
 		deny all;
 	}
 

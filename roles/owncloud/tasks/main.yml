@@ -1,36 +1,47 @@
-- name: Add OpenSUSE PGP signing key (wheezy)
-  apt_key: url=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_7.0/Release.key state=present
+- name: Add Owncloud PGP signing key (wheezy)
+  apt_key: url=https://download.owncloud.org/download/repositories/stable/Debian_7.0/Release.key state=present
   when: ansible_distribution_release == "wheezy"
   tags:
     - owncloud
 
-- name: Add OpenSUSE PGP signing key (jessie)
-  apt_key: url=http://download.opensuse.org/repositories/isv:ownCloud:community/Debian_8.0/Release.key state=present
+- name: Add Owncloud PGP signing key (jessie)
+  apt_key: url=https://download.owncloud.org/download/repositories/stable/Debian_8.0/Release.key state=present
   when: ansible_distribution_release == "jessie"
   tags:
     - owncloud
 
-- name: Add OpenSUSE repository for Owncloud package (wheezy)
-  apt_repository: repo='deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_7.0/ /' state=present update_cache=yes
+- name: Add Owncloud APT repository (wheezy)
+  apt_repository: repo='deb http://download.owncloud.org/download/repositories/stable/Debian_7.0/ /' state=present update_cache=yes
   when: ansible_distribution_release == "wheezy"
   tags:
     - owncloud
 
-- name: Add OpenSUSE repository for Owncloud package (jessie)
-  apt_repository: repo='deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_8.0/ /' state=present update_cache=yes
+- name: Add Owncloud APT repository (jessie)
+  apt_repository: repo='deb http://download.owncloud.org/download/repositories/stable/Debian_8.0/ /' state=present update_cache=yes
   when: ansible_distribution_release == "jessie"
   tags:
     - owncloud
 
-- name: Install Owncloud and dependencies
+- name: Install Owncloud dependencies
   apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
   with_items:
     - python-configparser
     - php5-ldap
     - php-apc
-    - owncloud-server
   notify:
     - restart php5-fpm
+  tags:
+    - owncloud
+
+- name: Install Owncloud (wheezy)
+  apt: pkg=owncloud-files state=installed default_release=wheezy-backports
+  when: ansible_distribution_release == "wheezy"
+  tags:
+    - owncloud
+
+- name: Install Owncloud (jessie)
+  apt: pkg=owncloud state=installed default_release=jessie-backports
+  when: ansible_distribution_release == "jessie"
   tags:
     - owncloud
 
@@ -81,25 +92,8 @@
     - { dirname: apps, rec: no }
     - { dirname: config, rec: yes }
     - { dirname: data, rec: yes }
-    - { dirname: assets, rec: yes } 
-  tags:
-    - owncloud
-
-- name: Set correct permissions in some Owncloud apps subdirectory
-  file: path=/var/www/owncloud/apps/{{item}} state=directory group=www owner=owncloud mode="u=rwX,g=rX,o-rwx" recurse=yes
-  with_items:
-    - calendar
-    - contacts
-  tags:
-    - owncloud
-
-- name: Create owncloud database
-  mysql_db: login_user=root login_password="{{mysql_root_password}}" name=owncloud state=present
-  tags:
-    - owncloud
-
-- name: Create owncloud MySQL user and grant access to database
-  mysql_user: login_user=root login_password="{{mysql_root_password}}" name=owncloud state=present password="{{owncloud_mysql_password}}" priv=owncloud.*:ALL
+    - { dirname: assets, rec: yes }
+    - { dirname: themes, rec: yes }
   tags:
     - owncloud
 

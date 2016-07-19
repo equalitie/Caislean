@@ -2,14 +2,16 @@
 
 ## Description
 
-This role installs the Owncloud package from the OpenSUSE repositories and
-installs the proper Nginx configuration file containing a `location` block that
-configures the `/owncloud/` HTTP directory properly, also with forwarding
+This role installs the Owncloud package from the Owncloud official repositories
+and installs the proper Nginx configuration file containing a `location` block
+that configures the `/owncloud/` HTTP directory properly, also with forwarding
 PHP requests to `php-fpm`. It also installs a dedicated `php-fpm` service,
-running as a distinct user.
+running as a distinct `owncloud` user.
 
 Note that after installation of the package through the Ansible playbook,
-finalizing the installation is done via web access to the Owncloud instance.
+finalizing the installation is done via web access to the Owncloud instance. You
+should do it right away as it lets you set the Owncloud administrator account
+and password.
 
 ## Prerequired roles
 
@@ -19,7 +21,7 @@ finalizing the installation is done via web access to the Owncloud instance.
 - `nginx`
 - `php-fpm`
 - `mysql`
-- `openldap` (if using LDAP authentication)
+- `openldap` (if using local LDAP authentication)
 
 # Manual steps: finalizing Owncloud setup
 
@@ -36,13 +38,15 @@ required settings as follows:
 - specify a new administrator account
 - leave the default storage folder to `/var/www/owncloud/data`
 - select MySQL as database backend
-- use `owncloud` for both database name and username, and fill in the password
-  you already set with the variable `owncloud_mysql_password`
+- choose a database name freely, use `root` for the username, and fill in the
+  password you already set with the variable `mysql_root_password`: Owncloud
+  will use this account only once to create its own tables and less privileged
+  MySQL account, and then will use it in the future.
 
 ## Connection to the LDAP directory
 
 Log into Owncloud using your new administrator account. Use the button in the
-upper-left corner and select the _Apps_ screen. Go the the _Not enabled_ tab and
+upper-left corner and select the _Apps_ screen. Go to the _Not enabled_ tab and
 enable the _LDAP user and group backend_ application with the _Enable_ button.
 
 Click on your login in the upper-right corner and select _Admin_ and scroll down
@@ -57,12 +61,15 @@ to the LDAP configuration. Configure the application as follows:
 - in the Group filter tab, enter `objectClass=mailAccount` as raw filter
 - select the Advanced tab, scroll down and click on the Save button
 
+You may also connect Owncloud to another LDAP server, in which case you will
+have to adapt the settings according to its configuration.
+
 ## Enabling calendar and contacts management
 
 - log into your Owncloud instance with the administrator account
 - click on the top-left menu and select "Apps"
 - select the PIM category
-- enable both Calendar 8.0 and Contacts 8.0 applications
+- enable both Calendar and Contacts applications
 - log out: when you log back in, or whenever any user logs in, management of
   calendar and contacts becomes possible.
 
@@ -73,11 +80,6 @@ to the LDAP configuration. Configure the application as follows:
 ### `mysql_root_password`
 
 `root` user password for MySQL server.
-
-### `owncloud_mysql_password`
-
-The MySQL password for user `owncloud` (this user is automatically created by
-the role).
 
 ## Optional parameters
 

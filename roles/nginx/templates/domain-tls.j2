@@ -1,0 +1,3 @@
+    add_header          Strict-Transport-Security max-age=63072000;
+    ssl_certificate	/etc/ssl/certs/{{item}}.chain.pem;
+    ssl_certificate_key /etc/ssl/private/{{item}}.key.pem;

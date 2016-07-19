@@ -4,16 +4,11 @@ server {
 	listen	443 ssl;
 	listen	[::]:443 ssl;
 
-	server_name {{ item }};
+	server_name {{ item.name }};
 
 	expires -1;
 
-	if ($request_method !~ ^(GET|HEAD|POST)$ )
-	{
-		return 405;
-	}
+	root /var/www/{{ item.name }};
 
-	root /var/www/{{ item }};
-
-	include /etc/nginx/includes/{{ item }}/*;
+	include /etc/nginx/includes/{{ item.name }}/*;
 }

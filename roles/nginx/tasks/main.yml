@@ -59,32 +59,33 @@
 
 - name: Create nginx content directories
   file:
-    path: "/var/www/{{ item }}"
+    path: "/var/www/{{ item.name }}"
     state: directory
     group: root
     owner: root
     mode: 0755
     recurse: no
   with_items:
-    - default
+    - { name: 'default' }
     - "{{ websites }}"
   tags: webserver
 
 - name: Add placeholder index.html file to document roots
   template:
     src: index.html.j2
-    dest: "/var/www/{{ item }}/index.html"
+    dest: "/var/www/{{ item.name }}/index.html"
     group: www
     owner: www
     mode: 0644
+    force: no
   with_items:
-    - default
+    - { name: 'default' }
     - "{{ websites }}"
   tags: webserver
 
 - name: Create domain-specific directories in /etc/nginx/includes
   file:
-    path: "/etc/nginx/includes/{{ item }}"
+    path: "/etc/nginx/includes/{{ item.name }}"
     state: directory
     owner: root
     group: root
@@ -125,7 +126,7 @@
 - name: Install nginx virtual servers
   template:
     src: nginx-vhost.j2
-    dest: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-available/{{ item.name }}"
     group: root
     owner: root
     mode: 0644
@@ -135,12 +136,28 @@
 
 - name: Enable nginx virtual servers
   file:
-    src: "/etc/nginx/sites-available/{{ item }}"
-    path: "/etc/nginx/sites-enabled/{{ item }}"
+    src: "/etc/nginx/sites-available/{{ item.name }}"
+    path: "/etc/nginx/sites-enabled/{{ item.name }}"
     state: link
   with_items:
     - "{{ websites }}"
   tags: webserver
+
+- name: Install domain-specific TLS files
+  template: src=domain-tls.j2 dest=/etc/nginx/includes/{{item}}/tls-{{item}} owner=root group=root mode=0644
+  when: tls_additional_domains is defined
+  with_items: "{{ tls_additional_domains }}"
+  tags:
+    - webserver
+
+- name: Install reverse proxy files
+  template: src=reverse-proxy.j2 dest="/etc/nginx/includes/{{item.name}}/reverse-proxy" group=root owner=root mode=0644
+  with_items:
+    - "{{ websites }}"
+  when: item.reverse_proxy is defined
+  tags:
+    - webserver
+    - reverse-proxy
 
 - name: Force an nginx restart to pick up changes
   service:
