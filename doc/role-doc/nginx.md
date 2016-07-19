@@ -49,7 +49,13 @@ PHP-enabled application in a specific subfolder).
 A number of reverse proxies can be optionally configured for each host name by
 specifying the parameter `reverse_proxy`, inside which the mandatory parameter
 `target` must be set to the remote URL to proxy to and the optional parameter
-`location` must be set to the local path where the proxying will be done.
+`location` must be set to the local path where the proxying will be done (it is
+set to `/` if left empty). Additional `nginx` options for this reverse proxy can
+be specified under the parameter `options`, using a series of `option_name` and
+`option_value` parameters.
+
+The headers `X-Real-IP` and `X-Forwarded-For` are automatically added and do not
+have to be add as options.
 
 Example:
 
@@ -61,6 +67,11 @@ Example:
 	  - target: 'http://backend.thirddomain.eu'
 	  - target: 'http://specialbackend.thirddomain.eu'
 	    location: '/specialbackend'
+            options:
+              - option_name: proxy_redirect
+                option_value: 'off'
+              - option_name: proxy_add_header
+                option_value: 'X-Forwarded-Proto $scheme'
 
 ## Optional parameters
 
