@@ -24,8 +24,13 @@
   template: src=apticron.conf.j2 dest=/etc/apticron/apticron.conf group=root owner=root mode=0644
   tags: base
 
-- name: Install /etc/aliases
-  template: src=aliases.j2 dest=/etc/aliases group=root owner=root mode=0644
+- name: Insert necessary aliases to /etc/aliases
+  lineinfile:
+    dest: /etc/aliases
+    create: yes
+    regexp: '^root: '
+    line: 'root: {{ ansible_ssh_user }}@localhost, {{ admin_email }}'
+  tags: base
   notify:
     - update mail aliases
   tags: base
