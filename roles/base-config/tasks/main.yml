@@ -33,4 +33,3 @@
   tags: base
   notify:
     - update mail aliases
-  tags: base
