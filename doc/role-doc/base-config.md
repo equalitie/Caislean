@@ -2,11 +2,11 @@
 
 ## Description
 
-This role sets up a basic version of the file `/etc/aliases` to allow the
-administrator to receive system alerts to an external e-mail address, and
-installs `apticron` to notify of available package updates. It also installs
-`postfix` to ensure the e-mail delivery of `apticron` alerts, but configures it
-not to listen on the network.
+This role ensures that the `root` account in `/etc/aliases` forwards messages to
+the e-mail address defined by the administrator (see below), and installs
+`apticron` to notify of available package updates. It also installs `postfix` to
+ensure the e-mail delivery of `apticron` alerts and configures it not to listen
+on the network.
 
 This role is automatically included in the `common` role.
 
