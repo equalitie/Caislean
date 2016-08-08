@@ -2,6 +2,6 @@ dn: {{base_dn}}
 objectClass: top
 objectClass: dcObject
 objectClass: organization
-o: {{domain_name}}
-dc: {{domain_name.split('.')[0]}}
+o: {{current_ldap_domain}}
+dc: {{current_ldap_domain.split('.')[0]}}
 
