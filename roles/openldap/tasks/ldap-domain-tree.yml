@@ -1,4 +1,4 @@
-- set_fact: current_ldap_domain="{{item}}"
+- set_fact: current_ldap_domain="{{item.domain}}"
 
 - name: Set fact with Base DN for the current LDAP domain
   set_fact: base_dn="dc={{current_ldap_domain.split('.')|join(',dc=')}}"
