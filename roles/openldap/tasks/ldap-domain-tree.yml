@@ -11,19 +11,19 @@
   tags:
     - ldap
 
-- name: Create dedicated directory for our database
+- name: Create dedicated directory for current domain database
   file: path=/var/lib/caislean_ldap_{{current_ldap_domain}} state=directory group=openldap owner=openldap mode=0755
   when: ldapsearch_db.stdout == ""
   tags:
     - ldap
 
-- name: Upload temporary database creation LDIF file
+- name: Upload temporary database creation LDIF file for current domain
   template: src=new_ldap_db.ldif.j2 dest=/tmp/new_ldap_db.ldif group=root owner=root mode=0600
   when: ldapsearch_db.stdout == ""
   tags:
     - ldap
 
-- name: Create our database
+- name: Create our database for the current domain
   command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/new_ldap_db.ldif
   when: ldapsearch_db.stdout == ""
   tags:
@@ -35,13 +35,13 @@
   tags:
     - ldap
 
-- name: Retrieve our database DN in cn=config
+- name: Retrieve our current domain database full DN in cn=config
   command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix={{base_dn}}))' dn
   register: db_dn
   tags:
     - ldap
 
-- name: Set fact with our database DN
+- name: Set fact with current domain database DN in cn=config
   set_fact: ldap_db_config_dn="{{db_dn.stdout_lines[0]}}"
   tags:
     - ldap
@@ -51,7 +51,7 @@
   tags:
     - ldap
 
-- name: Load DB ACL to LDAP
+- name: Load current domain database ACL into LDAP
   command: ldapmodify -v -Y EXTERNAL -H ldapi:/// -f /tmp/ldap_db_acl.ldif
   tags:
     - ldap
@@ -86,7 +86,7 @@
   tags:
     - ldap
 
-- name: Checking presence of root entry in our database
+- name: Checking existence of root entry in database for current domain
   command: ldapsearch -LLL -x -b {{base_dn}} -s base
   ignore_errors: true
   register: ldapsearch_base_dn
