@@ -5,7 +5,7 @@
   tags:
     - ldap
 
-- name: Check if the database exists for current domain
+- name: Check if the LDAP database exists for current domain
   command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix={{base_dn}}))'
   register: ldapsearch_db
   tags:
@@ -17,13 +17,13 @@
   tags:
     - ldap
 
-- name: Upload temporary database creation LDIF file for current domain
+- name: Upload database creation LDIF temporary file for current domain
   template: src=new_ldap_db.ldif.j2 dest=/tmp/new_ldap_db.ldif group=root owner=root mode=0600
   when: ldapsearch_db.stdout == ""
   tags:
     - ldap
 
-- name: Create our database for the current domain
+- name: Create database for the current domain
   command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/new_ldap_db.ldif
   when: ldapsearch_db.stdout == ""
   tags:
@@ -35,7 +35,7 @@
   tags:
     - ldap
 
-- name: Retrieve our current domain database full DN in cn=config
+- name: Retrieve current domain database full DN in cn=config
   command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix={{base_dn}}))' dn
   register: db_dn
   tags:
@@ -46,7 +46,7 @@
   tags:
     - ldap
 
-- name: Upload ACL configuration LDIF file
+- name: Upload ACL configuration LDIF file for current domain
   template: src=ldap_db_acl.ldif.j2 dest=/tmp/ldap_db_acl.ldif group=root owner=root mode=0600
   tags:
     - ldap
@@ -61,7 +61,7 @@
   tags:
     - ldap
 
-- name: Test if the administrator password works
+- name: Test if the administrator password works for current domain
   command: ldapwhoami -w {{ldap_admin_pass}} -D cn=admin,{{base_dn}}
   ignore_errors: true
   register: admin_auth_test
