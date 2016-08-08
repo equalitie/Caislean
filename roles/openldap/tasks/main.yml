@@ -43,4 +43,6 @@
   tags:
     - ldap
 
-
+- name: Create LDAP entries for all managed domains...
+  include: ldap-domain-tree.yml
+  with_items: {{ldap_managed_domains}}
