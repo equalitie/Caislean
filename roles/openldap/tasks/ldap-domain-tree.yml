@@ -1,4 +1,21 @@
 - set_fact: current_ldap_domain="{{item.domain}}"
+  tags:
+    - ldap
+
+- set_fact: domain_ldap_admin_pass="{{item.admin_pass|default(ldap_admin_pass)}}"
+  tags:
+    - ldap
+
+- name: Generate hash of LDAP admin password for this domain
+  command: slappasswd -s {{domain_ldap_admin_pass}}
+  register: slappasswd_out
+  tags:
+    - ldap
+
+- name: Save fact with hashed LDAP password
+  set_fact: hashed_ldap_password={{slappasswd_out.stdout}}
+  tags:
+    - ldap
 
 - name: Set fact with Base DN for the current LDAP domain
   set_fact: base_dn="dc={{current_ldap_domain.split('.')|join(',dc=')}}"
@@ -62,7 +79,7 @@
     - ldap
 
 - name: Test if the administrator password works for current domain
-  command: ldapwhoami -w {{ldap_admin_pass}} -D cn=admin,{{base_dn}}
+  command: ldapwhoami -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}}
   ignore_errors: true
   register: admin_auth_test
   tags:
@@ -100,7 +117,7 @@
     - ldap
 
 - name: Add our database root entry
-  command: ldapadd -w {{ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn.ldif
+  command: ldapadd -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn.ldif
   when:  ldapsearch_base_dn | failed
   tags:
     - ldap
@@ -125,7 +142,7 @@
     - ldap
 
 - name: Add our database admin entry
-  command: ldapadd -w {{ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn_admin.ldif
+  command: ldapadd -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn_admin.ldif
   when:  ldapsearch_base_dn_admin | failed
   tags:
     - ldap
@@ -150,7 +167,7 @@
     - ldap
 
 - name: Add organizationalUnit mail LDAP entry (2/2)
-  command: ldapadd -D cn=admin,{{base_dn}} -w {{ ldap_admin_pass }} -f /tmp/mail_ou.ldif
+  command: ldapadd -D cn=admin,{{base_dn}} -w {{ domain_ldap_admin_pass }} -f /tmp/mail_ou.ldif
   when: ldapsearch_mail_ou | failed
   tags:
     - ldap

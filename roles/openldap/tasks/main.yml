@@ -32,17 +32,6 @@
   tags:
     - ldap
 
-- name: Generate hash of LDAP admin password
-  command: slappasswd -s {{ldap_admin_pass}}
-  register: slappasswd_out
-  tags:
-    - ldap
-
-- name: Save fact with hashed LDAP password
-  set_fact: hashed_ldap_password={{slappasswd_out.stdout}}
-  tags:
-    - ldap
-
 - name: Create LDAP entries for all managed domains...
   include: ldap-domain-tree.yml
   with_items: "{{ldap_managed_domains}}"
