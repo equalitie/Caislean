@@ -83,11 +83,21 @@ To delete a user's account, simply remove their LDAP corresponding entry:
 
 ## Mandatory parameters
 
-### `ldap_bind_address`
+### `ldap_bind_addresses`
 
-Default: `127.0.0.1`
+Default: `[127.0.0.1]`
 
-Local IP address for the OpenLDAP server to listen on.
+Local IP addresses for the OpenLDAP server to listen on. By default we only
+listen on the local interface (127.0.0.1). You can specify any number of IP
+addresses assigned to your server. IPv6 addresses must go between square
+brackets. You should be able to use special addresses `0.0.0.0` (IPv4) and `::`
+(IPv6) to listen on all network interfaces.
+
+Example:
+
+    ldap_bind_addresses:
+      - 127.0.0.1
+      - '[::1]'
 
 ### `ldap_admin_pass`
 
