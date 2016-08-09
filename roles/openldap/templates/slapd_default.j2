@@ -2,6 +2,6 @@ SLAPD_CONF=
 SLAPD_USER="openldap"
 SLAPD_GROUP="openldap"
 SLAPD_PIDFILE=
-SLAPD_SERVICES="ldap://{{ldap_bind_address}}/ ldapi:///"
+SLAPD_SERVICES="ldap://{{ldap_bind_addresses|join('/ ldap://')}}/ ldapi:///"
 SLAPD_SENTINEL_FILE=/etc/ldap/noslapd
 SLAPD_OPTIONS=""

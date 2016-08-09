@@ -1,0 +1,178 @@
+- set_fact: current_ldap_domain="{{item.domain}}"
+  tags:
+    - ldap
+
+- set_fact: domain_ldap_admin_pass="{{item.admin_pass|default(ldap_admin_pass)}}"
+  tags:
+    - ldap
+
+- name: Generate hash of LDAP admin password for this domain
+  command: slappasswd -s {{domain_ldap_admin_pass}}
+  register: slappasswd_out
+  tags:
+    - ldap
+
+- name: Save fact with hashed LDAP password
+  set_fact: hashed_ldap_password={{slappasswd_out.stdout}}
+  tags:
+    - ldap
+
+- name: Set fact with Base DN for the current LDAP domain
+  set_fact: base_dn="dc={{current_ldap_domain.split('.')|join(',dc=')}}"
+  tags:
+    - ldap
+
+- name: Check if the LDAP database exists for current domain
+  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix={{base_dn}}))'
+  register: ldapsearch_db
+  tags:
+    - ldap
+
+- name: Create dedicated directory for current domain database
+  file: path=/var/lib/caislean_ldap_{{current_ldap_domain}} state=directory group=openldap owner=openldap mode=0755
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Upload database creation LDIF temporary file for current domain
+  template: src=new_ldap_db.ldif.j2 dest=/tmp/new_ldap_db.ldif group=root owner=root mode=0600
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Create database for the current domain
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/new_ldap_db.ldif
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Remove temporary LDIF database creation file
+  file: state=absent path=/tmp/new_ldap_db.ldif
+  when: ldapsearch_db.stdout == ""
+  tags:
+    - ldap
+
+- name: Retrieve current domain database full DN in cn=config
+  command: ldapsearch -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcDatabaseConfig)(olcSuffix={{base_dn}}))' dn
+  register: db_dn
+  tags:
+    - ldap
+
+- name: Set fact with current domain database DN in cn=config
+  set_fact: ldap_db_config_dn="{{db_dn.stdout_lines[0]}}"
+  tags:
+    - ldap
+
+- name: Upload ACL configuration LDIF file for current domain
+  template: src=ldap_db_acl.ldif.j2 dest=/tmp/ldap_db_acl.ldif group=root owner=root mode=0600
+  tags:
+    - ldap
+
+- name: Load current domain database ACL into LDAP
+  command: ldapmodify -v -Y EXTERNAL -H ldapi:/// -f /tmp/ldap_db_acl.ldif
+  tags:
+    - ldap
+
+- name: Remove ACL temporary LDIF file
+  file: path=/tmp/ldap_db_acl.ldif state=absent
+  tags:
+    - ldap
+
+- name: Test if the administrator password works for current domain
+  command: ldapwhoami -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}}
+  ignore_errors: true
+  register: admin_auth_test
+  tags:
+    - ldap
+
+- name: Upload administrator password update LDIF file
+  template: src=ldap_db_rootpw.ldif.j2 dest=/tmp/ldap_db_rootpw.ldif group=root owner=root mode=0600
+  when: admin_auth_test | failed
+  tags:
+    - ldap
+
+- name: Update administrator password entry
+  command: ldapmodify -Y EXTERNAL -H ldapi:/// -f /tmp/ldap_db_rootpw.ldif
+  when: admin_auth_test | failed
+  tags:
+    - ldap
+
+- name: Remove temporary password update LDIF file
+  file: path=/tmp/ldap_db_rootpw.ldif state=absent
+  when: admin_auth_test | failed
+  tags:
+    - ldap
+
+- name: Checking existence of root entry in database for current domain
+  command: ldapsearch -LLL -x -b {{base_dn}} -s base
+  ignore_errors: true
+  register: ldapsearch_base_dn
+  tags:
+    - ldap
+
+- name: Upload temporary file to add our database root entry
+  template: src=base_dn.ldif.j2 dest=/tmp/base_dn.ldif group=root owner=root mode=0600
+  when: ldapsearch_base_dn | failed
+  tags:
+    - ldap
+
+- name: Add our database root entry
+  command: ldapadd -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn.ldif
+  when:  ldapsearch_base_dn | failed
+  tags:
+    - ldap
+
+- name: Remove database root entry temporary file
+  file: path=/tmp/base_dn.ldif state=absent
+  when:  ldapsearch_base_dn | failed
+  tags:
+    - ldap
+
+- name: Check presence of administrator user entry in our database
+  command: ldapsearch -LLL -x -b cn=admin,{{base_dn}} -s base
+  ignore_errors: true
+  register: ldapsearch_base_dn_admin
+  tags:
+    - ldap
+
+- name: Upload temporary file to add our database admin entry
+  template: src=base_dn_admin.ldif.j2 dest=/tmp/base_dn_admin.ldif group=root owner=root mode=0600
+  when: ldapsearch_base_dn_admin | failed
+  tags:
+    - ldap
+
+- name: Add our database admin entry
+  command: ldapadd -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn_admin.ldif
+  when:  ldapsearch_base_dn_admin | failed
+  tags:
+    - ldap
+
+- name: Remove database admin entry temporary file
+  file: path=/tmp/base_dn_admin.ldif state=absent
+  when: ldapsearch_base_dn_admin | failed
+  tags:
+    - ldap
+
+- name: Check whether organizationalUnit mail LDAP entry exists
+  command: ldapsearch -x -b ou=mail,{{base_dn}} -s base
+  ignore_errors: true
+  register: ldapsearch_mail_ou
+  tags:
+    - ldap
+
+- name: Add organizationalUnit mail LDAP entry (1/2)
+  template: src=mail_ou.ldif.j2 dest=/tmp/mail_ou.ldif owner=root group=root mode=0644
+  when: ldapsearch_mail_ou | failed
+  tags:
+    - ldap
+
+- name: Add organizationalUnit mail LDAP entry (2/2)
+  command: ldapadd -D cn=admin,{{base_dn}} -w {{ domain_ldap_admin_pass }} -f /tmp/mail_ou.ldif
+  when: ldapsearch_mail_ou | failed
+  tags:
+    - ldap
+
+- name: Remove LDIF temporary file for organizationalUnit mail entry
+  file: path=/tmp/mail_ou.ldif state=absent
+  tags:
+    - ldap
