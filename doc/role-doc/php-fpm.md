@@ -9,7 +9,8 @@ different users depending on the PHP process that is managing them.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `nginx`
 

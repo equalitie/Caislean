@@ -3,10 +3,14 @@
 For each role there is a specific documentation file in the `role-doc` directory,
 with detailed explanations, required manual steps and all available variables.
 
-Several roles depend on the presence of other ones within the same playbook in
-order to run successfully: refer to their documentation to make sure you include
-all necessary roles.
+Most roles depend on the presence of other roles within the same playbook in
+order to run successfully. These dependencies will be automatically included in
+the playbook and executed prior to the role you specified, so you don't need to
+add them manually.
 
+However, these roles may require their own variables to be set, so please refer
+to the roles documentation to make sure you set all required variables
+appropriately.
 
 ## Basic roles
 

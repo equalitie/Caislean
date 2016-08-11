@@ -1,10 +1,10 @@
 ---
- 
-admin_email: user@domain.com
-domain_name: domain.com
-webmaster_email: webmaster@website.com
-website_domain_name: website.com
 server_name: caislean
+domain_name: domain.com
+admin_email: "user@{{ domain_name }}"
+webmaster_email: "webmaster@{{ domain_name }}"
+websites:
+  - "{{ server_name }}.{{ domain_name }}"
 tls_directory: /home/user/caislean_admin/tls
 openvpn_auth_mech: tls
 auth_use_samba: false

@@ -8,7 +8,8 @@ need a MySQL server to run.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 
 # Manual steps
 

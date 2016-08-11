@@ -22,7 +22,8 @@ available to standard users, as it runs with `root` priviledges.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `nginx`
 

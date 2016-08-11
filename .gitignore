@@ -1,3 +1,4 @@
+site.retry
 site.yml
 ansible_hosts
 *.pyc

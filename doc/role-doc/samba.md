@@ -24,7 +24,8 @@ interoprable with other roles excepted OpenVPN.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `openldap`
 
 # Manual steps

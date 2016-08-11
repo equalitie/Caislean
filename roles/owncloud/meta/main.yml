@@ -1,0 +1,10 @@
+dependencies:
+  - role: base-packages
+  - role: base-config
+  - role: tls
+  - role: nginx
+  - role: php-fpm
+  - role: mysql
+
+# FIXME: openldap is a dependency only if LDAP authentication is chosen. Need to
+# add a conditional inclusion.

@@ -144,6 +144,7 @@
     - restart dovecot
   tags:
     - vmail
+
 - name: Install Dovecot LDAP configuration
   template: src=dovecot-ldap.conf.j2 dest=/etc/dovecot/dovecot-ldap.conf group=root owner=root mode=0644
   notify:

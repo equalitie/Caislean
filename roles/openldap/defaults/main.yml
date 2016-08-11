@@ -1,0 +1,6 @@
+---
+
+ldap_bind_addresses:
+  - '127.0.0.1'
+ldap_managed_domains:
+  - domain: "{{ domain_name }}"

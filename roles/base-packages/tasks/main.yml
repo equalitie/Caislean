@@ -1,0 +1,35 @@
+- name: Add backports Debian repository
+  apt_repository:
+  args:
+    repo: 'deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main'
+    state: present
+    update_cache: yes
+  tags: base
+
+- name: Install base packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - openssh-server
+    - bash
+    - wget
+    - debconf-utils
+    - aptitude
+  tags: base
+
+- name: Make sure unwanted packages are absent - common
+  apt: pkg={{item}} state=absent purge=yes
+  with_items:
+    - nfs-common
+    - rpcbind
+    - exim4
+    - exim4-base
+    - exim4-config
+    - exim4-daemon-light
+  tags: base
+
+- name: Make sure unwanted packages are absent - wheezy
+  apt: pkg={{item}} state=absent purge=yes
+  with_items:
+    - unhide.rb
+  when: ansible_distribution_release == "wheezy"
+  tags: base

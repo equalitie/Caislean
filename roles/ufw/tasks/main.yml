@@ -1,0 +1,50 @@
+- name: Install ufw
+  apt: pkg=ufw state=installed
+  tags: firewall
+
+- name: Install UFW files
+  copy: src={{item}} dest=/{{item}} group=root owner=root
+  register: ufw_config_files
+  with_items:
+    - etc/default/ufw
+    - etc/ufw/ufw.conf
+    - etc/ufw/before.rules
+  tags: firewall
+
+- name: Disable UFW
+  ufw: state=disabled
+  when: ( ufw_config_files|changed )
+  tags: firewall
+
+- name: Reload UFW
+  ufw: state=reloaded
+  when: ( ufw_config_files|changed )
+  tags: firewall
+
+- name: Open ports in UFW (inbound)
+  ufw: rule=allow port={{item}} direction=in
+  with_items:
+    - "{{ ufw_allow_ports_in }}"
+  tags: firewall
+
+- name: Open ports in UFW (outbound)
+  ufw: rule=allow port={{item}} direction=out
+  with_items:
+    - "{{ ufw_allow_ports_out }}"
+  tags: firewall
+
+- name: Allow IPs in UFW (outbound)
+  ufw: rule=allow to_ip={{item}} direction=out
+  with_items:
+    - "{{ ufw_allow_ips_out }}"
+  tags: firewall
+
+- name: Allow IPs in UFW (inbound)
+  ufw: rule=allow from_ip={{item}} direction=in
+  with_items:
+    - "{{ ufw_allow_ips_in }}"
+  tags: firewall
+
+- name: Enable UFW
+  ufw: state=enabled logging=on policy=deny
+  tags: firewall

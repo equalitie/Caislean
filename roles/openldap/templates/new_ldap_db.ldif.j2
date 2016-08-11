@@ -2,7 +2,7 @@ dn: olcDatabase=mdb,cn=config
 objectClass: olcDatabaseConfig
 objectClass: olcMdbConfig
 olcDatabase: mdb
-olcDbDirectory: /var/lib/caislean_ldap_{{ domain_name }}
+olcDbDirectory: /var/lib/caislean_ldap_{{ current_ldap_domain }}
 olcSuffix: {{ base_dn }}
 olcAccess: to attrs=userPassword,shadowLastChange
   by dn="cn=admin,{{ base_dn }}" write

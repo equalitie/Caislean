@@ -14,7 +14,8 @@ LDAP structure.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `openldap`
 

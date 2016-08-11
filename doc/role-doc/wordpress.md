@@ -14,7 +14,8 @@ able to authentify users against the LDAP database with the proper plugin.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `nginx`
 - `php-fpm`

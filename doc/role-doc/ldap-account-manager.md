@@ -9,7 +9,8 @@ This role is currently broken.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `openldap`
 - `nginx`
 - `php-fpm`

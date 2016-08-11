@@ -1,0 +1,14 @@
+- name: Install chkrootkit
+  apt: pkg={{item}} state=installed
+  with_items:
+    - chkrootkit
+    - unhide
+  tags: base
+
+- name: Install chkrootkit configuration
+  copy: src=etc/chkrootkit.conf dest=/etc/chkrootkit.conf group=root owner=root mode=0600
+  tags: base
+
+- name: Install chkrootkit daily cron job script
+  copy: src=etc/cron.daily/chkrootkit dest=/etc/cron.daily/chkrootkit group=root owner=root mode=0755
+  tags: base

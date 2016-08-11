@@ -10,7 +10,8 @@ through the use of TLS certificates, or both.
 
 ## Prerequired roles
 
-- `common`
+- `base-packages`
+- `base-config`
 - `tls`
 - `openldap` (only if using the LDAP authentication)
 

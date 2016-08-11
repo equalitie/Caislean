@@ -1,4 +1,3 @@
-{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
 dn: ou=mail,{{ base_dn }}
 objectClass: top
 objectClass: organizationalUnit

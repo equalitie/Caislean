@@ -1,7 +1,0 @@
----
-
-- name: restart ssh
-  service: name=ssh state=restarted
-
-- name: update mail aliases
-  command: newaliases
