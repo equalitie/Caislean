@@ -27,7 +27,7 @@
     - restart ssh
   tags: base
 
-- sysctl: name={{ item.name }} value={{ item.value }} state=present
+- include: sysctl.yml
   with_items:
     - { name: 'fs.suid.dumpable', value: '0' }
     - { name: 'kernel.sysrq', value: '0' }
