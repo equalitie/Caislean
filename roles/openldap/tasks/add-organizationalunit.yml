@@ -1,5 +1,5 @@
 - name: Check whether desired organizationalUnit LDAP entry exists
-  command: ldapsearch -x -b ou={{{ou_name}},{{base_dn}} -s base
+  command: ldapsearch -x -b ou={{ou_name}},{{base_dn}} -s base
   ignore_errors: true
   register: ldapsearch_orgunit
   tags:
