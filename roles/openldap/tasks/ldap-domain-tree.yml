@@ -175,3 +175,8 @@
   when: domain_groups_ou != ''
   tags:
     - ldap
+
+- include: ldap-db-overlays.yml
+  when: domain_groups_ou != ''
+  tags:
+    - ldap
