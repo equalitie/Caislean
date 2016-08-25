@@ -6,6 +6,14 @@
   tags:
     - ldap
 
+- set_fact: domain_users_ou="{{item.users_ou|default('mail')}}"
+  tags:
+   - ldap
+
+- set_fact: domain_groups_ou="{{item.groups_ou|default('')}}"
+  tags:
+    - ldap
+
 - name: Generate hash of LDAP admin password for this domain
   command: slappasswd -s {{domain_ldap_admin_pass}}
   register: slappasswd_out
@@ -156,14 +164,14 @@
 - name: Create organizationalUnit entry for users storage
   include: add-organizationalunit.yml
   vars:
-    ou_name: "{{item.users_ou|default('mail')}}"
+    ou_name: "{{domain_users_ou}}"
   tags:
     - ldap
 
 - name: Create organizationalUnit entry for group storage
   include: add-organizationalunit.yml
   vars:
-    ou_name: "{{item.groups_ou|default('')}}"
-  when: item.groups_ou|default('') != ''
+    ou_name: "{{domain_groups_ou}}"
+  when: domain_groups_ou != ''
   tags:
     - ldap
