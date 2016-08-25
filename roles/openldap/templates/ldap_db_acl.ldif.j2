@@ -1,4 +1,4 @@
-{{ldap_db_config_dn}}
+dn: {{ldap_db_config_dn}}
 changetype: modify
 replace: olcAccess
 olcAccess: to attrs=userPassword,shadowLastChange by dn="cn=admin,dc={{base_dn}}" write by anonymous auth by self write  by * none

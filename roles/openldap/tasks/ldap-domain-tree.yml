@@ -67,7 +67,7 @@
     - ldap
 
 - name: Set fact with current domain database DN in cn=config
-  set_fact: ldap_db_config_dn="{{db_dn.stdout_lines[0]}}"
+  set_fact: ldap_db_config_dn="{{db_dn.stdout_lines[0] | regex_replace('^dn: ', '')}}"
   tags:
     - ldap
 
