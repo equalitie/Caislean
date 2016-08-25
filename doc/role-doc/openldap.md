@@ -113,12 +113,18 @@ The LDAP administrator password.
 Default: `[ domain: domain_name ]`
 
 List of domain names managed in the LDAP directory. The role will create one
-separate LDAP database for each of the domains. Optionally, use the parameter
-`admin_pass` to set an administrator password specific of a given domain
-(otherwise the password set in `ldap_admin_pass` will be used).
+separate LDAP database for each of the domains.
 
-For any given domain `example.com`, the administrator account to which to
-identify is `cn=admin,dc=example,dc=com`.
+Optionally, use the parameter `admin_pass` to set an administrator password
+specific of a given domain (otherwise the password set in `ldap_admin_pass` will
+be used). For any given domain `example.com`, the administrator account to which
+to identify is `cn=admin,dc=example,dc=com`.
+
+Optionally, use parameters `users_ou` and `groups_ou` to define custom
+organizationalUnit (OU) entries meant to contain your users and groups. If
+unset, the `mail` OU will contain users, and no OU is created for groups. For
+now, changing the users OU will break all Caislean roles that query LDAP for
+user authentication (`virtualmail`, `prosody`, etc.).
 
 Example:
 
@@ -127,6 +133,9 @@ Example:
       - domain: additionaldomain.com
       - domain: some_other_domain.org
         admin_pass: specificadminpass
+      - domain: somethingelse.com
+        users_ou: MyUsers
+        groups_ou: MyGroups
 
 ### `domain_name`
 
