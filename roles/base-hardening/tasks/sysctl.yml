@@ -1,0 +1,5 @@
+- sysctl: name={{ item.name }} value={{ item.value }} state=present
+  register: sysctl_result
+  until: sysctl_result | success
+  retries: 2
+  tags: base
