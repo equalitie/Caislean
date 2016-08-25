@@ -153,26 +153,17 @@
   tags:
     - ldap
 
-- name: Check whether organizationalUnit mail LDAP entry exists
-  command: ldapsearch -x -b ou=mail,{{base_dn}} -s base
-  ignore_errors: true
-  register: ldapsearch_mail_ou
+- name: Create organizationalUnit entry for users storage
+  include: add-organizationalunit.yml
+  vars:
+    ou_name: "{{item.users_ou|default('mail')}}"
   tags:
     - ldap
 
-- name: Add organizationalUnit mail LDAP entry (1/2)
-  template: src=mail_ou.ldif.j2 dest=/tmp/mail_ou.ldif owner=root group=root mode=0644
-  when: ldapsearch_mail_ou | failed
-  tags:
-    - ldap
-
-- name: Add organizationalUnit mail LDAP entry (2/2)
-  command: ldapadd -D cn=admin,{{base_dn}} -w {{ domain_ldap_admin_pass }} -f /tmp/mail_ou.ldif
-  when: ldapsearch_mail_ou | failed
-  tags:
-    - ldap
-
-- name: Remove LDIF temporary file for organizationalUnit mail entry
-  file: path=/tmp/mail_ou.ldif state=absent
+- name: Create organizationalUnit entry for group storage
+  include: add-organizationalunit.yml
+  vars:
+    ou_name: "{{item.groups_ou|default('')}}"
+  when: item.groups_ou|default('') != ''
   tags:
     - ldap
