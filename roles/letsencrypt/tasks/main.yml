@@ -7,4 +7,5 @@
   tags: letsencrypt
 
 - include: letsencrypt.yml
-  with_items: "{{letsencrypt_domains}}"
+  with_items: "{{websites}}"
+  when: (item.letsencrypt|default(True))
