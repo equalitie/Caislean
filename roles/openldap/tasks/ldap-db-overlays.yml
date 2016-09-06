@@ -1,0 +1,43 @@
+- name: Check if database has memberOf overlay active
+  command: ldapsearch -Q -LLL -Y EXTERNAL -H ldapi:/// -b {{ldap_db_config_dn}} '(&(objectClass=olcOverlayConfig)(olcOverlay=memberof))'
+  register: domain_ldapsearch_memberof
+  tags:
+    - ldap
+
+- name: Upload LDIF file to configure memberOf overlay for current database
+  template: src=db_memberof_overlay.ldif.j2 dest=/tmp/db_memberof_overlay.ldif owner=root group=root mode=0644
+  when: domain_ldapsearch_memberof.stdout == ""
+  tags:
+    - ldap
+
+- name: Configure memberOf overlay for current domain database
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/db_memberof_overlay.ldif
+  when: domain_ldapsearch_memberof.stdout == ""
+  tags:
+    - ldap
+
+- name: Check if database has refint overlay active
+  command: ldapsearch -Q -LLL -Y EXTERNAL -H ldapi:/// -b {{ldap_db_config_dn}} '(&(objectClass=olcOverlayConfig)(olcOverlay=refint))'
+  register: domain_ldapsearch_refint
+  tags:
+    - ldap
+
+- name: Upload LDIF file to configure refint overlay for current database
+  template: src=db_refint_overlay.ldif.j2 dest=/tmp/db_refint_overlay.ldif owner=root group=root mode=0644
+  when: domain_ldapsearch_refint.stdout == ""
+  tags:
+    - ldap
+
+- name: Configure refint overlay for current domain database
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/db_refint_overlay.ldif
+  when: domain_ldapsearch_refint.stdout == ""
+  tags:
+    - ldap
+
+- name: Remove temporary LDIF files for overlays for current database
+  file: path=/tmp/{{item}} state=absent
+  with_items:
+    - db_refint_overlay.ldif
+    - db_memberof_overlay.ldif
+  tags:
+    - ldap

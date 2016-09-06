@@ -67,7 +67,12 @@
     - ldap
 
 - name: Set fact with current domain database DN in cn=config
-  set_fact: ldap_db_config_dn="{{db_dn.stdout_lines[0]}}"
+  set_fact: ldap_db_dn_tmp="{{db_dn.stdout_lines[0]}}"
+  tags:
+    - ldap
+
+- set_fact:
+    ldap_db_config_dn: "{{ldap_db_dn_tmp|regex_replace('^dn: ', '')}}"
   tags:
     - ldap
 
@@ -172,6 +177,11 @@
   include: add-organizationalunit.yml
   vars:
     ou_name: "{{domain_groups_ou}}"
+  when: domain_groups_ou != ''
+  tags:
+    - ldap
+
+- include: ldap-db-overlays.yml
   when: domain_groups_ou != ''
   tags:
     - ldap

@@ -32,6 +32,50 @@
   tags:
     - ldap
 
+- name: Check whether memberOf LDAP overlay module is loaded
+  command: ldapsearch -Q -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcModuleList)(olcModuleLoad=memberof))'
+  register: ldapsearch_memberof_module
+  tags:
+    - ldap
+
+- name: Upload memberOf module loading LDIF file
+  copy: src=tmp/memberof.ldif dest=/tmp/memberof.ldif owner=root group=root mode=0644
+  when: ldapsearch_memberof_module.stdout == ""
+  tags:
+    - ldap
+
+- name: Load memberOf module
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/memberof.ldif
+  when: ldapsearch_memberof_module.stdout == ""
+  tags:
+    - ldap
+
+- name: Check whether refint LDAP overlay module is loaded
+  command: ldapsearch -Q -LLL -Y EXTERNAL -H ldapi:/// -b cn=config '(&(objectClass=olcModuleList)(olcModuleLoad=refint))'
+  register: ldapsearch_refint_module
+  tags:
+    - ldap
+
+- name: Upload refint module loading LDIF file
+  copy: src=tmp/refint.ldif dest=/tmp/refint.ldif owner=root group=root mode=0644
+  when: ldapsearch_refint_module.stdout == ""
+  tags:
+    - ldap
+
+- name: Load refint module
+  command: ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/refint.ldif
+  when: ldapsearch_refint_module.stdout == ""
+  tags:
+    - ldap
+
+- name: Remove LDAP module loading temporary LDIF files
+  file: path=/tmp/{{item}} state=absent
+  with_items:
+    - refint.ldif
+    - memberof.ldif
+  tags:
+    - ldap
+
 - name: Create LDAP entries for all managed domains...
   include: ldap-domain-tree.yml
   with_items: "{{ldap_managed_domains}}"
