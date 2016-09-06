@@ -2,3 +2,4 @@
   when: ansible_distribution_release != "jessie"
 
 - include: letsencrypt.yml
+  with_items: "{{letsencrypt_domains}}"
