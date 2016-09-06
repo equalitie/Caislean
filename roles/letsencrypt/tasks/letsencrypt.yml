@@ -1,10 +1,3 @@
-- name: Install letsencrypt client
-  apt:
-    pkg: letsencrypt
-    state: installed
-    default_release: testing
-  tags: letsencrypt
-
 - name: Generate certificates for websites
   command: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item.name }} --email {{ webmaster_email }} -d {{ item.name }} --agree-tos --keep"
   with_items:

@@ -1,5 +1,9 @@
 - fail: msg="Only Debian Jessie is supported by this role."
   when: ansible_distribution_release != "jessie"
 
+- name: Install certbot letsencrypt client
+  apt: pkg=certbot state=installed default_release={{ansible_distribution_release}}-backports
+  tags: letsencrypt
+
 - include: letsencrypt.yml
   with_items: "{{letsencrypt_domains}}"
