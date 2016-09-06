@@ -1,3 +1,7 @@
+- set_fact:
+    current_letsencrypt_domain: "{{item}}"
+  tags: letsencrypt
+
 - name: Generate certificates for websites
   command: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item.name }} --email {{ webmaster_email }} -d {{ item.name }} --agree-tos --keep"
   with_items:
