@@ -1,6 +1,5 @@
 dependencies:
   - role: base-packages
   - role: base-config
-  - role: tls
   - role: nginx
 
