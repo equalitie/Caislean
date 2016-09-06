@@ -1,15 +1,3 @@
-- name: Set apt preferences
-  copy:
-    src: "etc/apt/preferences.d/{{ item }}"
-    dest: "/etc/apt/preferences.d/{{ item }}"
-    group: root
-    owner: root
-  with_items:
-    - stable.pref
-    - security.pref
-    - testing.pref
-  tags: letsencrypt
-
 - name: Add Debian testing repository
   apt_repository:
     repo: "deb http://http.debian.net/debian stretch main"
