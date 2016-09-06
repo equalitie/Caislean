@@ -1,2 +1,4 @@
+- fail: msg="Only Debian Jessie is supported by this role."
+  when: ansible_distribution_release != "jessie"
+
 - include: letsencrypt.yml
-  when: ansible_distribution_release == "jessie"
