@@ -4,7 +4,7 @@
 
 This role configures nginx to use certificates issued by [Let's
 Encrypt](https://letsencrypt.org/) instead of certificates signed by your own
-authority as installed by Caislean's role `tls. The advantage is that Let's
+authority as installed by Caislean's role `tls`. The advantage is that Let's
 Encrypt certificates are trusted by most browsers so visitors to your website
 won't see an untrusted certificate warning.
 
