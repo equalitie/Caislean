@@ -73,4 +73,3 @@ Example:
 Domains listed under this parameter will be excluded from Let's Encrypt
 certificate requests. This is because we consider that their TLS is already
 handled by the `tls` role. See documentation of that role.
-`tls`. See that role's documentation for more details.
