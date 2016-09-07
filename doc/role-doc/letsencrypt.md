@@ -8,31 +8,30 @@ authority as installed by Caislean's role `tls`. The advantage is that Let's
 Encrypt certificates are trusted by most browsers so visitors to your website
 won't see an untrusted certificate warning.
 
-## Notes
-
-More information about Let's Encrypt can be found here:
-<https://letsencrypt.org/>
-
 Use of this role implies acceptance of the Let's Encrypt Subscriber Agreement.
 This is available here: <https://letsencrypt.org/repository/>
 
 The Let's Encrypt role will only work on remote machines running Debian 8
 (Jessie). This is because the Let's Encrypt client is not available on Debian 7
-(Wheezy); it is however present in Jessie's backports repository. The role will
+(Wheezy) but is present in Jessie's backports repository. The role will
 explicitly fail if you try running it on anything else than Jessie.
-
-This role will not work unless every domain listed in `websites` for which you
-did not disable Let's Encrypt resolves to the IP address of your server. This is
-because Let's Encrypt verifies that you control the domains for which you are
-requesting certificates by placing files in each virtual host's webroot and then
-checking that it can access those files from the domains in question. Make sure
-your DNS records are properly configured for each domain.
 
 ## Prerequired roles
 
 - `base-packages`
 - `base-config`
 - `nginx`
+
+# Manual steps
+
+This role will fail unless every domain listed in `websites` for which you
+did not disable Let's Encrypt resolves to the IP address of your server. This is
+because Let's Encrypt verifies that you control the domains for which you are
+requesting certificates by placing files in each virtual host's webroot and then
+checking that it can access those files from the domains in question.
+
+Make sure your DNS records are properly configured for each domain prior to
+running this role.
 
 # Configuration parameters (ansible variables)
 
