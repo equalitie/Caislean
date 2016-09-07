@@ -13,7 +13,7 @@
 - name: Schedule certificates renewal using cron
   cron:
     name: renew letsencrypt certificates
-    job: certbot renew --standalone --pre-hook ''service nginx stop'' --post-hook ''service nginx start''
+    job: certbot renew --standalone --pre-hook "service nginx stop" --post-hook "service nginx start"
     cron_file: caislean_letsencrypt_cert_renewal
     state: present
     special_time: daily
