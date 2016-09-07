@@ -2,35 +2,18 @@
     current_letsencrypt_domain: "{{item.name}}"
   tags: letsencrypt
 
-- name: Generate certificates for websites
-  command: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item.name }} --email {{ webmaster_email }} -d {{ item.name }} --agree-tos --keep"
-  with_items:
-    - "{{ websites }}"
-  tags: letsencrypt
-
-- name: Configure nginx to use new certificates
+- name: Configure nginx to use LE certificate
   template:
     src: letsencrypt.j2
-    dest: "/etc/nginx/includes/{{ item.name }}/letsencrypt"
+    dest: "/etc/nginx/includes/{{current_letsencrypt_domain}}/letsencrypt"
     owner: root
     group: root
     mode: 0644
-  with_items:
-    - "{{ websites }}"
   tags: letsencrypt
   notify:
     - restart nginx
 
-# Try to renew the certificate daily, but keep the existing certificate unless it is due to be renewed.
-# Certificate renewals seem to fall due 10 days before expiry by default.
-- name: Schedule certificate renewals using cron
-  cron:
-    name: letsencrypt renew certificate
-    job: "letsencrypt certonly --webroot --webroot-path /var/www/{{ item.name }} --email {{ webmaster_email }} -d {{ item.name }} --agree-tos --keep && service nginx reload"
-    cron_file: "ansible_letsencrypt_{{ item.name }}_cert_renewal"
-    state: present
-    special_time: daily
-    user: root
-  with_items:
-    - "{{ websites }}"
+- name: Generate certificate for current domain
+  command: certbot certonly --standalone --standalone-supported-challenges http-01 --email {{ admin_email }} -d {{ current_letsencrypt_domain }} --agree-tos --keep --pre-hook ''service nginx stop'' --post-hook ''service nginx start''
   tags: letsencrypt
+
