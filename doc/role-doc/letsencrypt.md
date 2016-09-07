@@ -14,7 +14,7 @@ More information about Let's Encrypt can be found here:
 <https://letsencrypt.org/>
 
 Use of this role implies acceptance of the Let's Encrypt Subscriber Agreement.
-This is available here: https://letsencrypt.org/repository/
+This is available here: <https://letsencrypt.org/repository/>
 
 The Let's Encrypt role will only work on remote machines running Debian 8
 (Jessie). This is because the Let's Encrypt client is not available on Debian 7
