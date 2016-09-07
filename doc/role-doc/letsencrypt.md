@@ -57,14 +57,15 @@ Example:
 
     websites:
       - name: "{{server_name}}.{{domain_name}}"
-        letsencrypt: False
       - name: www.otherdomain.com
+      - name: cleartext.domain.com
+        letsencrypt: False
 
 ## Optional parameters
 
 ### `tls_additional_domains`
 
-To avoid generating conflicting TLS files, this role will ignore and therefore
-not generate Let's Encrypt certificates for domains listed in
-`tls_additional_domains`, as they will have been taken care of in the role
+Domains listed under this parameter will be excluded from Let's Encrypt
+certificate requests. This is because we consider that their TLS is already
+handled by the `tls` role. See documentation of that role.
 `tls`. See that role's documentation for more details.
