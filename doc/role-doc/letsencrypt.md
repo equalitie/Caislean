@@ -16,6 +16,10 @@ The Let's Encrypt role will only work on remote machines running Debian 8
 (Wheezy) but is present in Jessie's backports repository. The role will
 explicitly fail if you try running it on anything else than Jessie.
 
+You can exclude some domains from using Let's Encrypt, either because you do not
+want TLS at all or because you prefer using the `tls` role for those. See
+configuration parameters below.
+
 ## Prerequired roles
 
 - `base-packages`
@@ -31,7 +35,9 @@ requesting certificates by placing files in each virtual host's webroot and then
 checking that it can access those files from the domains in question.
 
 Make sure your DNS records are properly configured for each domain prior to
-running this role.
+running this role: if you want a Let's Encrypt certificate for
+`www.somedomain.tld`, this exact domain must have an `A` and/or `AAAA` record
+pointing to your server.
 
 # Configuration parameters (ansible variables)
 
