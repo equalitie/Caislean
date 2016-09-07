@@ -8,7 +8,7 @@
 
 - include: letsencrypt.yml
   with_items: "{{websites}}"
-  when: (item.letsencrypt|default(True))
+  when: (item.letsencrypt|default(True)) and (item.name not in (tls_additional_domains|default([])))
 
 - name: Schedule certificates renewal using cron
   cron:
