@@ -13,6 +13,12 @@
   notify:
     - restart nginx
 
+- name: Make sure nginx does not use TLS configuration used from role tls
+  file: path=/etc/nginx/includes/{{current_letsencrypt_domain}}/tls-{{current_letsencrypt_domain}} state=absent
+  tags: letsencrypt
+  notify:
+    - restart nginx
+
 - name: Generate certificate for current domain
   command: certbot certonly --standalone --standalone-supported-challenges http-01 --email {{ admin_email }} -d {{ current_letsencrypt_domain }} --agree-tos --keep --pre-hook "service nginx stop" --post-hook "service nginx start" --non-interactive
   tags: letsencrypt
