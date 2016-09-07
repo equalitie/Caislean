@@ -11,7 +11,7 @@ won't see an untrusted certificate warning.
 ## Notes
 
 More information about Let's Encrypt can be found here:
-https://letsencrypt.org/
+<https://letsencrypt.org/>
 
 Use of this role implies acceptance of the Let's Encrypt Subscriber Agreement.
 This is available here: https://letsencrypt.org/repository/
