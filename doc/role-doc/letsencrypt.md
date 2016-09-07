@@ -41,22 +41,30 @@ your DNS records are properly configured for each domain.
 ### `websites`
 
 A list of domain names for which Caislean should generate certificates. This is
-the same list used by the `nginx` role when creating virtual hosts to serve.
+the same list used by the `nginx` role when creating virtual hosts to serve. See
+that role's documentation for more options of this configuration parameter.
 
 Default:
 
-websites:
-  - "{{ server_name }}.{{ domain_name }}"
+    websites:
+      - name: "{{ server_name }}.{{ domain_name }}"
 
-Add or change lines to create new nginx virtual hosts and generate letsencrypt
-certificates for them.
+Add or change lines to create new nginx virtual hosts and generate Let's Encrypt
+certificates for them. You can disable Let's Encrypt by setting explicitly the
+`letsencrypt` parameter to `False` for a given domain.
 
 Example:
 
-websites:
- - "{{ domain_name }}"
- - "www.example.com"
+    websites:
+      - name: "{{server_name}}.{{domain_name}}"
+        letsencrypt: False
+      - name: www.otherdomain.com
 
 ## Optional parameters
 
-None.
+### `tls_additional_domains`
+
+To avoid generating conflicting TLS files, this role will ignore and therefore
+not generate Let's Encrypt certificates for domains listed in
+`tls_additional_domains`, as they will have been taken care of in the role
+`tls`. See that role's documentation for more details.
