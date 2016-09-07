@@ -18,13 +18,15 @@ This is available here: <https://letsencrypt.org/repository/>
 
 The Let's Encrypt role will only work on remote machines running Debian 8
 (Jessie). This is because the Let's Encrypt client is not available on Debian 7
-(Wheezy); it is however present in Jessie's backports repository.
+(Wheezy); it is however present in Jessie's backports repository. The role will
+explicitly fail if you try running it on anything else than Jessie.
 
-This role will not work unless every domain listed in `websites` resolves to the
-IP address of your server. This is because Let's Encrypt verifies that you
-control the domains for which you are requesting certificates by placing files
-in each virtual host's webroot and then checking that it can access those files
-from the domains in question.
+This role will not work unless every domain listed in `websites` for which you
+did not disable Let's Encrypt resolves to the IP address of your server. This is
+because Let's Encrypt verifies that you control the domains for which you are
+requesting certificates by placing files in each virtual host's webroot and then
+checking that it can access those files from the domains in question. Make sure
+your DNS records are properly configured for each domain.
 
 ## Prerequired roles
 
