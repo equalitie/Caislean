@@ -1,5 +1,5 @@
 - set_fact:
-    current_letsencrypt_domain: "{{item}}"
+    current_letsencrypt_domain: "{{item.name}}"
   tags: letsencrypt
 
 - name: Generate certificates for websites
