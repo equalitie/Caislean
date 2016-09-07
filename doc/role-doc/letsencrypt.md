@@ -17,18 +17,14 @@ Use of this role implies acceptance of the Let's Encrypt Subscriber Agreement.
 This is available here: https://letsencrypt.org/repository/
 
 The Let's Encrypt role will only work on remote machines running Debian 8
-(Jessie) or later. This is because the Let's Encrypt client is only available
-in Debian Testing (stretch).
+(Jessie). This is because the Let's Encrypt client is not available on Debian 7
+(Wheezy); it is however present in Jessie's backports repository.
 
-This role adds the "testing" repository to the remote machine. The role also
-specifies apt preferences to make sure software is installed from the stable
-repositories unless explicitly specified otherwise.
-
-This role won't work unless every domain listed in `websites` resolves to the
-IP address of the remote machine. This is because Let's Encrypt verifies that
-you control the domains for which you're requesting certificates by placing
-files in each virtual host's webroot and then checking that it can access those
-files from the domains in question.
+This role will not work unless every domain listed in `websites` resolves to the
+IP address of your server. This is because Let's Encrypt verifies that you
+control the domains for which you are requesting certificates by placing files
+in each virtual host's webroot and then checking that it can access those files
+from the domains in question.
 
 ## Prerequired roles
 
