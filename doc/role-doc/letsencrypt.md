@@ -32,7 +32,6 @@ your DNS records are properly configured for each domain.
 
 - `base-packages`
 - `base-config`
-- `tls`
 - `nginx`
 
 # Configuration parameters (ansible variables)
