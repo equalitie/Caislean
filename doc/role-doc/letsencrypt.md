@@ -60,11 +60,6 @@ websites:
  - "{{ domain_name }}"
  - "www.example.com"
 
-### `webmaster_email`
-
-The email address of the person responsible for administering the website (e.g.
-webmaster@example.com)
-
 ## Optional parameters
 
 None.
