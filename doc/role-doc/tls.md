@@ -97,6 +97,10 @@ called `<host name>.ca.crt.pem` (for the certification authority certificate
 chain), `<host name>.cert.crt.pem` (your certificate) and `<host name>.key.pem`
 (your private key).
 
+Do not use this parameter if you are planning to use Let's Encrypt. The
+`letsencrypt` role will ignore domains listed in `tls_additional_domains`. See
+`letsencrypt` role documentation for more details on using Let's Encrypt.
+
 Example:
 
     tls_additional_domains:

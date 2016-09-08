@@ -1,2 +1,29 @@
+- fail: msg="Only Debian Jessie is supported by this role."
+  when: ansible_distribution_release != "jessie"
+  tags: letsencrypt
+
+- name: Install certbot letsencrypt client
+  apt: pkg=certbot state=installed default_release={{ansible_distribution_release}}-backports
+  tags: letsencrypt
+
 - include: letsencrypt.yml
-  when: ansible_distribution_release == "jessie"
+  with_items: "{{websites}}"
+  when: (item.letsencrypt|default(True)) and (item.name not in (tls_additional_domains|default([])))
+
+- name: Remove lets encrypt nginx configuration for domains where it is not wanted
+  file: path=/etc/nginx/includes/{{item.name}}/letsencrypt state=absent
+  with_items: "{{websites}}"
+  when: ((item.letsencrypt|default(True)) == False) or (item.name in (tls_additional_domains|default([])))
+  tags: letsencrypt
+  notify:
+    - restart nginx
+
+- name: Schedule certificates renewal using cron
+  cron:
+    name: renew letsencrypt certificates
+    job: certbot renew --standalone --pre-hook "service nginx stop" --post-hook "service nginx start"
+    cron_file: caislean_letsencrypt_cert_renewal
+    state: present
+    special_time: daily
+    user: root
+  tags: letsencrypt
