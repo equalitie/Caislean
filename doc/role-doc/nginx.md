@@ -82,4 +82,6 @@ These domains must be defined in the `websites` variable, or the role will fail
 to execute. The default domain name must not be specified in this variable, as
 TLS is enabled for it by default.
 
-See the TLS role documentation for more information on this parameter.
+See the `tls` role documentation for more information on this parameter. Do not
+specify domains for which you want Let's Encrypt certificates in this paramter.
+See the `letsencrypt` role documentation.

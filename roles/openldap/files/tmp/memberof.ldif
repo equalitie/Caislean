@@ -1,0 +1,7 @@
+dn: cn=module,cn=config
+cn: module
+objectClass: olcModuleList
+objectClass: top
+olcModuleLoad: memberof
+olcModulePath: /usr/lib/ldap
+
