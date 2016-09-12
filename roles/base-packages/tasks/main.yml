@@ -1,3 +1,10 @@
+- name: Add Debian security updates repository
+  apt_repository:
+    repo: 'deb http://security.debian.org/ {{ ansible_distribution_release }}/updates main contrib non-free'
+    state: present
+    update_cache: yes
+  tags: base
+
 - name: Add backports Debian repository
   apt_repository:
   args:
