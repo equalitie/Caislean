@@ -1,0 +1,3 @@
+{% set base_dn = 'dc=' + domain_name|split('.')|join(',dc=') %}
+masterDN="cn=admin,{{ base_dn }}"
+masterPw="{{ ldap_admin_pass }}"

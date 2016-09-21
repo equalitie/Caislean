@@ -1,0 +1,161 @@
+- name: Install Samba packages (from backports)
+  apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
+  with_items:
+    - samba
+    - smbldap-tools
+    - libnss-ldapd
+    - nscd
+    - nslcd
+  tags:
+    - samba
+
+- name: Install samba configuration
+  template: src=smb.conf.j2 dest=/etc/samba/smb.conf owner=root group=root mode=0644
+  register: smb_conf
+  notify:
+    - restart samba
+  tags:
+    - samba
+
+- name: Provide Samba with the LDAP admin user password
+  command: smbpasswd -w {{ ldap_admin_pass | quote }}
+  when: smb_conf | changed
+  tags:
+    - samba
+
+- name: Check existence of Samba LDAP schema file (/etc/ldap/schema/samba.schema)
+  stat: path=/etc/ldap/schema/samba.schema
+  register: samba_schema
+  tags:
+    - samba
+
+- name: Copy compressed Samba LDAP schema file from Samba installation
+  command: cp /usr/share/doc/samba/examples/LDAP/samba.schema.gz /etc/ldap/schema/
+  when: ( samba_schema.stat.exists == false )
+  tags:
+    - samba
+
+- name: Uncompress Samba LDAP schema file
+  command: gunzip /etc/ldap/schema/samba.schema.gz
+  when: ( samba_schema.stat.exists == false )
+  tags:
+    - samba
+
+- name: Fix permissions on Samba LDAP schema
+  file: path=/etc/ldap/schema/samba.schema owner=root group=root mode=0644
+  tags:
+    - samba
+
+- name: Reference Samba schema from slapd configuration
+  lineinfile: dest=/etc/ldap/slapd.conf state=present insertafter='^include' line='include      /etc/ldap/schema/samba.schema'
+  notify:
+    - restart slapd
+  tags:
+    - samba
+
+- name: Check whether organizationalUnit samba LDAP entry exists
+  command: ldapsearch -x -b ou=samba,dc={{ domain_name|split('.')|join(',dc=') }} -s base
+  ignore_errors: true
+  register: ldapsearch_samba_ou
+  tags:
+    - samba
+
+- name: Add organizationalUnit samba LDAP entry (1/2)
+  template: src=samba_ou.ldif.j2 dest=/tmp/samba_ou.ldif owner=root group=root mode=0644
+  when: ldapsearch_samba_ou | failed
+  tags:
+    - samba
+
+- name: Add organizationalUnit samba LDAP entry (2/2)
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass | quote }} -f /tmp/samba_ou.ldif
+  when: ldapsearch_samba_ou | failed
+  tags:
+    - samba
+
+- name: Remove LDIF temporary file for organizationalUnit samba entry
+  file: path=/tmp/samba_ou.ldif state=absent
+  tags:
+   - samba
+
+- name: Retrieve server's security identifier (SID)
+  command: net getlocalsid
+  register: unformatted_sid
+  tags:
+    - samba
+
+- name: Register fact for the SID
+  set_fact: samba_sid="{{ unformatted_sid.stdout | regex_replace ('^.* ', '') }}"
+  tags:
+    - samba
+
+- name: Install smbldap.conf
+  template: src=smbldap.conf.j2 dest=/etc/smbldap-tools/smbldap.conf mode=0644 owner=root group=root
+  register: smbldap_conf
+  tags:
+    - samba
+
+- name: Install smbldap_bind.conf
+  template: src=smbldap_bind.conf.j2 dest=/etc/smbldap-tools/smbldap_bind.conf mode=0600 owner=root group=root
+  tags:
+    - samba
+
+- name: Produce LDIF file to add Samba LDAP structure
+  command: /usr/sbin/smbldap-populate -a administrator -R 50000 -k 50000 -m 50000 -u 51000 -g 51000 -r 51000 -e /tmp/sambaldap.ldif
+  when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
+  tags:
+    - samba
+
+- name: Remove bogus entry from LDIF file
+  command: sed -i 1,7d /tmp/sambaldap.ldif
+  when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
+  tags:
+    - samba
+
+- name: Insert Samba LDAP entries
+  command: ldapadd -D cn=admin,dc={{ domain_name|split('.')|join(',dc=') }} -w {{ ldap_admin_pass | quote }} -f /tmp/sambaldap.ldif
+  when: (ldapsearch_samba_ou | failed) or (smbldap_conf | changed)
+  tags:
+    - samba
+
+- name: Remove Samba LDIF file
+  file: state=absent path=/tmp/sambaldap.ldif
+  tags:
+    - samba
+
+- name: Install /etc/nslcd.conf
+  template: src=nslcd.conf.j2 dest=/etc/nslcd.conf group=nslcd owner=root mode=0640
+  notify:
+    - restart nslcd
+  tags:
+    - samba
+
+- name: Install /etc/nscd.conf
+  copy: src=etc/nscd.conf dest=/etc/nscd.conf group=root owner=root mode=0644
+  notify:
+    - restart nscd
+  tags:
+    - samba
+
+- name: Install /etc/nsswitch.conf
+  copy: src=etc/nsswitch.conf dest=/etc/nsswitch.conf group=root owner=root mode=0644
+  notify:
+    - restart nscd
+    - restart samba
+  tags:
+    - samba
+
+- name: Retrieve group ID for Domain Users group
+  shell: "ldapsearch -LLL -x -b 'cn=Domain Users,ou=Groups,ou=samba,{{'dc=' + domain_name|split('.')|join(',dc=')}}' -s base gidNumber | sed '/^gidNumber: /!d;s/^gidNumber: //'"
+  register: domain_users_gid
+  tags:
+    - samba
+
+- name: Create /home/samba
+  file: path=/home/samba state=directory owner=root group=root mode=0755
+  tags:
+    - samba
+
+- name: Create /var/samba
+  file: state=directory path=/var/samba owner=root group="{{ domain_users_gid.stdout }}" mode=0770
+  tags:
+    - samba
