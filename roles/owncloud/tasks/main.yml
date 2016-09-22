@@ -98,7 +98,7 @@
     - owncloud
 
 - name: Install nginx configuration part for owncloud
-  template: src=nginx-owncloud.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/owncloud owner=root group=root mode=0644
+  template: src=nginx-owncloud.inc.j2 dest=/etc/nginx/includes/{{web_vhost_owncloud}}/owncloud owner=root group=root mode=0644
   notify:
     - restart nginx
   tags:
