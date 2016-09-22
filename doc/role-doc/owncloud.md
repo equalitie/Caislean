@@ -81,6 +81,14 @@ have to adapt the settings according to its configuration.
 
 `root` user password for MySQL server.
 
+### `web_vhost_owncloud`
+
+Default: `{{server_name}}.{{domain_name}}`
+
+If you have several virtual hosts defined in the `websites` variable (see the
+`nginx` role documentation), this option lets you specify on which virtual host
+Owncloud should be responding.
+
 ## Optional parameters
 
 None.
