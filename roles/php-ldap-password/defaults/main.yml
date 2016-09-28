@@ -7,3 +7,4 @@ php_ldap_login_attributes:
   - uid
   - mail
 web_vhost_php_ldap_password: "{{server_name}}.{{domain_name}}"
+php_ldap_password_scriptname: changepassword.php
