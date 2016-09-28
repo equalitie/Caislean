@@ -4,3 +4,4 @@ dependencies:
   - role: base-packages
   - role: base-config
   - role: nginx
+  - role: php-fpm
