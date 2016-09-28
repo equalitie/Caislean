@@ -20,16 +20,6 @@ directory when accessed from a browser.
 
 ## Mandatory parameters
 
-php_ldap_remote_server: localhost
-php_ldap_remote_port: 389
-php_ldap_base_dn: "{{domain_name.split('.')|join(',dc=')}}"
-php_ldap_login_attributes:
-  - uid
-    - mail
-    web_vhost_php_ldap_password: "{{server_name}}.{{domain_name}}"
-    php_ldap_password_scriptname: changepassword.php
-
-
 ### `php_ldap_remote_server`
 
 Default: "localhost".
