@@ -1,0 +1,8 @@
+---
+
+php_ldap_remote_server: localhost
+php_ldap_remote_port: 389
+php_ldap_base_dn: "{{domain_name.split('.')|join(',dc=')}}"
+php_ldap_login_attributes:
+  - uid
+  - mail
