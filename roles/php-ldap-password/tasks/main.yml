@@ -9,7 +9,7 @@
     - php-ldap-password
 
 - name: Create php-ldap-password user
-  user: name=php-ldap-password state=present
+  user: name=php-ldap-password shell="/bin/false" state=present
   tags:
     - php-ldap-password
 
