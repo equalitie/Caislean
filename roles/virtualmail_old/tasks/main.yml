@@ -1,0 +1,160 @@
+- name: Install mail packages
+  apt: pkg={{item}} state=installed
+  with_items:
+    - dovecot-core
+    - dovecot-imapd
+    - dovecot-pop3d
+    - dovecot-ldap
+    - postfix-ldap
+    - postfix-policyd-spf-perl
+    - postgrey
+    - spamassassin
+    - spamc
+    - opendkim
+  tags:
+    - vmail
+
+- name: Set /etc/mailname with our FQDN
+  copy: dest=/etc/mailname content="{{server_name}}.{{domain_name}}" group=root owner=root mode=0644
+  notify:
+    - restart postfix
+
+- name: Create necessary groups for mail management
+  group: name={{item.gname}} gid={{item.gid}} state=present
+  with_items:
+    - { gname: vmail, gid: 5000 }
+    - { gname: spamd, gid: 5001 }
+  tags:
+    - vmail
+
+- name: Create necessary users for mail management
+  user: name={{item.uname}} uid={{item.uid}} home={{item.home}} createhome=no group={{item.gname}} shell=/bin/nologin
+  with_items:
+    - { uname: vmail, uid: 5000, gname: vmail, home: /var/virtualmail }
+    - { uname: spamd, uid: 5001, gname: spamd, home: /var/lib/spamassassin }
+  tags:
+    - vmail
+
+- name: Create necessary directories for mail management
+  file: path={{item.dirname}} state=directory owner={{item.u}} group={{item.g}} mode=0755 recurse=no
+  with_items:
+    - { dirname: /var/virtualmail, u: vmail, g: vmail }
+    - { dirname: /var/lib/spamassassin, u: spamd, g: spamd }
+    - { dirname: /var/log/spamassassin, u: spamd, g: spamd }
+  tags:
+    - vmail
+
+- name: Ensure correct ownership in mail-related directories
+  file: path={{item.dirname}} state=directory owner={{item.u}} group={{item.g}} recurse=yes
+  with_items:
+    - { dirname: /var/virtualmail, u: vmail, g: vmail }
+    - { dirname: /var/lib/spamassassin, u: spamd, g: spamd }
+    - { dirname: /var/log/spamassassin, u: spamd, g: spamd }
+  tags:
+    - vmail
+
+- name: Install spamassassin Debian default file
+  copy: src=etc/default/spamassassin dest=/etc/default/spamassassin group=root owner=root mode=0644
+  notify:
+    - restart spamassassin
+  tags:
+    - vmail
+
+- name: Install spamassassin configuration
+  copy: src=etc/spamassassin/local.cf dest=/etc/spamassassin/local.cf group=root owner=root mode=0644
+  notify:
+    - restart spamassassin
+  tags:
+    - vmail
+
+- name: Install OpenDKIM configuration
+  copy: src=etc/opendkim.conf dest=/etc/opendkim.conf group=root owner=root mode=0644
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Install OpenDKIM Debian default file
+  copy: src=etc/default/opendkim dest=/etc/default/opendkim group=root owner=root mode=0644
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Create /etc/opendkim and subdirectories
+  file: path=/etc/opendkim/keys/{{ domain_name }} state=directory group=opendkim owner=root mode=0750 recurse=yes
+  tags:
+    - vmail
+
+- name: Install OpenDKIM TrustedHosts file
+  copy: src=etc/opendkim/TrustedHosts dest=/etc/opendkim/TrustedHosts group=root owner=root mode=0755
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Install OpenDKIM signing table
+  template: src=opendkim-signingtable.j2 dest=/etc/opendkim/SigningTable group=root owner=root mode=0755
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Install OpenDKIM key table
+  template: src=opendkim-keytable.j2 dest=/etc/opendkim/KeyTable group=root owner=root mode=0755
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Install DKIM private key
+  copy: content="{{ lookup('file', dkim_directory + '/dkim.priv') }}" dest=/etc/opendkim/keys/{{ domain_name }}/dkim1.private group=opendkim owner=root mode=0750
+  notify:
+    - restart opendkim
+  tags:
+    - vmail
+
+- name: Install postfix main configuration
+  template: src=postfix-main.cf.j2 dest=/etc/postfix/main.cf owner=root group=root mode=0644
+  notify:
+    - restart postfix
+  tags:
+    - vmail
+
+- name: Install postfix LDAP-related config files
+  template: src={{ item }}.j2  dest=/etc/postfix/{{ item }} group=root owner=root mode=0644
+  with_items:
+    - ldap-accounts.cf
+    - ldap-aliases.cf
+  notify:
+    - restart postfix
+  tags:
+    - vmail
+
+- name: Install modified postfix master.cf
+  copy: src=etc/postfix/master.cf dest=/etc/postfix/master.cf group=root owner=root mode=0644
+  notify:
+    - restart postfix
+  tags:
+    - vmail
+
+- name: Install Dovecot main configuration
+  template: src=dovecot.conf.j2 dest=/etc/dovecot/dovecot.conf group=root owner=root mode=0644
+  notify:
+    - restart dovecot
+  tags:
+    - vmail
+
+- name: Install Dovecot LDAP configuration
+  template: src=dovecot-ldap.conf.j2 dest=/etc/dovecot/dovecot-ldap.conf group=root owner=root mode=0644
+  notify:
+    - restart dovecot
+  tags:
+    - vmail
+
+- name: Install postgrey Debian default file
+  copy: src=etc/default/postgrey dest=/etc/default/postgrey group=root owner=root mode=0644
+  notify:
+    - restart postgrey
+  tags:
+    - vmail

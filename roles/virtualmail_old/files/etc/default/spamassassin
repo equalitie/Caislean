@@ -1,0 +1,5 @@
+ENABLED=1
+CRON=1
+SAHOME="/var/lib/spamassassin/"
+OPTIONS="--create-prefs --max-children 5 --username spamd --helper-home-dir ${SAHOME} -s /var/log/spamassassin/spamassassin.log"
+PIDFILE="${SAHOME}spamd.pid"

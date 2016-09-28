@@ -1,5 +1,5 @@
 - name: Check whether desired organizationalUnit LDAP entry exists
-  command: ldapsearch -x -b ou={{ou_name}},{{base_dn}} -s base
+  command: ldapsearch -x -b ou="{{ou_name}}","{{base_dn}}" -s base
   ignore_errors: true
   register: ldapsearch_orgunit
   tags:
@@ -12,7 +12,7 @@
     - ldap
 
 - name: Add organizationalUnit LDAP entry (2/2)
-  command: ldapadd -D cn=admin,{{base_dn}} -w {{ domain_ldap_admin_pass }} -f /tmp/ou.ldif
+  command: ldapadd -D cn=admin,"{{base_dn}}" -w "{{domain_ldap_admin_pass}}" -f /tmp/ou.ldif
   when: ldapsearch_orgunit | failed
   tags:
     - ldap

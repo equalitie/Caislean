@@ -15,7 +15,7 @@
     - ldap
 
 - name: Generate hash of LDAP admin password for this domain
-  command: slappasswd -s {{domain_ldap_admin_pass}}
+  command: slappasswd -s "{{domain_ldap_admin_pass}}"
   register: slappasswd_out
   tags:
     - ldap
@@ -92,7 +92,7 @@
     - ldap
 
 - name: Test if the administrator password works for current domain
-  command: ldapwhoami -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}}
+  command: ldapwhoami -w "{{domain_ldap_admin_pass}}" -D cn=admin,{{base_dn}}
   ignore_errors: true
   register: admin_auth_test
   tags:
@@ -117,7 +117,7 @@
     - ldap
 
 - name: Checking existence of root entry in database for current domain
-  command: ldapsearch -LLL -x -b {{base_dn}} -s base
+  command: ldapsearch -LLL -x -b "{{base_dn}}" -s base
   ignore_errors: true
   register: ldapsearch_base_dn
   tags:
@@ -130,7 +130,7 @@
     - ldap
 
 - name: Add our database root entry
-  command: ldapadd -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn.ldif
+  command: ldapadd -w "{{domain_ldap_admin_pass}}" -D cn=admin,"{{base_dn}}" -f /tmp/base_dn.ldif
   when:  ldapsearch_base_dn | failed
   tags:
     - ldap
@@ -142,7 +142,7 @@
     - ldap
 
 - name: Check presence of administrator user entry in our database
-  command: ldapsearch -LLL -x -b cn=admin,{{base_dn}} -s base
+  command: ldapsearch -LLL -x -b cn=admin,"{{base_dn}}" -s base
   ignore_errors: true
   register: ldapsearch_base_dn_admin
   tags:
@@ -155,7 +155,7 @@
     - ldap
 
 - name: Add our database admin entry
-  command: ldapadd -w {{domain_ldap_admin_pass}} -D cn=admin,{{base_dn}} -f /tmp/base_dn_admin.ldif
+  command: ldapadd -w "{{domain_ldap_admin_pass}}" -D cn=admin,"{{base_dn}}" -f /tmp/base_dn_admin.ldif
   when:  ldapsearch_base_dn_admin | failed
   tags:
     - ldap

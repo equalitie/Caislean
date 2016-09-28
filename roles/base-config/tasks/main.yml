@@ -11,6 +11,7 @@
   register: remote_master_cf
   
 - name: Stat local postfix master.cf in virtualmail role
+  become: False
   local_action: stat path=roles/virtualmail/files/etc/postfix/master.cf
   register: local_master_cf
 
