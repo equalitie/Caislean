@@ -24,7 +24,8 @@ directory when accessed from a browser.
 
 Default: "localhost".
 
-The remote LDAP server that the script will interact with.
+The remote LDAP server that the script will interact with. You can use the
+`ldaps://` scheme if connecting to a LDAP server with TLS support.
 
 ### `php_ldap_remote_port`
 
