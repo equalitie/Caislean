@@ -1,0 +1,43 @@
+- name: Install PHP LDAP package
+  apt: pkg=php5-ldap state=installed
+  tags:
+    - php-ldap-password
+
+- name: Create php-ldap-password group
+  group: name=php-ldap-password state=present
+  tags:
+    - php-ldap-password
+
+- name: Create php-ldap-password user
+  user: name=php-ldap-password state=present
+  tags:
+    - php-ldap-password
+
+- name: Create directory for php-ldap-password in /var/www/
+  file: path=/var/www/php-ldap-password state=directory owner=php-ldap-password group=php-ldap-password mode=0700 recurse=no
+  tags:
+    - php-ldap-password
+
+- name: Install changepassword script
+  template: src=changepassword.php.j2 dest=/var/www/php-ldap-password/{{php_ldap_password_scriptname}} owner=php-ldap-password group=php-ldap-password mode=0600
+  tags:
+    - php-ldap-password
+
+- name: Install php5-fpm configuration for php-ldap-password
+  copy: src=etc/php5/fpm/pool.d/php-ldap-password.conf dest=/etc/php5/fpm/pool.d/php-ldap-password.conf owner=root group=root mode=0644
+  notify:
+    - restart php5-fpm
+  tags:
+    - php-ldap-password
+
+- name: Create PHP session directory for php-ldap-password
+  file: path=/var/lib/phpsession/php-ldap-password state=directory owner=php-ldap-password group=php-ldap-password mode=0700 recurse=no
+  tags:
+    - php-ldap-password
+
+- name: Install nginx configuration for php-ldap-password
+  template: src=nginx-php-ldap-password.inc.j2 dest=/etc/nginx/includes/{{web_vhost_php_ldap_password}}/php-ldap-password owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - php-ldap-password
