@@ -14,7 +14,7 @@
     - php-ldap-password
 
 - name: Create directory for php-ldap-password in /var/www/
-  file: path=/var/www/php-ldap-password state=directory owner=php-ldap-password group=php-ldap-password mode=0700 recurse=no
+  file: path=/var/www/php-ldap-password state=directory owner=php-ldap-password group=php-ldap-password mode=0755 recurse=no
   tags:
     - php-ldap-password
 
