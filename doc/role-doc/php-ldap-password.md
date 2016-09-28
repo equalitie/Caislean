@@ -37,10 +37,14 @@ The port on which to conect to the remote LDAP server.
 
 Default: `"{{domain_name.split('.')|join(',dc=')}}"`
 
-The base DN in which to authenticate users. The script does not search for users
-but tries to directly bind using the provided login. Therefore, the accounts
-must be directly available under the specified DN, and not under deeper
-subtrees.
+The base Distinguished Name (DN) in which to authenticate users. The script does
+not search for users but tries to directly bind using the provided login.
+Therefore, the accounts must be directly available under the specified DN, and
+not under subtrees in below level.
+
+The default value represents the DN represented by the variable `domain_name`.
+That is, if that variable is set to "example.com", the DN will be
+`dc=example,dc=com`.
 
 ### `php_ldap_login_attributes`
 
@@ -48,8 +52,8 @@ Default: `[ "uid", "mail" ]`
 
 The LDAP attributes that will be tried by the PHP script to authenticate the
 provided login with the provided password. With the default setting, in a usual
-LDAP tree, users would typically be able to authenticate with either their user
-ID or e-mail address indifferently.
+LDAP tree, users would be able to authenticate with either their user ID or
+e-mail address indifferently.
 
 ### `php_ldap_password_scriptname`
 
@@ -57,8 +61,8 @@ Default: "changepassword.php"
 
 The file name that the script must be called. With the default setting, the
 script would be accessible through the URL
-<http://youdomain.com/password/changepassword.php>. You may call it "index.php"
-to be able to access in via <http://youdomain.com/password/>.
+<http://yourdomain.com/password/changepassword.php>. You may call it "index.php"
+to be able to access in via <http://yourdomain.com/password/>.
 
 ### `web_vhost_php_ldap_password`
 
