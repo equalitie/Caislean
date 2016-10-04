@@ -20,6 +20,6 @@
     - restart nginx
 
 - name: Generate certificate for current domain
-  command: certbot certonly --standalone --standalone-supported-challenges http-01 --email {{ admin_email }} -d {{ current_letsencrypt_domain }} --agree-tos --keep --pre-hook "service nginx stop" --post-hook "service nginx start" --non-interactive
+  command: certbot certonly --standalone --standalone-supported-challenges http-01 --email {{ admin_email }} -d {{ current_letsencrypt_domain }} --agree-tos --keep --pre-hook "/usr/sbin/service nginx stop" --post-hook "/usr/sbin/service nginx start" --non-interactive
   tags: letsencrypt
 
