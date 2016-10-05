@@ -1,3 +1,9 @@
+- name: Create php-ldap-password base DN string
+  set_fact:
+    php_ldap_password_base_dn: "{{php_ldap_password_users_subtree}},dc={{php_ldap_password_domain|split('.')|join(',dc=')}}"
+  tags:
+    - php-ldap-password
+
 - name: Install PHP LDAP package
   apt: pkg=php5-ldap state=installed
   tags:
