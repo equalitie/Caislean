@@ -90,11 +90,12 @@ Rebuild the initramfs:
 
     update-initramfs -u
 
-The file `/etc/rc.local` needs a little tweeking to ensure the network
-is setup properly: add these lines to the file, before the line `exit 0`:
+The file `/etc/network/interfaces` needs a little tweaking to ensure the network
+is setup properly. Inside the section corresponding to your network interface
+(such as `eth0`, as said above), you must add the following line (again, replace
+`eth0` by your actual network interface if necessary):
 
-        ifdown -a
-	ifup -a
+    ip addr flush dev eth0
 
 Exit the shell, you will have to type `exit` three times.
 
