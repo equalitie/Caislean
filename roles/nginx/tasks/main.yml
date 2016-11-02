@@ -145,8 +145,7 @@
 
 - name: Install domain-specific TLS files
   template: src=domain-tls.j2 dest=/etc/nginx/includes/{{item}}/tls-{{item}} owner=root group=root mode=0644
-  when: tls_additional_domains is defined
-  with_items: "{{ tls_additional_domains }}"
+  with_items: "{{ tls_additional_domains|default([]) }}"
   tags:
     - webserver
 
