@@ -58,11 +58,19 @@ Add or change lines to create new nginx virtual hosts and generate Let's Encrypt
 certificates for them. You can disable Let's Encrypt by setting explicitly the
 `letsencrypt` parameter to `False` for a given domain.
 
+The role will generate one distinct certificate per domain, except if a domain
+has aliases, in which case the domain and all its aliases will be included in
+the certificate.
+
 Example:
 
     websites:
       - name: "{{server_name}}.{{domain_name}}"
       - name: www.otherdomain.com
+        aliases:
+          - otherdomain.com
+          - otherdomain.org
+          - www.otherdomain.org
       - name: cleartext.domain.com
         letsencrypt: False
 

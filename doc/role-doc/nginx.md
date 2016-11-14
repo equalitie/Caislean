@@ -37,7 +37,9 @@ Default: `[ name:` _server name_`.`_domain name_ `]`
 
 A set of host names that your web server will serve content for. There can be
 any number of names, but the default entry is mandatory, as otherwise this or
-other roles will fail. The parameter `name` has to appear explicitly.
+other roles will fail. The parameter `name` has to appear explicitly. An
+optional array `aliases` can be used in order to serve the same content for
+several domain names.
 
 The role creates a folder `/var/www/<name>/` for every entry, and static content
 in each of these directories will be served by nginx when your web server is
@@ -62,6 +64,9 @@ Example:
     websites:
       - name: "{{server_name}}.{{domain_name}}"
       - name: www.otherdomain.com
+        aliases:
+          - www.otherdomain.org
+          - otherdomain.org
       - name: frontend.thirddomain.eu
         reverse_proxy:
 	  - target: 'http://backend.thirddomain.eu'
