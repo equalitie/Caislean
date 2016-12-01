@@ -24,7 +24,6 @@ configuration parameters below.
 
 - `base-packages`
 - `base-config`
-- `nginx`
 
 # Manual steps
 
