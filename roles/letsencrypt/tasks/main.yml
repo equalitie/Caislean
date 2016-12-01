@@ -8,7 +8,7 @@
 
 - name: Create custom hooks directories for letsencrypt
   file: path=/etc/letsencrypt/{{item}} state=directory owner=root group=root mode=0755
-  with_item:
+  with_items:
     - 'caislean-pre-hooks'
     - 'caislean-post-hooks'
   tags: letsencrypt
