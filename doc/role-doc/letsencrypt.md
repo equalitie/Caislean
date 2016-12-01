@@ -2,23 +2,31 @@
 
 ## Description
 
-This role configures nginx to use certificates issued by [Let's
-Encrypt](https://letsencrypt.org/) instead of certificates signed by your own
-authority as installed by Caislean's role `tls`. The advantage is that Let's
-Encrypt certificates are trusted by most client software so visitors to your
-website won't see an untrusted certificate warning.
+This role generates certificates validated by the [Let's
+Encrypt](https://letsencrypt.org/) free certification authority (CA) for the
+domains with services set up by these roles:
+
+- `nginx`
+
+Make sure the role `letsencrypt` is specified before these roles in your
+playbook.
+
+If you do not need to manage your own CA, Let's Encrypt certificates can replace
+favourably those installed by Caisleán's role `tls` because Let's Encrypt
+certificates are trusted by most client software so visitors of your online
+services will not see an untrusted certificate warning.
+
+You can also combine self-managed certificates for some domains and Let's
+Encrypt certificates for others. You can exclude some domains from using Let's
+Encrypt, either because you do not want TLS at all or because you prefer using
+the `tls` role for those. See configuration parameters below.
+
+This role will only work on remote machines running Debian 8 (Jessie). This is
+because the Let's Encrypt client is not available on Debian 7 (Wheezy) but is
+present in Jessie's backports repository.
 
 Use of this role implies acceptance of the Let's Encrypt Subscriber Agreement.
 This is available here: <https://letsencrypt.org/repository/>
-
-The Let's Encrypt role will only work on remote machines running Debian 8
-(Jessie). This is because the Let's Encrypt client is not available on Debian 7
-(Wheezy) but is present in Jessie's backports repository. The role will
-explicitly fail if you try running it on anything else than Jessie.
-
-You can exclude some domains from using Let's Encrypt, either because you do not
-want TLS at all or because you prefer using the `tls` role for those. See
-configuration parameters below.
 
 ## Prerequired roles
 
