@@ -28,7 +28,7 @@
 - name: Schedule certificates renewal using cron
   cron:
     name: renew letsencrypt certificates
-    job: certbot renew --standalone --pre-hook "/usr/sbin/service nginx stop" --post-hook "/usr/sbin/service nginx start"
+    job: certbot renew --standalone --pre-hook "/bin/run-parts --exit-on-error /etc/letsencrypt/caislean-pre-hooks" --post-hook "/bin/run-parts /etc/letsencrypt/caislean-post-hooks"
     cron_file: caislean_letsencrypt_cert_renewal
     state: present
     special_time: daily
