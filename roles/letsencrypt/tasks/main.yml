@@ -6,6 +6,10 @@
   apt: pkg=certbot state=installed default_release={{ansible_distribution_release}}-backports
   tags: letsencrypt
 
+- name: Create custom hooks directory for letsencrypt
+  file: path=/etc/letsencrypt/caislean-hooks state=directory owner=root group=root mode=0755
+  tags: letsencrypt
+
 - include: letsencrypt.yml
   with_items: "{{websites}}"
   when: (item.letsencrypt|default(True)) and (item.name not in (tls_additional_domains|default([])))
