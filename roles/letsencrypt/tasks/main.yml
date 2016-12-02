@@ -13,16 +13,11 @@
     - 'caislean-post-hooks'
   tags: letsencrypt
 
-- name: Generate list of domains we have a service set up for and want a Let's Encrypt certificate
+- name: Generate list all wanted Let's Encrypt domains
   set_fact:
-    letsencrypt_services: "{{letsencrypt_services|default([]) + [item.name]}}"
-  with_items: "{{websites|default([])}}"
+    all_letsencrypt_domains: "{{all_letsencrypt_domains|default([]) + [{'name': item.name, 'aliases': item.aliases|default([])}]}}"
+  with_items: "{{websites|default([]) + letsencrypt_additional_domains|default([])}}"
   when: (item.letsencrypt|default(True)) and (item.name not in (tls_additional_domains|default([])))
-  tags: letsencrypt
-
-- name: Generate list of all wanted Let's Encrypt domains
-  set_fact:
-    all_letsencrypt_domains: "{{(additional_letsencrypt_domains|default([]) + letsencrypt_services) | unique}}"
   tags: letsencrypt
 
 - include: letsencrypt.yml
