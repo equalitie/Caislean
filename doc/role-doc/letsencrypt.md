@@ -17,8 +17,10 @@ services will not see an untrusted certificate warning.
 
 You can also combine self-managed certificates for some domains (via the `tls`
 role) and Let's Encrypt certificates for others, by explicitly excluding the
-self-managed domains from being set up with Let's Encrypt. See configuration
-parameters below for details.
+self-managed domains from being set up with Let's Encrypt. The `letsencrypt`
+certificate also supports generating multidomain certificates, for instance if
+you have a web server serving the same content on several virtual hosts. See
+configuration parameters below for details.
 
 This role will only work on remote machines running Debian 8 (Jessie). This is
 because the Let's Encrypt client is not available on Debian 7 (Wheezy) but is
@@ -49,6 +51,7 @@ access those files from the domains in question.
 
 ## Mandatory parameters
 
+None.
 
 ## Optional parameters
 
@@ -108,3 +111,13 @@ Example:
         aliases:
           - yet-another-domain.xyz
           - yetanotherdomain.me
+
+The role will try to resolve potential issues caused by domains defined several
+times in the following way:
+
+- if a domain is defined more than once with different sets of aliases, all
+  aliases will be combined in order to generate a single certificate that covers
+  all the aliases in addition to the main domain;
+- if a domain has an alias that is defined somewhere else as a main domain or as
+  the alias of another domain, then the role explicitly fail and ask to fix the
+  conflict.
