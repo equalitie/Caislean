@@ -94,7 +94,9 @@ created manually on your local machine. See documentation of that role.
 
 Domains listed under this parameter will be additionally requested for a Let's
 Encrypt certificate, even if there are no Caisleán role configured to provide a
-service under these domain names.
+service under these domain names. Use the parameters `name` and `aliases` to
+specify each domain name and its optional aliases (similarly to the `website`
+parameter described above).
 
 This can be useful if you need a service that Caisleán does not provide but want
 to have Let's Encrypt set up for it.
@@ -102,4 +104,7 @@ to have Let's Encrypt set up for it.
 Example:
 
     letsencrypt_additional_domains:
-      - yet-another-domain.me
+      - name: yet-another-domain.me
+        aliases:
+          - yet-another-domain.xyz
+          - yetanotherdomain.me
