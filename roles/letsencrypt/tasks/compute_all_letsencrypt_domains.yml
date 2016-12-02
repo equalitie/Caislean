@@ -1,0 +1,18 @@
+- set_fact:
+    current_potential_domain: "{{outer_item.name}}"
+    current_le_or_not: "{{outer_item.letsencrypt|default(True)}}"
+    current_largest_alias_list: []
+  tags: letsencrypt
+
+- name: Compute all wanted aliases for current domain
+  set_fact:
+    current_largest_alias_list: "{{current_largest_alias_list|union(item.aliases|default([]))}}"
+  with_items: "{{potential_letsencrypt_domains|selectattr ('name', 'equalto', current_potential_domain) | list}}"
+  tags: letsencrypt
+
+- name: Add current domain and all its aliases to list of LE domains
+  set_fact:
+    all_letsencrypt_domains: "{{all_letsencrypt_domains + [{'name': current_potential_domain, 'aliases': current_largest_alias_list}]}}"
+  when: current_le_or_not and ( current_potential_domain not in (tls_additional_domains|default([]) + all_letsencrypt_domains|map(attribute='name')|list) )
+  tags: letsencrypt
+  
