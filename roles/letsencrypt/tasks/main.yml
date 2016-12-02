@@ -13,13 +13,24 @@
     - 'caislean-post-hooks'
   tags: letsencrypt
 
-- include: letsencrypt.yml
-  with_items: "{{websites}}"
+- name: Generate list of domains we have a service set up for and want a Let's Encrypt certificate
+  set_fact:
+    letsencrypt_services: "{{letsencrypt_services|default([]) + [item.name]}}"
+  with_items: "{{websites|default([])}}"
   when: (item.letsencrypt|default(True)) and (item.name not in (tls_additional_domains|default([])))
+  tags: letsencrypt
+
+- name: Generate list of all wanted Let's Encrypt domains
+  set_fact:
+    all_letsencrypt_domains: "{{(additional_letsencrypt_domains|default([]) + letsencrypt_services) | unique}}"
+  tags: letsencrypt
+
+- include: letsencrypt.yml
+  with_items: "{{all_letsencrypt_domains}}"
 
 - name: Remove lets encrypt nginx configuration for domains where it is not wanted
   file: path=/etc/nginx/includes/{{item.name}}/letsencrypt state=absent
-  with_items: "{{websites}}"
+  with_items: "{{websites|default([])}}"
   when: ((item.letsencrypt|default(True)) == False) or (item.name in (tls_additional_domains|default([])))
   tags: letsencrypt
   notify:
