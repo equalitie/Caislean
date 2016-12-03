@@ -158,6 +158,33 @@
     - webserver
     - reverse-proxy
 
+- name: Check whether the Let's Encrypt pre-hooks directory exists
+  stat: path=/etc/letsencrypt/caislean-pre-hooks
+  register: le_pre_hooks
+  tags:
+    - webserver
+    - letsencrypt
+
+- name: Check whether the Let's Encrypt post-hooks directory exists
+  stat: path=/etc/letsencrypt/caislean-post-hooks
+  register: le_post_hooks
+  tags:
+    - webserver
+    - letsencrypt
+
+- name: Install Let's Encrypt hooks to restart nginx on certificate change
+  copy:
+    src: etc/letsencrypt/caislean-{{item}}-hooks/500-nginx
+    dest: /etc/letsencrypt/caislean-{{item}}-hooks/500-nginx
+    owner: root
+    group: root
+    mode: 0755
+  when: le_pre_hooks.stat.isdir and le_post_hooks.stat.isdir
+  with_items: [ pre, post ]
+  tags:
+    - webserver
+    - letsencrypt
+
 - name: Force an nginx restart to pick up changes
   service:
     name: nginx
