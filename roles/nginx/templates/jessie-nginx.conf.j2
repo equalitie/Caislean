@@ -35,8 +35,8 @@ http {
 	add_header		X-XSS-Protection "1; mode=block";
 	charset			utf-8;
 
-	ssl_certificate		/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.pem;
-	ssl_certificate_key	/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key;
+	ssl_certificate		/etc/ssl/certs/{{ server_name }}.{{ domain_name }}.chain.pem;
+	ssl_certificate_key	/etc/ssl/private/{{ server_name }}.{{ domain_name }}.key.pem;
 	ssl_dhparam		/etc/ssl/dhparam.pem;
 
 	ssl_protocols			TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
