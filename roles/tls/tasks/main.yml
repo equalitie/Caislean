@@ -3,7 +3,7 @@
   tags:
     - tls
 
-- name: Install our TLS files
+- name: Install our TLS files for main domain
   copy: content="{{lookup('file', tls_directory + '/' + item.local)}}" dest=/etc/ssl/{{item.remote}} owner=root group=ssl-cert mode={{item.mode}}
   with_items:
     - { local: 'ca.crt.pem', remote: 'certs/{{ server_name }}.{{ domain_name}}_CA.pem', mode: '0644' }
@@ -24,6 +24,11 @@
 #    - restart prosody
 # Do this rather, and can be reused from these services' plays:
   register: tls_files
+  tags:
+    - tls
+
+- name: Install TLS full certificate chain for main domain
+  copy: content="{{lookup('file', tls_directory + '/server.crt.pem')}}\n{{lookup('file', tls_directory + '/ca.crt.pem')}}" dest=/etc/ssl/certs/{{server_name}}.{{domain_name}}.chain.pem owner=root group=ssl-cert mode=0644
   tags:
     - tls
 
