@@ -179,7 +179,7 @@
     owner: root
     group: root
     mode: 0755
-  when: le_pre_hooks.stat.isdir and le_post_hooks.stat.isdir
+  when: le_pre_hooks.stat.exists and le_post_hooks.stat.exists and le_pre_hooks.stat.isdir and le_post_hooks.stat.isdir
   with_items: [ pre, post ]
   tags:
     - webserver
