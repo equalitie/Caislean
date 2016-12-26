@@ -143,9 +143,15 @@
     - "{{ websites }}"
   tags: webserver
 
+- name: Collect websites that use Let's Encrypt, if any
+  set_fact:
+    nginx_letsencrypt_domains: "{{ all_letsencrypt_domains|default([])|map(attribute='name')|list|intersect(websites|map(attribute='name')|list) }}"
+  tags:
+    - webserver
+
 - name: Install domain-specific TLS files
   template: src=domain-tls.j2 dest=/etc/nginx/includes/{{item}}/tls-{{item}} owner=root group=root mode=0644
-  with_items: "{{ tls_additional_domains|default([]) }}"
+  with_items: "{{ tls_additional_domains|default([]) + nginx_letsencrypt_domains }}"
   tags:
     - webserver
 

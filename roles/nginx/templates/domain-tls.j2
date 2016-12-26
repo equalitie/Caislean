@@ -1,3 +1,8 @@
     add_header          Strict-Transport-Security max-age=63072000;
+{% if item in nginx_letsencrypt_domains %}
+    ssl_certificate     /etc/letsencrypt/live/{{item}}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{item}}/privkey.pem;
+{% else %}
     ssl_certificate	/etc/ssl/certs/{{item}}.chain.pem;
     ssl_certificate_key /etc/ssl/private/{{item}}.key.pem;
+{% endif %}
