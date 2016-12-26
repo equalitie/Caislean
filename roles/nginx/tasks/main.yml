@@ -143,11 +143,20 @@
     - "{{ websites }}"
   tags: webserver
 
-- name: Install domain-specific TLS files
-  template: src=domain-tls.j2 dest=/etc/nginx/includes/{{item}}/tls-{{item}} owner=root group=root mode=0644
-  with_items: "{{ tls_additional_domains|default([]) }}"
+- name: Collect websites that use Let's Encrypt, if any
+  set_fact:
+    nginx_letsencrypt_domains: "{{ all_letsencrypt_domains|default([])|map(attribute='name')|list|intersect(websites|map(attribute='name')|list) }}"
   tags:
     - webserver
+    - letsencrypt
+
+- name: Install per-domain TLS configuration for nginx
+  template: src=domain-tls.j2 dest=/etc/nginx/includes/{{item}}/tls-{{item}} owner=root group=root mode=0644
+  with_items: "{{ tls_additional_domains|default([]) + nginx_letsencrypt_domains }}"
+  tags:
+    - webserver
+    - letsencrypt
+    - tls
 
 - name: Install reverse proxy files
   template: src=reverse-proxy.j2 dest="/etc/nginx/includes/{{item.name}}/reverse-proxy" group=root owner=root mode=0644
