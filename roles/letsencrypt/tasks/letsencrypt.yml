@@ -1,25 +1,15 @@
 - set_fact:
     current_letsencrypt_domain: "{{item.name}}"
+    current_letsencrypt_aliases: "{{item.aliases|default([])}}"
   tags: letsencrypt
 
-- name: Configure nginx to use LE certificate
-  template:
-    src: letsencrypt.j2
-    dest: "/etc/nginx/includes/{{current_letsencrypt_domain}}/letsencrypt"
-    owner: root
-    group: root
-    mode: 0644
+- name: Generate certificate for current domain (no aliases)
+  command: certbot certonly --standalone --preferred-challenges http-01 --email {{ admin_email }} -d {{ current_letsencrypt_domain }} --agree-tos --expand --keep --pre-hook "/bin/run-parts --exit-on-error /etc/letsencrypt/caislean-pre-hooks" --post-hook "/bin/run-parts /etc/letsencrypt/caislean-post-hooks" --non-interactive
+  when: current_letsencrypt_aliases == []
   tags: letsencrypt
-  notify:
-    - restart nginx
 
-- name: Make sure nginx does not use TLS configuration used from role tls
-  file: path=/etc/nginx/includes/{{current_letsencrypt_domain}}/tls-{{current_letsencrypt_domain}} state=absent
-  tags: letsencrypt
-  notify:
-    - restart nginx
-
-- name: Generate certificate for current domain
-  command: certbot certonly --standalone --standalone-supported-challenges http-01 --email {{ admin_email }} -d {{ current_letsencrypt_domain }} --agree-tos --keep --pre-hook "service nginx stop" --post-hook "service nginx start" --non-interactive
+- name: Generate certificate for current domain (with aliases)
+  command: certbot certonly --standalone --preferred-challenges http-01 --email {{ admin_email }} -d {{ current_letsencrypt_domain }},{{current_letsencrypt_aliases|join(',')}} --agree-tos --expand --keep --pre-hook "/bin/run-parts --exit-on-error /etc/letsencrypt/caislean-pre-hooks" --post-hook "/bin/run-parts /etc/letsencrypt/caislean-post-hooks" --non-interactive
+  when: current_letsencrypt_aliases != []
   tags: letsencrypt
 

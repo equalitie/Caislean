@@ -143,12 +143,20 @@
     - "{{ websites }}"
   tags: webserver
 
-- name: Install domain-specific TLS files
-  template: src=domain-tls.j2 dest=/etc/nginx/includes/{{item}}/tls-{{item}} owner=root group=root mode=0644
-  when: tls_additional_domains is defined
-  with_items: "{{ tls_additional_domains }}"
+- name: Collect websites that use Let's Encrypt, if any
+  set_fact:
+    nginx_letsencrypt_domains: "{{ all_letsencrypt_domains|default([])|map(attribute='name')|list|intersect(websites|map(attribute='name')|list) }}"
   tags:
     - webserver
+    - letsencrypt
+
+- name: Install per-domain TLS configuration for nginx
+  template: src=domain-tls.j2 dest=/etc/nginx/includes/{{item}}/tls-{{item}} owner=root group=root mode=0644
+  with_items: "{{ tls_additional_domains|default([]) + nginx_letsencrypt_domains }}"
+  tags:
+    - webserver
+    - letsencrypt
+    - tls
 
 - name: Install reverse proxy files
   template: src=reverse-proxy.j2 dest="/etc/nginx/includes/{{item.name}}/reverse-proxy" group=root owner=root mode=0644
@@ -158,6 +166,33 @@
   tags:
     - webserver
     - reverse-proxy
+
+- name: Check whether the Let's Encrypt pre-hooks directory exists
+  stat: path=/etc/letsencrypt/caislean-pre-hooks
+  register: le_pre_hooks
+  tags:
+    - webserver
+    - letsencrypt
+
+- name: Check whether the Let's Encrypt post-hooks directory exists
+  stat: path=/etc/letsencrypt/caislean-post-hooks
+  register: le_post_hooks
+  tags:
+    - webserver
+    - letsencrypt
+
+- name: Install Let's Encrypt hooks to restart nginx on certificate change
+  copy:
+    src: etc/letsencrypt/caislean-{{item}}-hooks/500-nginx
+    dest: /etc/letsencrypt/caislean-{{item}}-hooks/500-nginx
+    owner: root
+    group: root
+    mode: 0755
+  when: le_pre_hooks.stat.exists and le_post_hooks.stat.exists and le_pre_hooks.stat.isdir and le_post_hooks.stat.isdir
+  with_items: [ pre, post ]
+  tags:
+    - webserver
+    - letsencrypt
 
 - name: Force an nginx restart to pick up changes
   service:

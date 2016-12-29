@@ -1,0 +1,18 @@
+- set_fact:
+    current_le_checked_domain: "{{outer_item}}"
+    flatlist_other_main_domains: "{{all_letsencrypt_domains|rejectattr('name', 'equalto', outer_item.name)|list|map(attribute='name')|list}}"
+    nested_other_domains_aliases: "{{all_letsencrypt_domains|rejectattr('name', 'equalto', outer_item.name)|list|map(attribute='aliases')|list}}"
+    flatlist_other_domains_aliases: []
+  tags: letsencrypt
+
+- set_fact:
+    flatlist_other_domains_aliases: "{{flatlist_other_domains_aliases + [item]}}"
+  with_items: "{{nested_other_domains_aliases}}"
+  tags: letsencrypt
+
+- fail:
+    msg: "Main domain {{outer_item.name}} has the alias {{item}} that is already defined as a main domain or alias: please fix this conflict."
+  when: item in flatlist_other_main_domains or item in flatlist_other_domains_aliases
+  with_items: "{{outer_item.aliases}}"
+  tags: letsencrypt
+
