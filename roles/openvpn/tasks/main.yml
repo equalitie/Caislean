@@ -55,6 +55,13 @@
   copy: src=etc/default/openvpn dest=/etc/default/openvpn owner=root group=root mode=0644
   tags: vpn
 
+- name: Enable systemd OpenVPN service
+  systemd:
+    name: openvpn@server
+    enabled: yes
+  when: ansible_distribution_release == "jessie"
+  tags: vpn
+
 - name: Install dnsmasq configuration
   copy: src=etc/dnsmasq.d/vpn dest=/etc/dnsmasq.d/vpn group=root owner=root mode=0644
   notify:
