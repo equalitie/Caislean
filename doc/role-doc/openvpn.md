@@ -130,6 +130,19 @@ Authentication mechanism for OpenVPN. Can be:
 - `both` to perform both authentication, in which case a connecting client needs
   both a valid TLS certificate and valid credentials to connect.
 
+### `openvpn_port`
+
+Default: 1194
+
+Port OpenVPN should be listening on.
+
+### `openvpn_protocol`
+
+Default: udp
+
+Protocol for OpenVPN. Possible values are `udp` and `tcp`. Any other value will
+make OpenVPN unable to start.
+
 ### `server_name`
 
 The machine name of the administered server, e.g. "mycomputer".
