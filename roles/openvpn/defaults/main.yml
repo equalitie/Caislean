@@ -1,0 +1,4 @@
+---
+
+openvpn_port: 1194
+openvpn_protocol: udp
