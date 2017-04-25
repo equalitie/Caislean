@@ -1,4 +1,7 @@
 port {{ openvpn_port }}
+{% if openvpn_listen_address is defined %}
+local {{ openvpn_listen_address }}
+{% endif %}
 proto {{ openvpn_protocol }}
 dev tapCaislean
 
