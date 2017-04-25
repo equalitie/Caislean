@@ -160,3 +160,8 @@ authentication should check credentials against the `samba` organisational unit
 in the LDAP tree rather than the `mail` one. This option is only useful if you
 are also using the `samba` role.
 
+### `openvpn_listen_address`
+
+Can be set to an IP address of the server that OpenVPN will be listening on, to
+restrict the interfaces it listens on. By default, OpenVPN listens on all
+network interfaces.
