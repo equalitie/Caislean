@@ -31,6 +31,19 @@ The machine name of the administered server, e.g. "mycomputer".
 
 The domain name, e.g. "mydomain.org".
 
+### `nginx_cleartext_ports`
+
+Default: `[ 80 ]`
+
+A set of TCP ports that `nginx` will listen on for cleartext HTTP connections.
+
+### `nginx_tls_ports`
+
+Default: `[ 443 ]`
+
+A set of TCP ports that `nginx` will listen on for HTTPS (HTTP over TLS)
+connections.
+
 ### `websites`
 
 Default: `[ name:` _server name_`.`_domain name_ `]`
@@ -46,7 +59,13 @@ in each of these directories will be served by nginx when your web server is
 accessed with the corresponding host name. A folder `/etc/nginx/include/<name>/`
 is also created for each entry, in which additional nginx configuration files
 can be placed (for example to enable TLS for the given hostname or to set up a
-PHP-enabled application in a specific subfolder).
+PHP-enabled application in a specific subfolder — some other Caisleán roles will
+put files there).
+
+The optional arrays `tls_ports` and `cleartext_ports` can be used for each host
+name to indicate which TCP ports will serve it, respectively for HTTPS and HTTP
+(cleartext) connections. If not specified, values of `nginx_tls_ports` and
+`nginx_cleartext_ports`, respectively, will be used (see above).
 
 A number of reverse proxies can be optionally configured for each host name by
 specifying the parameter `reverse_proxy`, inside which the mandatory parameter
@@ -57,12 +76,13 @@ be specified under the parameter `options`, using a series of `option_name` and
 `option_value` parameters.
 
 The headers `X-Real-IP` and `X-Forwarded-For` are automatically added and do not
-have to be add as options.
+have to be added as options.
 
 Example:
 
     websites:
       - name: "{{server_name}}.{{domain_name}}"
+        cleartext_ports: [ 8080, 8081 ]
       - name: www.otherdomain.com
         aliases:
           - www.otherdomain.org
