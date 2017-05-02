@@ -1,4 +1,9 @@
 ---
 
+nginx_cleartext_ports:
+  - 80
+nginx_tls_ports:
+  - 443
 websites:
   - name: "{{ server_name }}.{{ domain_name }}"
+
