@@ -108,8 +108,8 @@
   tags: webserver
 
 - name: Install custom default nginx virtual server
-  copy:
-    src: etc/nginx/sites-available/000-default
+  template:
+    src: nginx-default-vhost.j2
     dest: /etc/nginx/sites-available/000-default
     owner: root
     group: root
