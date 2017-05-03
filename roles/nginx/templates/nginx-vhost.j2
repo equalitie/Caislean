@@ -1,8 +1,12 @@
 server {
-	listen	80;
-	listen	[::]:80;
-	listen	443 ssl;
-	listen	[::]:443 ssl;
+{% for curport in item.cleartext_ports|default(nginx_cleartext_ports) %}
+	listen	{{curport}};
+	listen	[::]:{{curport}};
+{% endfor %}
+{% for curport in item.tls_ports|default(nginx_tls_ports) %}
+	listen	{{curport}} ssl;
+	listen	[::]:{{curport}} ssl;
+{% endfor %}
 
 	server_name {{ item.name }} {{item.aliases|default([])|join(' ')}};
 

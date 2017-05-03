@@ -1,0 +1,24 @@
+server {
+{% for curport in nginx_cleartext_ports %}
+	listen	{{curport}} default_server;
+	listen	[::]:{{curport}}	default_server ipv6only=on;
+{% endfor %}
+	server_name _;
+
+	expires -1;
+
+	root /var/www/default;
+}
+
+server {
+{% for curport in nginx_tls_ports %}
+	listen   {{curport}} ssl default_server;
+	listen	[::]:{{curport}} ssl default_server ipv6only=on;
+{% endfor %}
+	server_name _;
+
+	expires -1;
+
+	root /var/www/default;
+
+}
