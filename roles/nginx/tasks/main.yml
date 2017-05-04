@@ -34,6 +34,18 @@
     - /var/log/nginx
   tags: webserver
 
+- name: Create nginx log directories for virtual hosts
+  file:
+    path: "/var/log/nginx/vhost-{{ item.name }}"
+    state: directory
+    group: www
+    owner: www
+    mode: 0750
+    recurse: no
+  with_items:
+    - "{{ websites }}"
+  tags: webserver
+
 - name: Create nginx runtime directory
   file:
     path: "{{ item }}"
