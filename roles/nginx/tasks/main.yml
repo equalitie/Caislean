@@ -5,16 +5,6 @@
     default_release: "{{ansible_distribution_release}}-backports"
   with_items:
     - nginx
-  when: ansible_distribution_release == "wheezy"
-  tags: webserver
-
-- name: Install web server packages
-  apt:
-    pkg: "{{ item }}"
-    state: installed
-  with_items:
-    - nginx
-  when: ansible_distribution_release == "jessie"
   tags: webserver
 
 - name: Create www group
