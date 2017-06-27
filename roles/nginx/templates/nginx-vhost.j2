@@ -14,5 +14,5 @@ server {
 
 	root /var/www/{{ item.name }};
 
-	include /etc/nginx/includes/{{ item.name }}/*;
+	include /etc/nginx/includes/{{ item.name }}/*.conf;
 }
