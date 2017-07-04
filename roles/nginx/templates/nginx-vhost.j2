@@ -10,6 +10,9 @@ server {
 
 	server_name {{ item.name }} {{item.aliases|default([])|join(' ')}};
 
+        access_log /var/log/nginx/vhost-{{item.name}}/access.log main;
+        error_log /var/log/nginx/vhost-{{item.name}}/error.log;
+
 	expires -1;
 
 	root /var/www/{{ item.name }};
