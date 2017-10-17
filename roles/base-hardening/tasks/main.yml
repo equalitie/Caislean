@@ -28,6 +28,7 @@
   tags: base
 
 - include: sysctl.yml
+  when: sysctl_hardening
   with_items:
     - { name: 'fs.suid.dumpable', value: '0' }
     - { name: 'kernel.sysrq', value: '0' }
