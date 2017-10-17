@@ -24,7 +24,15 @@ None.
 
 ## Mandatory parameters
 
-None.
+### `sysctl_hardening`
+
+Default: `true`.
+
+If its default value is changed to `false` this role will not do any `sysctl`
+hardening action.
+
+This may be useful for machines that have routing purposes, as some hardening
+actions may interfere with such purposes.
 
 ## Optional parameters
 
