@@ -27,6 +27,7 @@
   with_items:
     - python-configparser
     - php5-ldap
+    - php5-curl
     - php-apc
   notify:
     - restart php5-fpm
