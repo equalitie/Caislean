@@ -40,7 +40,7 @@
     - owncloud
 
 - name: Install Owncloud (jessie)
-  apt: pkg=owncloud state=installed default_release=jessie-backports
+  apt: pkg=owncloud-files state=installed default_release=jessie-backports
   when: ansible_distribution_release == "jessie"
   tags:
     - owncloud
