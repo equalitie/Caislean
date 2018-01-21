@@ -2,10 +2,8 @@
 
 ## Description
 
-This role installs and setups LDAP Account Manager, a web interface designed to
-fully administrate a LDAP tree.
-
-This role is currently broken.
+This role installs and sets up LDAP Account Manager, a web interface designed
+to administrate an LDAP tree.
 
 ## Prerequired roles
 
@@ -15,7 +13,25 @@ This role is currently broken.
 - `nginx`
 - `php-fpm`
 
-# Manual steps
+# Logging in
+
+Log in at the following URL using the credentials below.
+
+- URL: `https://server_name.domain_name/lam`
+- Username: `cn=admin,dc=domain_name,dc=tld`
+- Password: `ldap_admin_pass`
+
+Example:
+
+`server_name = caislean`
+`domain_name = example.com`
+`ldap_admin_pass = sekrit`
+
+With the above settings, the correct URL, username and password would be:
+
+- URL: `https://caislean.example.com/lam`
+- Username: `cn=admin,dc=example,dc=com`
+- Password: `sekrit`
 
 # Configuration parameters (ansible variables)
 

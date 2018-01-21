@@ -1,72 +1,109 @@
 - name: Download ldap-account-manager (LAM) Debian package file
-  get_url: url=http://sourceforge.net/projects/lam/files/LAM/5.0/ldap-account-manager_5.0-1_all.deb dest=/root/ owner=root group=root mode=0644
-  tags:
-    - webldap
+  get_url:
+    url: http://sourceforge.net/projects/lam/files/LAM/5.3/ldap-account-manager_5.3-1_all.deb
+    dest: /root/
+    owner: root
+    group: root
+    mode: 0644
+  tags: webldap
 
 - name: Install LAM's dependencies (from backports)
-  apt: pkg={{item}} state=installed default_release={{ansible_distribution_release}}-backports
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    default_release: "{{ ansible_distribution_release }}-backports"
   with_items:
     - php5-imagick
     - php-fpdf
-  tags:
-    - webldap
+  tags: webldap
 
 - name: Install LAM
-  apt: deb=/root/ldap-account-manager_5.0-1_all.deb state=installed
-  tags:
-    - webldap
+  apt:
+    deb: /root/ldap-account-manager_5.3-1_all.deb
+    state: installed
+  tags: webldap
 
 - name: Add group lam
-  group: name=lam state=present
-  tags:
-    - webldap
+  group:
+    name: lam
+    state: present
+  tags: webldap
 
 - name: Add user lam
-  user: name=lam state=present group=lam shell="/bin/false" home=/usr/share/ldap-account-manager createhome=no password="*"
-  tags:
-    - webldap
+  user:
+    name: lam
+    state: present
+    group: lam
+    shell: "/bin/false"
+    home: /usr/share/ldap-account-manager
+    createhome: no
+    password: "*"
+  tags: webldap
 
 - name: Install LAM nginx configuration
-  template: src=nginx-ldap-account-manager.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/ldap-account-manager owner=root group=root mode=0644
+  template:
+    src: nginx-ldap-account-manager.inc.j2
+    dest: "/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/ldap-account-manager"
+    owner: root
+    group: root
+    mode: 0644
+  tags: webldap
   notify:
     - restart nginx
-  tags:
-    - webldap
 
 - name: Create PHP session directory for LAM
-  file: path=/var/lib/phpsession/ldap-account-manager state=directory owner=lam group=lam mode=0700 recurse=no
-  tags:
-    - webldap
+  file:
+    path: /var/lib/phpsession/ldap-account-manager
+    state: directory
+    owner: lam
+    group: lam
+    mode: 0700
+    recurse: no
+  tags: webldap
 
 - name: Copy LAM PHP configuration
-  copy: src=etc/php5/fpm/pool.d/ldap-account-manager.conf dest=/etc/php5/fpm/pool.d/ldap-account-manager.conf owner=root group=root mode=0644
+  copy:
+    src: etc/php5/fpm/pool.d/ldap-account-manager.conf
+    dest: /etc/php5/fpm/pool.d/ldap-account-manager.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: webldap
   notify:
     - restart php5-fpm
-  tags:
-    - webldap
 
 - name: Set correct ownership for /var/lib/ldap-account-manager/
-  file: path=/var/lib/ldap-account-manager state=directory group=root owner=lam recurse=yes
-  tags:
-    - webldap
+  file:
+    path: /var/lib/ldap-account-manager
+    state: directory
+    group: root
+    owner: lam
+    recurse: yes
+  tags: webldap
 
 - name: Retrieve hashed LDAP admin password
   command: slappasswd -s {{ ldap_admin_pass | quote }} -h '{SSHA}' -n
   register: slappasswd_hash
-  tags:
-    - webldap
+  tags: webldap
 
 - name: Set fact with hashed LDAP password
   set_fact: hashed_ldap_password="{{slappasswd_hash.stdout}}"
-  tags:
-    - webldap
+  tags: webldap
 
 - name: Copy LAM configuration to /etc/ldap-account-manager/
-  template: src=lam-config.cfg.j2 dest=/etc/ldap-account-manager/config.cfg group=root owner=lam mode=0600
-  tags:
-    - webldap
+  template:
+    src: lam-config.cfg.j2
+    dest: /etc/ldap-account-manager/config.cfg
+    group: root
+    owner: lam
+    mode: 0600
+  tags: webldap
 
 - name: Add 'caislean' profile for LAM
-  template: src=caislean-lam.conf.j2 dest=/var/lib/ldap-account-manager/config/caislean.conf group=root owner=lam mode=0600
-  tags:
-    - webldap
+  template:
+    src: caislean-lam.conf.j2
+    dest: /var/lib/ldap-account-manager/config/caislean.conf
+    group: root
+    owner: lam
+    mode: 0600
+  tags: webldap
