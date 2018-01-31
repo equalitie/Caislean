@@ -1,86 +1,73 @@
-- name: Install php5-ldap (for WP auth using openldap)
-  apt: pkg=php5-ldap state=installed
-  when: "{{ wordpress_ldap_auth | default(false) }} == true"
-  tags:
-    - wordpress
-
-- name: Download Wordpress
-  get_url: url=https://wordpress.org/wordpress-4.2.2.tar.gz dest=/root/wordpress-4.2.2.tar.gz sha256sum=3c4e2cc3af289366ff5352e35c3f80fca2dcaed3d56a79f33b25374c356c3f90
-  tags:
-    - wordpress
-
 - name: Create wordpress group
   group: name=wordpress state=present
-  tags:
-    - wordpress
+  tags: wordpress
 
 - name: Create wordpress user
-  user: name=wordpress group=wordpress state=present shell="/bin/false" home=/var/www/wordpress createhome=no
-  tags:
-    - wordpress
+  user:
+    name: wordpress
+    group: wordpress
+    state: present
+    shell: "/bin/false"
+    home: /var/www/wordpress
+    createhome: no
+  tags: wordpress
 
-- name: Extract Wordpress archive
-  unarchive: copy=no src=/root/wordpress-4.2.2.tar.gz dest=/var/www/ creates=/var/www/wordpress owner=wordpress group=wordpress
-  tags:
-    - wordpress
-
-- name: Remove useless files in /var/www/wordpress
-  file: path=/var/www/wordpress/{{item}} state=absent
-  with_items:
-    - readme.html
-    - license.txt
-  tags:
-    - wordpress
-
-- name: Ensure correct ownership in /var/www/wordpress
-  file: path=/var/www/wordpress state=directory owner=wordpress group=wordpress recurse=yes
-  tags:
-    - wordpress 
-
-- name: Ensure writability of some Wordpress subdirectories
-  file: path=/var/www/wordpress/{{item}} state=directory owner=wordpress group=wordpress mode=0775
-  with_items:
-    - wp-content
-    - wp-content/themes
-  tags:
-    - wordpress
+- name: Install wordpress
+  include: install-wordpress.yml
+  tags: wordpress
 
 - name: Create wordpress database
-  mysql_db: login_user=root login_password={{ mysql_root_password }} name=wordpress state=present
-  tags:
-    - wordpress
+  mysql_db:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: wordpress
+    state: present
+  tags: wordpress
 
 - name: Create wordpress MySQL user and grant access to database
-  mysql_user: login_user=root login_password={{ mysql_root_password }} name=wordpress state=present password={{ wordpress_mysql_password }} priv=wordpress.*:ALL
-  tags:
-    - wordpress
-
-- name: Install wp-keys.php
-  template: src=wp-keys.php.j2 dest=/var/www/wordpress/wp-keys.php owner=wordpress group=wordpress mode=0640 force=no
-  tags:
-    - wordpress
-
-- name: Install wp-config.php
-  template: src=wp-config.php.j2 dest=/var/www/wordpress/wp-config.php owner=wordpress group=wordpress mode=0640
-  tags:
-    - wordpress
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: wordpress
+    state: present
+    password: "{{ wordpress_mysql_password }}"
+    priv: wordpress.*:ALL
+  tags: wordpress
 
 - name: Install php-fpm Wordpress configuration file
-  copy: src=etc/php5/fpm/pool.d/wordpress.conf dest=/etc/php5/fpm/pool.d/wordpress.conf owner=root group=root mode=0644
+  template:
+    src: php5-fpm-wordpress.conf.j2
+    dest: /etc/php5/fpm/pool.d/wordpress.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags: wordpress
   notify:
     - restart php5-fpm
-  tags:
-    - wordpress
 
 - name: Create PHP session directory for wordpress
-  file: path=/var/lib/phpsession/wordpress state=directory owner=wordpress group=wordpress mode=0700 recurse=no
-  tags:
-    - wordpress
+  file:
+    path: /var/lib/phpsession/wordpress
+    state: directory
+    owner: wordpress
+    group: wordpress
+    mode: 0700
+    recurse: no
+  tags: wordpress
 
-- name: Install nginx configuration part for wordpress
-  template: src=nginx-wordpress.inc.j2 dest=/etc/nginx/includes/{{ server_name }}.{{ domain_name}}/wordpress owner=root group=root mode=0644
+- name: Install nginx config part for wordpress installed in a subdirectory
+  template:
+    src: nginx-wordpress-subdirectory.inc.j2
+    dest: "/etc/nginx/includes/{{ wordpress_domain_name }}/wordpress"
+    owner: root
+    group: root
+    mode: 0644
+  when: "{{ wordpress_subdirectory }} == true"
+  tags: wordpress
   notify:
     - restart nginx
-  tags:
-    - wordpress
 
+- name: Install nginx config for wordpress installed in the document root
+  include: wordpress-in-document-root.yml
+  when: "{{ wordpress_subdirectory }} == false"
+  tags: wordpress

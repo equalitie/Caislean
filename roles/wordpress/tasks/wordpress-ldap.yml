@@ -1,0 +1,22 @@
+- name: Install required packages
+  apt:
+    pkg: php5-ldap
+    state: installed
+  tags: wordpress-ldap
+
+- name: Download ldap-auth plugin
+  get_url:
+    url: https://downloads.wordpress.org/plugin/wpdirauth.1.7.11.zip
+    dest: /root/wpdirauth.1.7.11.zip
+    sha256sum: cc143889a440b60e39790dd8c6ec52f63bb1f4fa2e6dc16c44027b2bdee6c71a
+  tags: wordpress
+
+- name: Extract ldap-auth plugin archive
+  unarchive:
+    copy: no
+    src: /root/wpdirauth.1.7.11.zip
+    dest: /root/wordpress/wp-content/plugins
+    creates: /root/wordpress/wp-content/plugins/wpdirauth
+    owner: wordpress
+    group: wordpress
+  tags: wordpress

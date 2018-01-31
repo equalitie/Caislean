@@ -1,0 +1,98 @@
+- name: Download Wordpress
+  get_url:
+    url: https://wordpress.org/wordpress-4.4.2.tar.gz
+    dest: /root/wordpress-4.4.2.tar.gz
+    sha256sum: c8a74c0f7cfc0d19989d235759e70cebd90f42aa0513bd9bc344230b0f79e08b
+  tags: wordpress
+
+- name: Extract Wordpress archive
+  unarchive:
+    copy: no
+    src: /root/wordpress-4.4.2.tar.gz
+    dest: /root/
+    creates: /root/wordpress
+    owner: wordpress
+    group: wordpress
+  tags: wordpress
+
+- name: Remove useless Wordpress files
+  file:
+    path: "/root/wordpress/{{item}}"
+    state: absent
+  with_items:
+    - readme.html
+    - license.txt
+  tags: wordpress
+
+- name: Install wp-keys.php
+  template:
+    src: wp-keys.php.j2
+    dest: /root/wordpress/wp-keys.php
+    owner: wordpress
+    group: wordpress
+    mode: 0640
+    force: no
+  tags: wordpress
+
+- name: Install wp-config.php
+  template:
+    src: wp-config.php.j2
+    dest: /root/wordpress/wp-config.php
+    owner: wordpress
+    group: wordpress
+    mode: 0640
+  tags: wordpress
+
+- name: Configure wordpress in network mode
+  include: wordpress-network.yml
+  when: "{{ wordpress_network }} == true"
+
+- name: Configure wordpress to use LDAP authentication
+  include: wordpress-ldap.yml
+  when: "{{ wordpress_ldap_auth }} == true"
+
+- name: Ensure correct ownership of Wordpress files
+  file:
+    path: /root/wordpress
+    state: directory
+    owner: wordpress
+    group: wordpress
+    recurse: yes
+  tags: wordpress
+
+- name: Ensure writeability of plugin and theme directories
+  file:
+    path: "/root/wordpress/wp-content"
+    state: directory
+    mode: 'u=rwX,g=rX,o=rX'
+    recurse: yes
+  tags: wordpress
+
+- name: Move wordpress to subdirectory of /var/www/
+  command: "mv /root/wordpress /var/www/{{ wordpress_install_path }}"
+  args:
+    creates: "/var/www/{{ wordpress_install_path }}"
+  when: "{{ wordpress_subdirectory }} == true"
+  tags: wordpress
+
+- block:
+
+  - name: Ensure document root exists & is owned by wordpress user
+    file:
+      path: "/var/www/{{ wordpress_domain_name }}"
+      state: directory
+      group: wordpress
+      owner: wordpress
+      mode: 0755
+      recurse: no
+
+  - name: Move wordpress files inside document root
+    shell: mv /root/wordpress/* /var/www/{{ wordpress_domain_name }} creates=/var/www/{{ wordpress_domain_name }}/wp-keys.php
+
+  - name: Remove wordpress 'build' directory
+    file:
+      path: /root/wordpress
+      state: absent
+
+  when: "{{ wordpress_subdirectory }} == false"
+  tags: wordpress
